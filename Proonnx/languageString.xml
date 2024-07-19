@@ -1,0 +1,26 @@
+<MyLocalizationStringModele_strings>
+	<string id="1">
+		<language language="USA">Monitoring display</language>
+		<language language="CHN">监控展示</language>
+	</string>
+	<string id="2">
+		<language language="USA">software configuration</language>
+		<language language="CHN">软件配置</language>
+	</string>
+	<string id="3">
+		<language language="USA">Modify product configuration</language>
+		<language language="CHN">修改产品配置</language>
+	</string>
+	<string id="4">
+		<language language="USA">Add camera</language>
+		<language language="CHN">添加摄像机</language>
+	</string>
+	<string id="5">
+		<language language="USA">Add product configuration</language>
+		<language language="CHN">添加产品配置</language>
+	</string>
+	<string id="6">
+		<language language="USA">Modify camera configuration</language>
+		<language language="CHN">修改摄像机配置</language>
+	</string>
+</MyLocalizationStringModele_strings>
