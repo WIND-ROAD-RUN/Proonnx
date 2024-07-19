@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>qml;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+    <Filter Include="Form Files\ui">
+      <UniqueIdentifier>{9df8ddd5-c289-4574-a66c-a20a78d4d350}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\qrc">
+      <UniqueIdentifier>{0415266e-3c48-45ce-8a79-e972069e3062}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ProonnxUI">
+      <UniqueIdentifier>{1e651607-32fb-4bc7-b3f7-6aeb05a38377}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ProonnxUI">
+      <UniqueIdentifier>{94928655-3d7c-440b-987f-8b5b23e91f1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="config">
+      <UniqueIdentifier>{42d4dd75-bd1f-4c42-925b-afafa33004ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ProductDateCheck">
+      <UniqueIdentifier>{5c840251-5595-426b-b092-0088acc3b6d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ProductDateCheck">
+      <UniqueIdentifier>{b0f85275-9a2e-4dc3-b7fc-c9c7d24c8ab4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\config">
+      <UniqueIdentifier>{d14f1662-739c-4219-a537-87807c27047a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\config\ProductConfig">
+      <UniqueIdentifier>{4eb73a18-b14f-48e2-89d9-1c87008fc8c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\config\LocalizationModule">
+      <UniqueIdentifier>{6674b9f8-5317-41ac-ac40-3e48ab706314}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\config">
+      <UniqueIdentifier>{4a02ca20-54c8-45ed-ae12-ac10bc5ebb88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\config\LocalizationModule">
+      <UniqueIdentifier>{f09352ce-be35-4fca-bda5-387d346f843f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\config\ProductConfig">
+      <UniqueIdentifier>{fb924e59-b171-4cc9-a794-443a96056703}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{39b0055c-7711-4e95-a1cf-e76ace908307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\MVS">
+      <UniqueIdentifier>{730ea28a-7481-4e0a-9183-7168c1ea7366}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\MVS\include">
+      <UniqueIdentifier>{04f7d323-9e12-40af-b241-80ddb422faf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\MVS\lib">
+      <UniqueIdentifier>{7e1564e4-e90c-46f0-8e16-1ce50ca08478}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\MVS\lib\x86">
+      <UniqueIdentifier>{13024be4-2a79-4135-bda2-795776a12dd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\MVS\lib\x64">
+      <UniqueIdentifier>{77703845-0c70-4252-a70c-706bc9080d3c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Proonnx.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
+    <ClCompile Include="LocalizationStringModuleAbstact.cpp">
+      <Filter>Source Files\config\LocalizationModule</Filter>
+    </ClCompile>
+    <ClCompile Include="LocalizationStringModule-XML.cpp">
+      <Filter>Source Files\config\LocalizationModule</Filter>
+    </ClCompile>
+    <ClCompile Include="LocalizationStringLoader-XML.cpp">
+      <Filter>Source Files\config\LocalizationModule</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgAddProductConfig.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
+    <ClCompile Include="DateTransform.cpp">
+      <Filter>Source Files\ProductDateCheck</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductCheck.cpp">
+      <Filter>Source Files\ProductDateCheck</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductConfigModule.cpp">
+      <Filter>Source Files\config\ProductConfig</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductCongfigLoader.cpp">
+      <Filter>Source Files\config\ProductConfig</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgAddCamera.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgChangeCameraConfig.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgChangeProductConfig.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgChangeProductConfig.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
+    <ClCompile Include="mycamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ocrwork.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="Proonnx.ui">
+      <Filter>Form Files\ui</Filter>
+    </QtUic>
+    <QtUic Include="DlgAddProductConfig.ui">
+      <Filter>Form Files\ui</Filter>
+    </QtUic>
+    <QtUic Include="DlgAddCamera.ui">
+      <Filter>Form Files\ui</Filter>
+    </QtUic>
+    <QtUic Include="DlgChangeCameraConfig.ui">
+      <Filter>Form Files\ui</Filter>
+    </QtUic>
+    <QtUic Include="DlgChangeProductConfig.ui">
+      <Filter>Form Files\ui</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="Proonnx.qrc">
+      <Filter>Resource Files\qrc</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Proonnx.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgAddProductConfig.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgAddCamera.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgChangeCameraConfig.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgChangeProductConfig.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgChangeProductConfig.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="mycamera.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LocalizationStringModuleAbstact.h">
+      <Filter>Header Files\config\LocalizationModule</Filter>
+    </ClInclude>
+    <ClInclude Include="LocalizationStringModule-XML.h">
+      <Filter>Header Files\config\LocalizationModule</Filter>
+    </ClInclude>
+    <ClInclude Include="LocalizationStringLoaderAbstract.h">
+      <Filter>Header Files\config\LocalizationModule</Filter>
+    </ClInclude>
+    <ClInclude Include="LocalizationStringLoader-XML.h">
+      <Filter>Header Files\config\LocalizationModule</Filter>
+    </ClInclude>
+    <ClInclude Include="DateTransform.h">
+      <Filter>Header Files\ProductDateCheck</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductCheck.h">
+      <Filter>Header Files\ProductDateCheck</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilty.h">
+      <Filter>Header Files\ProductDateCheck</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductConfigModule.h">
+      <Filter>Header Files\config\ProductConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductConfigLoader.h">
+      <Filter>Header Files\config\ProductConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="ocrwork.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MVS\Includes\CameraParams.h">
+      <Filter>External\MVS\include</Filter>
+    </ClInclude>
+    <ClInclude Include="MVS\Includes\MvCameraControl.h">
+      <Filter>External\MVS\include</Filter>
+    </ClInclude>
+    <ClInclude Include="MVS\Includes\MvErrorDefine.h">
+      <Filter>External\MVS\include</Filter>
+    </ClInclude>
+    <ClInclude Include="MVS\Includes\MvISPErrorDefine.h">
+      <Filter>External\MVS\include</Filter>
+    </ClInclude>
+    <ClInclude Include="MVS\Includes\MvObsoleteInterfaces.h">
+      <Filter>External\MVS\include</Filter>
+    </ClInclude>
+    <ClInclude Include="MVS\Includes\MvSdkExport.h">
+      <Filter>External\MVS\include</Filter>
+    </ClInclude>
+    <ClInclude Include="MVS\Includes\ObsoleteCamParams.h">
+      <Filter>External\MVS\include</Filter>
+    </ClInclude>
+    <ClInclude Include="MVS\Includes\PixelType.h">
+      <Filter>External\MVS\include</Filter>
+    </ClInclude>
+    <ClInclude Include="OCRApi_GPU\include\OcrApi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ocrPutText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="languageString.xml">
+      <Filter>config</Filter>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="MVS\Libraries\win64\MvCameraControl.lib">
+      <Filter>External\MVS\lib\x64</Filter>
+    </Library>
+    <Library Include="MVS\Libraries\win32\MvCameraControl.lib">
+      <Filter>External\MVS\lib\x86</Filter>
+    </Library>
+  </ItemGroup>
+</Project>
