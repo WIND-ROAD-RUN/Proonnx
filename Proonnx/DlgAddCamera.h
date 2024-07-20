@@ -13,6 +13,7 @@ class DlgAddCamera : public QDialog
 
 public:
 	DlgAddCamera(QWidget *parent = nullptr);
+
 	~DlgAddCamera();
 
 private:

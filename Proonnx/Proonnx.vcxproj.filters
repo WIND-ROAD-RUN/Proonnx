@@ -72,29 +72,35 @@
     <Filter Include="External\MVS\lib\x64">
       <UniqueIdentifier>{77703845-0c70-4252-a70c-706bc9080d3c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\ImageRecognize">
+    <Filter Include="Header Files\ImageIdentify">
       <UniqueIdentifier>{a7656a24-e2c9-44f4-a2e3-e23732beb8fa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\ImageRecognize\Camera">
+    <Filter Include="Header Files\ImageIdentify\Camera">
       <UniqueIdentifier>{7dbde5f9-ec06-41a7-993b-3f76af949676}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\ImageRecognize\OCR">
+    <Filter Include="Header Files\ImageIdentify\OCR">
       <UniqueIdentifier>{434ad6d8-3cb2-4f48-a8c3-272995728c8e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\ImageRecognize">
-      <UniqueIdentifier>{ec06c5d3-6041-4f6a-add5-20c01a45a9aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\ImageRecognize\Camera">
-      <UniqueIdentifier>{38e8d958-ebcb-4843-89ec-cfba652f4e84}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\ImageRecognize\OCR">
-      <UniqueIdentifier>{b4e26098-2e0d-493e-bdfa-8491d4da6d9c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\ImageRecognize\ProductDateCheck">
+    <Filter Include="Header Files\ImageIdentify\ProductDateCheck">
       <UniqueIdentifier>{5c840251-5595-426b-b092-0088acc3b6d3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\ImageRecognize\ProductDateCheck">
+    <Filter Include="Source Files\ImageIdentify">
+      <UniqueIdentifier>{ec06c5d3-6041-4f6a-add5-20c01a45a9aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ImageIdentify\Camera">
+      <UniqueIdentifier>{38e8d958-ebcb-4843-89ec-cfba652f4e84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ImageIdentify\OCR">
+      <UniqueIdentifier>{b4e26098-2e0d-493e-bdfa-8491d4da6d9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ImageIdentify\ProductDateCheck">
       <UniqueIdentifier>{b0f85275-9a2e-4dc3-b7fc-c9c7d24c8ab4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ImageIdentify\ImageIdentify">
+      <UniqueIdentifier>{7ea332a3-7cfd-41fa-8752-4843cae46ba2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ImageIdentify\ImageIdentify">
+      <UniqueIdentifier>{4fd8197b-50dd-4212-ac2c-0216d2fc71a4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -117,10 +123,10 @@
       <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
     <ClCompile Include="DateTransform.cpp">
-      <Filter>Source Files\ImageRecognize\ProductDateCheck</Filter>
+      <Filter>Source Files\ImageIdentify\ProductDateCheck</Filter>
     </ClCompile>
     <ClCompile Include="ProductCheck.cpp">
-      <Filter>Source Files\ImageRecognize\ProductDateCheck</Filter>
+      <Filter>Source Files\ImageIdentify\ProductDateCheck</Filter>
     </ClCompile>
     <ClCompile Include="ProductConfigModule.cpp">
       <Filter>Source Files\config\ProductConfig</Filter>
@@ -141,10 +147,19 @@
       <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
     <ClCompile Include="mycamera.cpp">
-      <Filter>Source Files\ImageRecognize\Camera</Filter>
+      <Filter>Source Files\ImageIdentify\Camera</Filter>
     </ClCompile>
     <ClCompile Include="ocrwork.cpp">
-      <Filter>Source Files\ImageRecognize\OCR</Filter>
+      <Filter>Source Files\ImageIdentify\OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="OcrApi.cpp">
+      <Filter>Source Files\ImageIdentify\OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="ocrPutText.cpp">
+      <Filter>Source Files\ImageIdentify\OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageIdentify.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -192,7 +207,7 @@
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
     <QtMoc Include="mycamera.h">
-      <Filter>Header Files\ImageRecognize\Camera</Filter>
+      <Filter>Header Files\ImageIdentify\Camera</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -209,13 +224,13 @@
       <Filter>Header Files\config\LocalizationModule</Filter>
     </ClInclude>
     <ClInclude Include="DateTransform.h">
-      <Filter>Header Files\ImageRecognize\ProductDateCheck</Filter>
+      <Filter>Header Files\ImageIdentify\ProductDateCheck</Filter>
     </ClInclude>
     <ClInclude Include="ProductCheck.h">
-      <Filter>Header Files\ImageRecognize\ProductDateCheck</Filter>
+      <Filter>Header Files\ImageIdentify\ProductDateCheck</Filter>
     </ClInclude>
     <ClInclude Include="Utilty.h">
-      <Filter>Header Files\ImageRecognize\ProductDateCheck</Filter>
+      <Filter>Header Files\ImageIdentify\ProductDateCheck</Filter>
     </ClInclude>
     <ClInclude Include="ProductConfigModule.h">
       <Filter>Header Files\config\ProductConfig</Filter>
@@ -248,13 +263,16 @@
       <Filter>External\MVS\include</Filter>
     </ClInclude>
     <ClInclude Include="ocrwork.h">
-      <Filter>Header Files\ImageRecognize\OCR</Filter>
+      <Filter>Header Files\ImageIdentify\OCR</Filter>
     </ClInclude>
     <ClInclude Include="OCRApi_GPU\include\OcrApi.h">
-      <Filter>Header Files\ImageRecognize\OCR</Filter>
+      <Filter>Header Files\ImageIdentify\OCR</Filter>
     </ClInclude>
     <ClInclude Include="ocrPutText.h">
-      <Filter>Header Files\ImageRecognize\OCR</Filter>
+      <Filter>Header Files\ImageIdentify\OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageIdentify.h">
+      <Filter>Header Files\ImageIdentify\ImageIdentify</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

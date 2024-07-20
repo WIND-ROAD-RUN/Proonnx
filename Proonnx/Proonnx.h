@@ -3,7 +3,6 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_Proonnx.h"
 
-
 #include"opencv/include/opencv2/opencv.hpp"
 #include <opencv/include/opencv2/core/core.hpp>
 #include <opencv/include/opencv2/highgui/highgui.hpp>
@@ -11,6 +10,7 @@
 #include"MVS/Includes/MvCameraControl.h"
 #include"mycamera.h"
 #include"qdebug.h"
+
 #include"LocalizationStringLoader-XML.h"
 
 QT_BEGIN_NAMESPACE
@@ -24,7 +24,9 @@ private:
 	LocalizationStringLoaderXML* m_locStrLoader{ nullptr };
 private:
 	void ini_ui();
+
 	void ini_localizationStringLoader();
+
 	void ini_localizationStringLoaderUI();
 
 	void ini_connect();
@@ -37,14 +39,21 @@ private:
 	ocrwork o;
 public:
 	Proonnx(QWidget* parent = nullptr);
+
 	~Proonnx();
+
 private:
 	Ui::ProonnxClass* ui;
+
 private slots:
 	void cBox_changeLanguage_index_change_on(int index);
+
 	void pbt_addProductCongfig_clicked();
+
 	void pbt_addCamera_clicked();
+
 	void pbt_modCameraConfig_clicked();
+
 	void pbt_modProductConfig_clicked();
 
 	//相机回调函数

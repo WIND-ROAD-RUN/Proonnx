@@ -43,7 +43,9 @@ void DlgAddProductConfig::pbtn_drawRecognitionRange_clicked()
 
 void DlgAddProductConfig::pbt_saveProductConfig_clicked()
 {
-	QFileDialog fileDlg(nullptr, tr("打开文件"), "", tr("数据文件(*.xml);;所有文件 (*)"));
+	QFileDialog 
+		fileDlg(nullptr, tr("打开文件"), 
+			"", tr("数据文件(*.xml);;所有文件 (*)"));
 	if (fileDlg.exec() == QFileDialog::Accepted) {
 		auto fileName = fileDlg.selectedFiles().first();
 		QMessageBox::information(this,"",fileName);

@@ -13,15 +13,20 @@ class DlgAddProductConfig : public QDialog
 
 public:
 	DlgAddProductConfig(QWidget *parent = nullptr);
+
 	~DlgAddProductConfig();
+
 private:
 	void ini_ui();
 
 	void ini_connect();
 private:
 	Ui::DlgAddProductConfigClass *ui;
+
 private slots:
 	void pbt_saveProductConfig_clicked();
+
 	void pbtn_spinImage_clicked();
+
 	void pbtn_drawRecognitionRange_clicked();
 };

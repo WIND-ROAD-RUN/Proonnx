@@ -13,8 +13,10 @@ class DlgChangeCameraConfig : public QDialog
 
 public:
 	DlgChangeCameraConfig(QWidget *parent = nullptr);
+
 	~DlgChangeCameraConfig();
 
 private:
 	Ui::DlgChangeCameraConfigClass *ui;
+
 };
