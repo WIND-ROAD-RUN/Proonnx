@@ -62,7 +62,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <LibraryPath>C:\Users\61795\Desktop\Project\Proonnx\Proonnx\opencv\include;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)\spdlog\build\Release;$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;spdlog.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)\spdlog\include;$(SolutionDir)\Proonnx\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)\spdlog\include;%(AdditionalIncludeDirectories);$(ProjectDir);$(Qt_INCLUDEPATH_)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)\spdlog\build\Release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>spdlog.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -94,22 +113,62 @@
   <ItemGroup>
     <QtRcc Include="Proonnx.qrc" />
     <QtUic Include="DlgAddProductConfig.ui" />
+    <QtUic Include="DlgChangeProductConfig.ui" />
+    <QtUic Include="DlgSetProonnx.ui" />
     <QtUic Include="Proonnx.ui" />
     <QtMoc Include="Proonnx.h" />
+    <ClCompile Include="ConfigBeforeRuntimeLoader.cpp" />
+    <ClCompile Include="ConfigBeforeRuntimeModule.cpp" />
     <ClCompile Include="DateTransform.cpp" />
     <ClCompile Include="DlgAddProductConfig.cpp" />
+    <ClCompile Include="DlgChangeProductConfig.cpp" />
+    <ClCompile Include="DlgSetProonnx.cpp" />
+    <ClCompile Include="FrameSelectLabel.cpp" />
+    <ClCompile Include="ImageIdentify.cpp" />
     <ClCompile Include="LocalizationStringLoader-XML.cpp" />
     <ClCompile Include="LocalizationStringModule-XML.cpp" />
     <ClCompile Include="LocalizationStringModuleAbstact.cpp" />
+    <ClCompile Include="mycamera.cpp" />
+    <ClCompile Include="OcrApi.cpp" />
+    <ClCompile Include="ocrPutText.cpp" />
+    <ClCompile Include="ocrwork.cpp" />
     <ClCompile Include="ProductCheck.cpp" />
+    <ClCompile Include="ProductConfigLoader.cpp" />
+    <ClCompile Include="ProductConfigModule.cpp" />
+    <ClCompile Include="ProductCongfigLoader.cpp" />
     <ClCompile Include="Proonnx.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="main.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="DlgChangeProductConfig.h" />
+    <QtMoc Include="mycamera.h" />
+    <QtMoc Include="FrameSelectLabel.h" />
+    <QtMoc Include="DlgSetProonnx.h" />
+    <ClInclude Include="ConfigBeforeRuntimeLoader.h" />
+    <ClInclude Include="ConfigBeforeRuntimeModule.h" />
+    <ClInclude Include="ImageIdentify.h" />
+    <ClInclude Include="MVS\Includes\CameraParams.h" />
+    <ClInclude Include="MVS\Includes\MvCameraControl.h" />
+    <ClInclude Include="MVS\Includes\MvErrorDefine.h" />
+    <ClInclude Include="MVS\Includes\MvISPErrorDefine.h" />
+    <ClInclude Include="MVS\Includes\MvObsoleteInterfaces.h" />
+    <ClInclude Include="MVS\Includes\MvSdkExport.h" />
+    <ClInclude Include="MVS\Includes\ObsoleteCamParams.h" />
+    <ClInclude Include="MVS\Includes\PixelType.h" />
+    <ClInclude Include="OCRApi_GPU\include\OcrApi.h" />
+    <ClInclude Include="ocrPutText.h" />
+    <ClInclude Include="ocrwork.h" />
     <ClInclude Include="ProductCheck.h" />
+    <ClInclude Include="ProductConfigLoader.h" />
+    <ClInclude Include="ProductConfigModule.h" />
     <ClInclude Include="Utilty.h" />
     <QtMoc Include="DlgAddProductConfig.h" />
     <ClInclude Include="DateTransform.h" />
@@ -120,6 +179,15 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="languageString.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="MVS\Libraries\win32\MvCameraControl.lib" />
+    <Library Include="MVS\Libraries\win64\MvCameraControl.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\spdlog\build\spdlog.vcxproj">
+      <Project>{5edc2313-53a9-3a4b-9763-f841a97eb412}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

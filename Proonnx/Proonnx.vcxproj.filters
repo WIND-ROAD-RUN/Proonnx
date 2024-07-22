@@ -33,26 +33,80 @@
     <Filter Include="Source Files\ProonnxUI">
       <UniqueIdentifier>{94928655-3d7c-440b-987f-8b5b23e91f1d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\LocalizationModule">
-      <UniqueIdentifier>{6674b9f8-5317-41ac-ac40-3e48ab706314}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\LocalizationModule">
-      <UniqueIdentifier>{f09352ce-be35-4fca-bda5-387d346f843f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="config">
       <UniqueIdentifier>{42d4dd75-bd1f-4c42-925b-afafa33004ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\ProductDateCheck">
-      <UniqueIdentifier>{5c840251-5595-426b-b092-0088acc3b6d3}</UniqueIdentifier>
+    <Filter Include="Header Files\config">
+      <UniqueIdentifier>{d14f1662-739c-4219-a537-87807c27047a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\ProductConfig">
-      <UniqueIdentifier>{fb924e59-b171-4cc9-a794-443a96056703}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\ProductConfig">
+    <Filter Include="Header Files\config\ProductConfig">
       <UniqueIdentifier>{4eb73a18-b14f-48e2-89d9-1c87008fc8c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\ProductDateCheck">
+    <Filter Include="Header Files\config\LocalizationModule">
+      <UniqueIdentifier>{6674b9f8-5317-41ac-ac40-3e48ab706314}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\config">
+      <UniqueIdentifier>{4a02ca20-54c8-45ed-ae12-ac10bc5ebb88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\config\LocalizationModule">
+      <UniqueIdentifier>{f09352ce-be35-4fca-bda5-387d346f843f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\config\ProductConfig">
+      <UniqueIdentifier>{fb924e59-b171-4cc9-a794-443a96056703}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{39b0055c-7711-4e95-a1cf-e76ace908307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\MVS">
+      <UniqueIdentifier>{730ea28a-7481-4e0a-9183-7168c1ea7366}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\MVS\include">
+      <UniqueIdentifier>{04f7d323-9e12-40af-b241-80ddb422faf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\MVS\lib">
+      <UniqueIdentifier>{7e1564e4-e90c-46f0-8e16-1ce50ca08478}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\MVS\lib\x86">
+      <UniqueIdentifier>{13024be4-2a79-4135-bda2-795776a12dd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\MVS\lib\x64">
+      <UniqueIdentifier>{77703845-0c70-4252-a70c-706bc9080d3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ImageIdentify">
+      <UniqueIdentifier>{a7656a24-e2c9-44f4-a2e3-e23732beb8fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ImageIdentify\Camera">
+      <UniqueIdentifier>{7dbde5f9-ec06-41a7-993b-3f76af949676}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ImageIdentify\OCR">
+      <UniqueIdentifier>{434ad6d8-3cb2-4f48-a8c3-272995728c8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ImageIdentify\ProductDateCheck">
+      <UniqueIdentifier>{5c840251-5595-426b-b092-0088acc3b6d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ImageIdentify">
+      <UniqueIdentifier>{ec06c5d3-6041-4f6a-add5-20c01a45a9aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ImageIdentify\Camera">
+      <UniqueIdentifier>{38e8d958-ebcb-4843-89ec-cfba652f4e84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ImageIdentify\OCR">
+      <UniqueIdentifier>{b4e26098-2e0d-493e-bdfa-8491d4da6d9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ImageIdentify\ProductDateCheck">
       <UniqueIdentifier>{b0f85275-9a2e-4dc3-b7fc-c9c7d24c8ab4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ImageIdentify\ImageIdentify">
+      <UniqueIdentifier>{7ea332a3-7cfd-41fa-8752-4843cae46ba2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ImageIdentify\ImageIdentify">
+      <UniqueIdentifier>{4fd8197b-50dd-4212-ac2c-0216d2fc71a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\config\ConfigBeforeRuntime">
+      <UniqueIdentifier>{8201cfc4-8c06-4609-8cb4-6cbccd4063da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\config\ConfigBeforeRuntime">
+      <UniqueIdentifier>{7217464b-97f9-4bf9-ab45-ec88ac8d5bf0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -63,22 +117,67 @@
       <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
     <ClCompile Include="LocalizationStringModuleAbstact.cpp">
-      <Filter>Source Files\LocalizationModule</Filter>
+      <Filter>Source Files\config\LocalizationModule</Filter>
     </ClCompile>
     <ClCompile Include="LocalizationStringModule-XML.cpp">
-      <Filter>Source Files\LocalizationModule</Filter>
+      <Filter>Source Files\config\LocalizationModule</Filter>
     </ClCompile>
     <ClCompile Include="LocalizationStringLoader-XML.cpp">
-      <Filter>Source Files\LocalizationModule</Filter>
+      <Filter>Source Files\config\LocalizationModule</Filter>
     </ClCompile>
     <ClCompile Include="DlgAddProductConfig.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
     <ClCompile Include="DateTransform.cpp">
-      <Filter>Source Files\ProductDateCheck</Filter>
+      <Filter>Source Files\ImageIdentify\ProductDateCheck</Filter>
     </ClCompile>
     <ClCompile Include="ProductCheck.cpp">
-      <Filter>Source Files\ProductDateCheck</Filter>
+      <Filter>Source Files\ImageIdentify\ProductDateCheck</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductConfigModule.cpp">
+      <Filter>Source Files\config\ProductConfig</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductCongfigLoader.cpp">
+      <Filter>Source Files\config\ProductConfig</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgChangeProductConfig.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgChangeProductConfig.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
+    <ClCompile Include="mycamera.cpp">
+      <Filter>Source Files\ImageIdentify\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="ocrwork.cpp">
+      <Filter>Source Files\ImageIdentify\OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="OcrApi.cpp">
+      <Filter>Source Files\ImageIdentify\OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="ocrPutText.cpp">
+      <Filter>Source Files\ImageIdentify\OCR</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageIdentify.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductConfigLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameSelectLabel.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSetProonnx.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigBeforeRuntimeLoader.cpp">
+      <Filter>Source Files\config\ConfigBeforeRuntime</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigBeforeRuntimeModule.cpp">
+      <Filter>Source Files\config\ConfigBeforeRuntime</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +185,12 @@
       <Filter>Form Files\ui</Filter>
     </QtUic>
     <QtUic Include="DlgAddProductConfig.ui">
+      <Filter>Form Files\ui</Filter>
+    </QtUic>
+    <QtUic Include="DlgChangeProductConfig.ui">
+      <Filter>Form Files\ui</Filter>
+    </QtUic>
+    <QtUic Include="DlgSetProonnx.ui">
       <Filter>Form Files\ui</Filter>
     </QtUic>
   </ItemGroup>
@@ -104,33 +209,107 @@
     <QtMoc Include="DlgAddProductConfig.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
+    <QtMoc Include="DlgChangeProductConfig.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgChangeProductConfig.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="mycamera.h">
+      <Filter>Header Files\ImageIdentify\Camera</Filter>
+    </QtMoc>
+    <QtMoc Include="FrameSelectLabel.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgSetProonnx.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LocalizationStringModuleAbstact.h">
-      <Filter>Header Files\LocalizationModule</Filter>
+      <Filter>Header Files\config\LocalizationModule</Filter>
     </ClInclude>
     <ClInclude Include="LocalizationStringModule-XML.h">
-      <Filter>Header Files\LocalizationModule</Filter>
+      <Filter>Header Files\config\LocalizationModule</Filter>
     </ClInclude>
     <ClInclude Include="LocalizationStringLoaderAbstract.h">
-      <Filter>Header Files\LocalizationModule</Filter>
+      <Filter>Header Files\config\LocalizationModule</Filter>
     </ClInclude>
     <ClInclude Include="LocalizationStringLoader-XML.h">
-      <Filter>Header Files\LocalizationModule</Filter>
+      <Filter>Header Files\config\LocalizationModule</Filter>
     </ClInclude>
     <ClInclude Include="DateTransform.h">
-      <Filter>Header Files\ProductDateCheck</Filter>
+      <Filter>Header Files\ImageIdentify\ProductDateCheck</Filter>
     </ClInclude>
     <ClInclude Include="ProductCheck.h">
-      <Filter>Header Files\ProductDateCheck</Filter>
+      <Filter>Header Files\ImageIdentify\ProductDateCheck</Filter>
     </ClInclude>
     <ClInclude Include="Utilty.h">
-      <Filter>Header Files\ProductDateCheck</Filter>
+      <Filter>Header Files\ImageIdentify\ProductDateCheck</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductConfigModule.h">
+      <Filter>Header Files\config\ProductConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductConfigLoader.h">
+      <Filter>Header Files\config\ProductConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="ocrwork.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MVS\Includes\CameraParams.h">
+      <Filter>External\MVS\include</Filter>
+    </ClInclude>
+    <ClInclude Include="MVS\Includes\MvCameraControl.h">
+      <Filter>External\MVS\include</Filter>
+    </ClInclude>
+    <ClInclude Include="MVS\Includes\MvErrorDefine.h">
+      <Filter>External\MVS\include</Filter>
+    </ClInclude>
+    <ClInclude Include="MVS\Includes\MvISPErrorDefine.h">
+      <Filter>External\MVS\include</Filter>
+    </ClInclude>
+    <ClInclude Include="MVS\Includes\MvObsoleteInterfaces.h">
+      <Filter>External\MVS\include</Filter>
+    </ClInclude>
+    <ClInclude Include="MVS\Includes\MvSdkExport.h">
+      <Filter>External\MVS\include</Filter>
+    </ClInclude>
+    <ClInclude Include="MVS\Includes\ObsoleteCamParams.h">
+      <Filter>External\MVS\include</Filter>
+    </ClInclude>
+    <ClInclude Include="MVS\Includes\PixelType.h">
+      <Filter>External\MVS\include</Filter>
+    </ClInclude>
+    <ClInclude Include="ocrwork.h">
+      <Filter>Header Files\ImageIdentify\OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="OCRApi_GPU\include\OcrApi.h">
+      <Filter>Header Files\ImageIdentify\OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="ocrPutText.h">
+      <Filter>Header Files\ImageIdentify\OCR</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageIdentify.h">
+      <Filter>Header Files\ImageIdentify\ImageIdentify</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigBeforeRuntimeLoader.h">
+      <Filter>Header Files\config\ConfigBeforeRuntime</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigBeforeRuntimeModule.h">
+      <Filter>Header Files\config\ConfigBeforeRuntime</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="languageString.xml">
       <Filter>config</Filter>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="MVS\Libraries\win64\MvCameraControl.lib">
+      <Filter>External\MVS\lib\x64</Filter>
+    </Library>
+    <Library Include="MVS\Libraries\win32\MvCameraControl.lib">
+      <Filter>External\MVS\lib\x86</Filter>
+    </Library>
   </ItemGroup>
 </Project>

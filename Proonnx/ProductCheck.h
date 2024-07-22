@@ -22,6 +22,7 @@ struct ProductCheckUtilty
 template<typename productClass,typename standardValue>
 class ProductCheck
 {
+public:
     using ProductCheckInfo = ProductCheckUtilty::ProductCheckInfo;
 
     template<typename T>

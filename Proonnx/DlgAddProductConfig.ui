@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>965</width>
-    <height>609</height>
+    <width>1098</width>
+    <height>708</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="gBox_dispalyImage">
      <property name="title">
       <string/>
      </property>
@@ -31,8 +31,8 @@
         <property name="text">
          <string>图像展示</string>
         </property>
-       </widget>
-      </item>
+    </widget>
+   </item>
      </layout>
     </widget>
    </item>
@@ -41,7 +41,7 @@
      <property name="title">
       <string/>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0,1,0,1,1,1">
+     <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0,1,0,1,1,1,1">
       <item>
        <widget class="QLabel" name="label_productName">
         <property name="text">
@@ -125,6 +125,19 @@
         </property>
         <property name="text">
          <string>绘制识别范围</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbt_saveProductConfig">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>保存</string>
         </property>
        </widget>
       </item>
