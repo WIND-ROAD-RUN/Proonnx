@@ -44,6 +44,10 @@ ProductProductInfo ProductConfigLoader::loadProductProductInfo(const std::string
 	result.passCount = m_productConfigModule->readPassCount();
 	result.totalCount = m_productConfigModule->readTotalCount();
 
+	spdlog::info(result.upperRightCorner.second);
+
+=========
+>>>>>>>>> Temporary merge branch 2
 	return result;
 }
 
