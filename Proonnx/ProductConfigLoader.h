@@ -23,6 +23,12 @@ struct RecognizeRange {
 	std::pair<int, int> lowerRightCorner{ 0,0 };
 };
 
+struct ProductProductInfo {
+	int totalCount;
+	int passCount;
+	int outCount;
+};
+
 class ProductConfigLoader {
 private:
 	ProductConfigModule* m_productConfigModule{nullptr};
@@ -36,7 +42,10 @@ public:
 	bool saveFile(const std::string& filePath);
 public:
 	ProductConfig loadConfig(const std::string& filePath);
+	ProductProductInfo loadProductProductInfo(const std::string& filePath);
+
 	bool storeConfig(const ProductConfig& productConfig);
+	bool storeProductProductInfo(const ProductProductInfo & productProductInfo);
 
 };
 

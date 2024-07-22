@@ -36,6 +36,17 @@ ProductConfig ProductConfigLoader::loadConfig(const std::string& filePath)
 	return result;
 }
 
+ProductProductInfo ProductConfigLoader::loadProductProductInfo(const std::string& filePath)
+{
+	loadFile(filePath);
+	ProductProductInfo result;
+	result.outCount = m_productConfigModule->readOutCount();
+	result.passCount = m_productConfigModule->readPassCount();
+	result.totalCount = m_productConfigModule->readTotalCount();
+
+	return result;
+}
+
 bool ProductConfigLoader::loadFile(const std::string& filePath)
 {
 	return m_productConfigModule->loadFile(filePath);
@@ -69,5 +80,14 @@ bool ProductConfigLoader::storeConfig(const ProductConfig& productConfig)
 			, productConfig.upperRightCorner.second);
 	result = m_productConfigModule
 		->storeRotateCount(productConfig.rotateCount);
+	return result;
+}
+
+bool ProductConfigLoader::storeProductProductInfo(const ProductProductInfo& productProductInfo)
+{
+	auto result = m_productConfigModule->storeOutCount(productProductInfo.outCount);
+	result = m_productConfigModule->storeTotalCount(productProductInfo.totalCount);
+	result = m_productConfigModule->storePassCount(productProductInfo.passCount);
+
 	return result;
 }

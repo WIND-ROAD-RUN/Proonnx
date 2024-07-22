@@ -59,6 +59,8 @@ private slots:
 
 	void pbt_modProductConfig_clicked();
 
+	void pbtn_setProonnx_clicked();
+
 	//相机回调函数
 	void DispImgBuff1(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInf);
 

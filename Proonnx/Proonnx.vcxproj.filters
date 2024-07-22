@@ -131,12 +131,6 @@
     <ClCompile Include="ProductCongfigLoader.cpp">
       <Filter>Source Files\config\ProductConfig</Filter>
     </ClCompile>
-    <ClCompile Include="DlgAddCamera.cpp">
-      <Filter>Source Files\ProonnxUI</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgChangeCameraConfig.cpp">
-      <Filter>Source Files\ProonnxUI</Filter>
-    </ClCompile>
     <ClCompile Include="DlgChangeProductConfig.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
@@ -167,6 +161,9 @@
     <ClCompile Include="FrameSelectLabel.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
+    <ClCompile Include="DlgSetProonnx.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Proonnx.ui">
@@ -175,13 +172,10 @@
     <QtUic Include="DlgAddProductConfig.ui">
       <Filter>Form Files\ui</Filter>
     </QtUic>
-    <QtUic Include="DlgAddCamera.ui">
-      <Filter>Form Files\ui</Filter>
-    </QtUic>
-    <QtUic Include="DlgChangeCameraConfig.ui">
-      <Filter>Form Files\ui</Filter>
-    </QtUic>
     <QtUic Include="DlgChangeProductConfig.ui">
+      <Filter>Form Files\ui</Filter>
+    </QtUic>
+    <QtUic Include="DlgSetProonnx.ui">
       <Filter>Form Files\ui</Filter>
     </QtUic>
   </ItemGroup>
@@ -200,12 +194,6 @@
     <QtMoc Include="DlgAddProductConfig.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
-    <QtMoc Include="DlgAddCamera.h">
-      <Filter>Header Files\ProonnxUI</Filter>
-    </QtMoc>
-    <QtMoc Include="DlgChangeCameraConfig.h">
-      <Filter>Header Files\ProonnxUI</Filter>
-    </QtMoc>
     <QtMoc Include="DlgChangeProductConfig.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
@@ -216,6 +204,9 @@
       <Filter>Header Files\ImageIdentify\Camera</Filter>
     </QtMoc>
     <QtMoc Include="FrameSelectLabel.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgSetProonnx.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
   </ItemGroup>

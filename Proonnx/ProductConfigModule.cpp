@@ -20,6 +20,12 @@ void ProductConfigModule::setNewFile(const std::string filePath)
 	auto exposureTimeNode = productConfigNode.append_child("ExposureTime");
 	auto gainNode = productConfigNode.append_child("Gain");
 	auto rotateCountNode = productConfigNode.append_child("RotateCount");
+
+	auto productProductInfoNode = productConfigNode.append_child("ProductProductInfo");
+	auto totalCountNode = productProductInfoNode.append_child("TotalCount");
+	auto passCountNode = productProductInfoNode.append_child("PassCount");
+	auto outCountNode = productProductInfoNode.append_child("OutCount");
+
 	auto recognizeRangeNode = productConfigNode.append_child("RecognizeRange");
 
 	auto topLeftCornerNode = recognizeRangeNode.append_child("TopLeftCorner");
@@ -266,6 +272,64 @@ bool ProductConfigModule::storeLowerRightCornerr(int x, int y)
 	return true;
 }
 
+bool ProductConfigModule::storeTotalCount(int count)
+{
+	auto productConfigNode = m_doc->child("ProductConfig");
+	if (!productConfigNode) {
+		return false;
+	}
+	auto productProductInfoNode = productConfigNode.child("ProductProductInfo");
+	if (!productProductInfoNode) {
+		return false;
+	}
+	auto totalCountNode = productProductInfoNode.child("TotalCount");
+	if (!totalCountNode) {
+		return false;
+	}
+	auto storeResult=totalCountNode.text().set(count);
+
+	return storeResult;
+
+}
+
+bool ProductConfigModule::storePassCount(int count)
+{
+	auto productConfigNode = m_doc->child("ProductConfig");
+	if (!productConfigNode) {
+		return false;
+	}
+	auto productProductInfoNode = productConfigNode.child("ProductProductInfo");
+	if (!productProductInfoNode) {
+		return false;
+	}
+	auto passCountNode = productProductInfoNode.child("PassCount");
+	if (!passCountNode) {
+		return false;
+	}
+	auto storeResult = passCountNode.text().set(count);
+
+	return storeResult;
+}
+
+bool ProductConfigModule::storeOutCount(int count)
+{
+	auto productConfigNode = m_doc->child("ProductConfig");
+	if (!productConfigNode) {
+		return false;
+	}
+	auto productProductInfoNode = productConfigNode.child("ProductProductInfo");
+	if (!productProductInfoNode) {
+		return false;
+	}
+	auto outCountNode = productProductInfoNode.child("OutCount");
+	if (!outCountNode) {
+		return false;
+	}
+	auto storeResult = outCountNode.text().set(count);
+
+	return storeResult;
+}
+
 std::string ProductConfigModule::readProductName()
 {
 	std::string result;
@@ -353,4 +417,28 @@ std::pair<int, int> ProductConfigModule::readLowerRightCornerr()
 	auto y = yNode.text().as_int();
 
 	return { x,y };
+}
+
+int ProductConfigModule::readTotalCount()
+{
+	auto productConfigNode = m_doc->child("ProductConfig");
+	auto productProductInfoNode = productConfigNode.child("ProductProductInfo");
+	auto totalCountNode = productProductInfoNode.child("TotalCount");
+	return totalCountNode.text().as_int();
+}
+
+int ProductConfigModule::readPassCount()
+{
+	auto productConfigNode = m_doc->child("ProductConfig");
+	auto productProductInfoNode = productConfigNode.child("ProductProductInfo");
+	auto passCountNode = productProductInfoNode.child("PassCount");
+	return passCountNode.text().as_int();
+}
+
+int ProductConfigModule::readOutCount()
+{
+	auto productConfigNode = m_doc->child("ProductConfig");
+	auto productProductInfoNode = productConfigNode.child("ProductProductInfo");
+	auto outCountNode = productProductInfoNode.child("OutCount");
+	return outCountNode.text().as_int();
 }

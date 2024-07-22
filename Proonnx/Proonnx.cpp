@@ -3,6 +3,7 @@
 #include<QMessageBox>
 #include<QComboBox>
 #include<QFileDialog>
+#include<QDate>
 
 #include"mycamera.h"
 #include"ocrwork.h"
@@ -11,16 +12,19 @@
 #include <opencv/include/opencv2/highgui/highgui.hpp>
 
 #include"DlgAddProductConfig.h"
-#include"DlgAddCamera.h"
-#include"DlgChangeCameraConfig.h"
 #include"DlgChangeProductConfig.h"
+#include"DlgSetProonnx.h"
 
 
 void Proonnx::ini_ui()
 {
     ini_localizationStringLoader();
     ini_localizationStringLoaderUI();
-
+    ui->ledit_currentDate->setText(QDate::currentDate().toString("yyyy/MM/dd"));
+    auto font=ui->ledit_currentDate->font();
+    font.setPointSize(20);
+    ui->ledit_currentDate->setFont(font);
+    ui->ledit_currentDate->setEnabled(false);
 
     myCamera1 = new MyCamera();
     o = new ocrwork();
@@ -53,9 +57,7 @@ void Proonnx::ini_localizationStringLoaderUI()
     ui->gBox_monitoringDisplay->setTitle(QString::fromStdString(m_locStrLoader->getString("1")));
     ui->gBox_setPutton->setTitle(QString::fromStdString(m_locStrLoader->getString("2")));
     ui->pbt_modProductConfig->setText(QString::fromStdString(m_locStrLoader->getString("3")));
-    ui->pbt_addCamera->setText(QString::fromStdString(m_locStrLoader->getString("4")));
     ui->pbt_addProductCongfig->setText(QString::fromStdString(m_locStrLoader->getString("5")));
-    ui->pbt_modCameraConfig->setText(QString::fromStdString(m_locStrLoader->getString("6")));
 }
 
 void Proonnx::ini_connect()
@@ -64,12 +66,10 @@ void Proonnx::ini_connect()
         this, SLOT(cBox_changeLanguage_index_change_on(int)));
     QObject::connect(ui->pbt_addProductCongfig, SIGNAL(clicked()),
         this, SLOT(pbt_addProductCongfig_clicked()));
-    QObject::connect(ui->pbt_addCamera, SIGNAL(clicked()),
-        this, SLOT(pbt_addCamera_clicked()));
-    QObject::connect(ui->pbt_modCameraConfig, SIGNAL(clicked()),
-        this, SLOT(pbt_modCameraConfig_clicked()));
     QObject::connect(ui->pbt_modProductConfig, SIGNAL(clicked()),
         this, SLOT(pbt_modProductConfig_clicked()));
+    QObject::connect(ui->pbtn_setProonnx, SIGNAL(clicked()),
+        this, SLOT(pbtn_setProonnx_clicked()));
 }
 
 void Proonnx::des_com()
@@ -94,14 +94,12 @@ Proonnx::~Proonnx()
 
 void Proonnx::pbt_addCamera_clicked()
 {
-    DlgAddCamera dlg;
-    dlg.exec();
+
 }
 
 void Proonnx::pbt_modCameraConfig_clicked()
 {
-    DlgChangeCameraConfig dlg;
-    dlg.exec();
+
 }
 
 void Proonnx::pbt_modProductConfig_clicked()
@@ -114,6 +112,12 @@ void Proonnx::pbt_modProductConfig_clicked()
         dlg.iniUI();
         dlg.exec();
     }
+}
+
+void Proonnx::pbtn_setProonnx_clicked()
+{
+    DlgSetProonnx dlg;
+    dlg.exec();
 }
 
 void Proonnx::pbt_addProductCongfig_clicked()
@@ -335,13 +339,13 @@ void Proonnx::DispImgBuff1(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInf
 
 
     //将opencv转换成qimage
-    QImage im = cvMat2QImage(dstImga2);
+    //QImage im = cvMat2QImage(dstImga2);
 
 
-    QPixmap pixmap = QPixmap::fromImage(im);
-    pixmap.scaled(ui->label ->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    ui->label->setPixmap(pixmap);
-    ui->label->setScaledContents(true);    //让图片填充满QLabel
+    //QPixmap pixmap = QPixmap::fromImage(im);
+    //pixmap.scaled(ui->label ->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    //ui->label->setPixmap(pixmap);
+   // ui->label->setScaledContents(true);    //让图片填充满QLabel
 
     
 

@@ -23,19 +23,29 @@ public:
 	bool storeExposureTime(int recognitionRange);
 	bool storeRotateCount(int count);
 	bool storeGain(int gain);
+public:
 	bool storeTopLeftCorner(int x,int y);
 	bool storeUpperRightCorner(int x, int y);
 	bool storeLeftLowerCorner(int x, int y);
 	bool storeLowerRightCornerr(int x, int y);
 public:
+	bool storeTotalCount(int count);
+	bool storePassCount(int count);
+	bool storeOutCount(int count);
+public:
 	std::string readProductName();
 	int readExposureTime();
 	int readRotateCount();
 	int readGain();
+public:
 	std::pair<int,int> readTopLeftCorner();
 	std::pair<int, int> readUpperRightCorner();
 	std::pair<int, int> readLeftLowerCorner();
 	std::pair<int, int> readLowerRightCornerr();
+public:
+	int readTotalCount();
+	int readPassCount();
+	int readOutCount();
 };
 
 
