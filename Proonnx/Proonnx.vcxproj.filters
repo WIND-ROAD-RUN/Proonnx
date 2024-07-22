@@ -155,13 +155,7 @@
     <ClCompile Include="ocrPutText.cpp">
       <Filter>Source Files\ImageIdentify\OCR</Filter>
     </ClCompile>
-    <ClCompile Include="ImageIdentify.cpp">
-      <Filter>Source Files\ProonnxUI</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ProductConfigLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FrameSelectLabel.cpp">
@@ -175,6 +169,9 @@
     </ClCompile>
     <ClCompile Include="ConfigBeforeRuntimeModule.cpp">
       <Filter>Source Files\config\ConfigBeforeRuntime</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageIdentify.cpp">
+      <Filter>Source Files\ImageIdentify\ImageIdentify</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

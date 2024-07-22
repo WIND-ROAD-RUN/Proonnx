@@ -133,7 +133,6 @@
     <ClCompile Include="ocrPutText.cpp" />
     <ClCompile Include="ocrwork.cpp" />
     <ClCompile Include="ProductCheck.cpp" />
-    <ClCompile Include="ProductConfigLoader.cpp" />
     <ClCompile Include="ProductConfigModule.cpp" />
     <ClCompile Include="ProductCongfigLoader.cpp" />
     <ClCompile Include="Proonnx.cpp" />
