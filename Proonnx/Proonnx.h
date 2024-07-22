@@ -3,15 +3,15 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_Proonnx.h"
 
-#include"opencv/include/opencv2/opencv.hpp"
-#include <opencv/include/opencv2/core/core.hpp>
-#include <opencv/include/opencv2/highgui/highgui.hpp>
-#include"ocrwork.h"
 #include"MVS/Includes/MvCameraControl.h"
-#include"mycamera.h"
-#include"qdebug.h"
 
 #include"LocalizationStringLoader-XML.h"
+
+namespace cv {
+	class Mat;
+}
+class MyCamera;
+class ocrwork;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ProonnxClass; };
@@ -34,9 +34,12 @@ private:
 	void des_com();
 
 	//实例化一台相机
-	MyCamera myCamera1;
+	MyCamera * myCamera1;
 	//实例化一个推理模型
-	ocrwork o;
+	ocrwork *o;
+
+
+
 public:
 	Proonnx(QWidget* parent = nullptr);
 

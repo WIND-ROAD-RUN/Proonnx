@@ -4,17 +4,28 @@
 #include<QComboBox>
 #include<QFileDialog>
 
+#include"mycamera.h"
+#include"ocrwork.h"
+#include"opencv/include/opencv2/opencv.hpp"
+#include <opencv/include/opencv2/core/core.hpp>
+#include <opencv/include/opencv2/highgui/highgui.hpp>
+
 #include"DlgAddProductConfig.h"
 #include"DlgAddCamera.h"
 #include"DlgChangeCameraConfig.h"
 #include"DlgChangeProductConfig.h"
 
+
 void Proonnx::ini_ui()
 {
     ini_localizationStringLoader();
     ini_localizationStringLoaderUI();
+
+
+    myCamera1 = new MyCamera();
+    o = new ocrwork();
     InitCamera(1);
-    o.initial();
+    o->initial();
  /* cv::Mat srcMat = cv::imread(R"(C:\Users\61795\Desktop\Project\Proonnx\Proonnx\image\test4.jpg)");
    std::vector<OCRResult> ocrResult;
    o.testOcr(srcMat, ocrResult);
@@ -314,8 +325,8 @@ void Proonnx::DispImgBuff1(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInf
 
     //对这张图片进行字符识别
     std::vector<OCRResult> ocrResult;
-    o.testOcr(dstImga2, ocrResult);
-    o.drawView(dstImga2, ocrResult);
+    o->testOcr(dstImga2, ocrResult);
+    o->drawView(dstImga2, ocrResult);
 
    //算法执行{}
 
@@ -345,7 +356,7 @@ bool Proonnx::InitCamera(int index)
 {
     MV_CC_DEVICE_INFO_LIST m_stDevList;//设备列表
     //查找连接的相机
-    int neRt = myCamera1.EnumDevices(&m_stDevList);
+    int neRt = myCamera1->EnumDevices(&m_stDevList);
    
     //保存的ip地址
     QString nIp;
@@ -392,7 +403,7 @@ bool Proonnx::InitCamera(int index)
 
             int linkCamera;
             //连接相机
-            linkCamera = myCamera1.connectCamera(cameraName);
+            linkCamera = myCamera1->connectCamera(cameraName);
 
 
 
@@ -411,7 +422,7 @@ bool Proonnx::InitCamera(int index)
             int satrtCamera;
 
             //开启抓图
-            satrtCamera = myCamera1.startCamera();
+            satrtCamera = myCamera1->startCamera();
             //GlobelParam::myCamera1.HardCap();
 
 
@@ -419,7 +430,7 @@ bool Proonnx::InitCamera(int index)
             if (satrtCamera != 0) {
                 //qDebug() << "启动相机采集失败";
 
-                myCamera1.isConnet = false;
+                myCamera1->isConnet = false;
 
 
 
@@ -429,13 +440,13 @@ bool Proonnx::InitCamera(int index)
             else
             {
 
-                myCamera1.isConnet = true;
-                myCamera1.serialName = QString::fromStdString(cameraName);
+                myCamera1->isConnet = true;
+                myCamera1->serialName = QString::fromStdString(cameraName);
                /* ui->lb_CameraState1->setText("连接成功");
                 ui->lb_CameraState1->setStyleSheet(QString("QLabel{color:rgb(105, 217,181);} "));*/
-                connect(&myCamera1, &MyCamera::ImgCallBackSignal, this, &Proonnx::DispImgBuff1);
+                connect(myCamera1, &MyCamera::ImgCallBackSignal, this, &Proonnx::DispImgBuff1);
                 //实时采集
-                myCamera1.RunCapture();
+                myCamera1->RunCapture();
                 // GlobelParam::myCamera1.setExposureTime(lightNumber[0]);
                 isok = true;
             }

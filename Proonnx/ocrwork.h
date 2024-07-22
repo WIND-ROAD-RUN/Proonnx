@@ -6,6 +6,7 @@
 #include <cmath>  // 用于基本数学计算
 #include <algorithm>
 #include <numeric>
+#include"qdebug.h"
 class ocrwork
 {
 public:
