@@ -117,6 +117,8 @@
     <QtUic Include="DlgSetProonnx.ui" />
     <QtUic Include="Proonnx.ui" />
     <QtMoc Include="Proonnx.h" />
+    <ClCompile Include="ConfigBeforeRuntimeLoader.cpp" />
+    <ClCompile Include="ConfigBeforeRuntimeModule.cpp" />
     <ClCompile Include="DateTransform.cpp" />
     <ClCompile Include="DlgAddProductConfig.cpp" />
     <ClCompile Include="DlgChangeProductConfig.cpp" />
@@ -150,6 +152,8 @@
     <QtMoc Include="mycamera.h" />
     <QtMoc Include="FrameSelectLabel.h" />
     <QtMoc Include="DlgSetProonnx.h" />
+    <ClInclude Include="ConfigBeforeRuntimeLoader.h" />
+    <ClInclude Include="ConfigBeforeRuntimeModule.h" />
     <ClInclude Include="ImageIdentify.h" />
     <ClInclude Include="MVS\Includes\CameraParams.h" />
     <ClInclude Include="MVS\Includes\MvCameraControl.h" />
