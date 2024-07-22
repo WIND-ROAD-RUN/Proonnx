@@ -1,1 +1,93 @@
 #include"ConfigBeforeRuntimeModule.h"
+
+#include"pugixml.hpp"
+#include"spdlog/spdlog.h"
+
+ConfigBeforeRuntimeModule::ConfigBeforeRuntimeModule()
+{
+    m_doc = new pugi::xml_document();
+}
+
+ConfigBeforeRuntimeModule::~ConfigBeforeRuntimeModule()
+{
+    delete m_doc;
+}
+
+void ConfigBeforeRuntimeModule::setNewFile(const std::string filePath)
+{
+    spdlog::info("Set new config of before runtime file in :"+ filePath+"result is :");
+    auto configBeforeRuntimeModuleNode = m_doc->append_child("ConfigBeforeRuntimeModule");
+    auto cameraCountNode = configBeforeRuntimeModuleNode.append_child("CameraCount");
+    cameraCountNode.text().set(1);
+    auto languageNode= configBeforeRuntimeModuleNode.append_child("Language");
+    languageNode.text().set("CHN");
+
+    auto result=m_doc->save_file(filePath.c_str());
+    spdlog::info(result);
+
+}
+
+bool ConfigBeforeRuntimeModule::loadFile(const std::string filePath)
+{
+    auto loadFileResutlt = m_doc->load_file(filePath.c_str());
+
+    if (loadFileResutlt) {
+        return true;
+    }
+    return false;
+}
+
+bool ConfigBeforeRuntimeModule::storeCameraCount(int count)
+{
+    auto configBeforeRuntimeModuleNode = m_doc->child("ConfigBeforeRuntimeModule");
+    if (!configBeforeRuntimeModuleNode) {
+        return false;
+    }
+    auto cameraCountNode = configBeforeRuntimeModuleNode.child("CameraCount");
+    if (!cameraCountNode) {
+        return false;
+    }
+    auto storeResult = cameraCountNode.text().set(count);
+
+    return storeResult;
+}
+
+bool ConfigBeforeRuntimeModule::storeLanguage(const std::string& language)
+{
+    auto configBeforeRuntimeModuleNode = m_doc->child("ConfigBeforeRuntimeModule");
+    if (!configBeforeRuntimeModuleNode) {
+        return false;
+    }
+    auto languageNode = configBeforeRuntimeModuleNode.child("Language");
+    if (!languageNode) {
+        return false;
+    }
+    auto storeResult = languageNode.text().set(language.c_str());
+
+    return storeResult;
+}
+
+void ConfigBeforeRuntimeModule::saveFile(const std::string& filePath)
+{
+    m_doc->save_file(filePath.c_str());
+}
+
+int ConfigBeforeRuntimeModule::readCameraCount()
+{
+    int result{};
+    auto configBeforeRuntimeModuleNode = m_doc->child("ConfigBeforeRuntimeModule");
+    auto cameraCountNode = configBeforeRuntimeModuleNode.child("CameraCount");
+    result = cameraCountNode.text().as_int();
+
+    return result;
+}
+
+std::string ConfigBeforeRuntimeModule::readLanguage()
+{
+    std::string result{};
+    auto configBeforeRuntimeModuleNode = m_doc->child("ConfigBeforeRuntimeModule");
+    auto languageNode = configBeforeRuntimeModuleNode.child("Language");
+    result = languageNode.text().as_string();
+
+    return result;
+}

@@ -14,12 +14,15 @@
 #include"DlgAddProductConfig.h"
 #include"DlgChangeProductConfig.h"
 #include"DlgSetProonnx.h"
+#include"LocalizationStringLoader-XML.h"
+#include"ConfigBeforeRuntimeLoader.h"
 
 #include"spdlog/spdlog.h"
 void Proonnx::ini_ui()
 {
     ini_localizationStringLoader();
     ini_localizationStringLoaderUI();
+    ini_configBeforeRuntimeLoader();
     ui->ledit_currentDate->setText(QDate::currentDate().toString("yyyy/MM/dd"));
     auto font=ui->ledit_currentDate->font();
     font.setPointSize(20);
@@ -62,6 +65,27 @@ void Proonnx::ini_localizationStringLoaderUI()
     ui->pbt_addProductCongfig->setText(QString::fromStdString(m_locStrLoader->getString("5")));
 }
 
+void Proonnx::ini_configBeforeRuntimeLoader()
+{
+    m_configBeforeRuntimeLoader = new ConfigBeforeRuntimeLoader();
+
+    spdlog::info("Load config of before runtime in filePath:");
+    m_configBeforeRuntimeLoader = new ConfigBeforeRuntimeLoader();
+
+    QString filePath = "/config/ConfigBeforeRuntimeLoader.xml";
+    auto  currentFilePath = QDir::currentPath();
+    filePath = currentFilePath + filePath;
+    spdlog::info(filePath.toStdString());
+
+    m_configBeforeRuntimeLoaderFilePath = filePath;
+
+    auto loadResult = m_configBeforeRuntimeLoader->loadFile(filePath.toStdString());
+    spdlog::info(loadResult);
+    if (!loadResult) {
+        m_configBeforeRuntimeLoader->setNewFile(filePath.toStdString());
+    }
+}
+
 void Proonnx::ini_connect()
 {
     QObject::connect(ui->cBox_changeLanguage, SIGNAL(currentIndexChanged(int)),
@@ -77,6 +101,7 @@ void Proonnx::ini_connect()
 void Proonnx::des_com()
 {
     delete m_locStrLoader;
+    delete m_configBeforeRuntimeLoader;
 }
 
 Proonnx::Proonnx(QWidget *parent)
@@ -110,6 +135,8 @@ void Proonnx::pbt_modProductConfig_clicked()
 void Proonnx::pbtn_setProonnx_clicked()
 {
     DlgSetProonnx dlg;
+    dlg.setFilePath(m_configBeforeRuntimeLoaderFilePath);
+    dlg.iniComponet();
     dlg.exec();
 }
 

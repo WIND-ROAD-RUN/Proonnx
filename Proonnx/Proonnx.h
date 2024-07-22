@@ -5,13 +5,14 @@
 
 #include"MVS/Includes/MvCameraControl.h"
 
-#include"LocalizationStringLoader-XML.h"
 
 namespace cv {
 	class Mat;
 }
 class MyCamera;
 class ocrwork;
+class LocalizationStringLoaderXML;
+class ConfigBeforeRuntimeLoader;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ProonnxClass; };
@@ -22,12 +23,17 @@ class Proonnx : public QMainWindow
 	Q_OBJECT
 private:
 	LocalizationStringLoaderXML* m_locStrLoader{ nullptr };
+	ConfigBeforeRuntimeLoader* m_configBeforeRuntimeLoader{nullptr};
+private:
+	QString m_configBeforeRuntimeLoaderFilePath{};
 private:
 	void ini_ui();
 
 	void ini_localizationStringLoader();
 
 	void ini_localizationStringLoaderUI();
+
+	void ini_configBeforeRuntimeLoader();
 
 	void ini_connect();
 

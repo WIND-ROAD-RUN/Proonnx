@@ -8,7 +8,7 @@ namespace Ui { class DlgChangeProductConfigClass; };
 QT_END_NAMESPACE
 
 class  ProductConfigLoader;
-class RecognizeRange;
+struct RecognizeRange;
 class FrameSelectLabel;
 
 class DlgChangeProductConfig : public QDialog
