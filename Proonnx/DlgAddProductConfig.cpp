@@ -7,7 +7,6 @@
 #include"FrameSelectLabel.h"
 #include"ProductConfigLoader.h"
 #include"spdlog/spdlog.h"
-#include<qdebug>
 
 
 DlgAddProductConfig::DlgAddProductConfig(QWidget *parent)
@@ -16,6 +15,7 @@ DlgAddProductConfig::DlgAddProductConfig(QWidget *parent)
 {
 	ui->setupUi(this);
 	m_recognizeRange = new RecognizeRange();
+	spdlog::info("Iniliazing ui for dlgAddProductConfig");
 	ini_ui();
 	ini_connect();
 }
@@ -99,9 +99,11 @@ void DlgAddProductConfig::pbt_saveProductConfig_clicked()
 
 		if (storeConfigResult&& saveConfigResult) {
 			QMessageBox::information(this, "保存", "保存成功");
+			spdlog::info("Add new product config in "+ fileName.toStdString());
 		}
 		else {
 			QMessageBox::warning(this, "保存", "保存失败");
+			spdlog::info("Failed add new product config in " + fileName.toStdString());
 		}
 	}
 }
