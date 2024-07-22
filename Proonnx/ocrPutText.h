@@ -15,5 +15,4 @@ public:
     static void putTextZH(Mat& dst, const char* str, Point org, Scalar color, int fontsize,
         const char* fn = "Arial", bool italic = false, bool underline = false);
 };
-
 #endif // !OCRPUTTEXT_H_

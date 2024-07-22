@@ -123,6 +123,7 @@
     <ClCompile Include="DlgAddProductConfig.cpp" />
     <ClCompile Include="DlgChangeCameraConfig.cpp" />
     <ClCompile Include="DlgChangeProductConfig.cpp" />
+    <ClCompile Include="FrameSelectLabel.cpp" />
     <ClCompile Include="ImageIdentify.cpp" />
     <ClCompile Include="LocalizationStringLoader-XML.cpp" />
     <ClCompile Include="LocalizationStringModule-XML.cpp" />
@@ -132,10 +133,16 @@
     <ClCompile Include="ocrPutText.cpp" />
     <ClCompile Include="ocrwork.cpp" />
     <ClCompile Include="ProductCheck.cpp" />
+    <ClCompile Include="ProductConfigLoader.cpp" />
     <ClCompile Include="ProductConfigModule.cpp" />
     <ClCompile Include="ProductCongfigLoader.cpp" />
     <ClCompile Include="Proonnx.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="main.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -145,6 +152,7 @@
     <QtMoc Include="DlgChangeCameraConfig.h" />
     <QtMoc Include="DlgChangeProductConfig.h" />
     <QtMoc Include="mycamera.h" />
+    <QtMoc Include="FrameSelectLabel.h" />
     <ClInclude Include="ImageIdentify.h" />
     <ClInclude Include="MVS\Includes\CameraParams.h" />
     <ClInclude Include="MVS\Includes\MvCameraControl.h" />
