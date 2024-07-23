@@ -18,39 +18,48 @@ struct ImageIdentifyUtilty
 		RGB2BGR
 		(unsigned char* pRgbData, unsigned int nWidth, unsigned int nHeight);
 
-	static 
-		cv::Mat  Convert2Mat
-		(MV_FRAME_OUT_INFO_EX* pstImageInfo, unsigned char* pData, bool& isok);
-
-	static 
-		QImage cvMat2QImage
+	static
+		cv::Mat  ConvertMat
+		(MV_FRAME_OUT_INFO_EX* pFrameInfo, unsigned char* pData);
+	static
+		QImage convcertImageFormCvMat
 		(cv::Mat& mat);
-
 };
+
+class MonitorCamera;
 
 class ImageIdentify
 	:public QAction {
+	Q_OBJECT
 private:
 	MyCamera* m_camera{nullptr};
+	MonitorCamera* m_monitorCamera{nullptr};
 
 	ocrwork* m_indentModel{nullptr};
 
 private:
 	QLabel* m_labelForImage{ nullptr };
 
+	QLabel* m_dlgLabelForImage{nullptr};
+public:
+	void setDlgLabelForImage(QLabel * label);
+	void deleteDlgLabelForImage() { m_dlgLabelForImage = nullptr; }
 private:
 	ProductCheck<std::vector<OCRResult>, QString> * m_productCheck;
 
 private:
 	QString m_standDate;
+	std::string m_Ip;
 
 public:
-	ImageIdentify();
+	explicit ImageIdentify(QLabel * label,const std::string & ip);
 
 	~ImageIdentify();
-
 private:
-	bool InitCamera(int index);
+	void ini_connect();
+public:
+	bool InitCamera();
+	void startMonitor();
 
 public:
 	bool iniCom(int index);
@@ -60,8 +69,7 @@ public:
 		ProductCheck<std::vector<OCRResult>, QString>::Compare compare);
 
 private slots:
-	void DispImgBuff(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInf);
-
+	void DisplayImage(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInf);
 };
 
 

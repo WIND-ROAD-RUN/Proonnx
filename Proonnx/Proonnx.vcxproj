@@ -114,6 +114,7 @@
     <QtRcc Include="Proonnx.qrc" />
     <QtUic Include="DlgAddProductConfig.ui" />
     <QtUic Include="DlgChangeProductConfig.ui" />
+    <QtUic Include="DlgSelectCameraIndex.ui" />
     <QtUic Include="DlgSetProonnx.ui" />
     <QtUic Include="Proonnx.ui" />
     <QtMoc Include="Proonnx.h" />
@@ -122,12 +123,14 @@
     <ClCompile Include="DateTransform.cpp" />
     <ClCompile Include="DlgAddProductConfig.cpp" />
     <ClCompile Include="DlgChangeProductConfig.cpp" />
+    <ClCompile Include="DlgSelectCameraIndex.cpp" />
     <ClCompile Include="DlgSetProonnx.cpp" />
     <ClCompile Include="FrameSelectLabel.cpp" />
     <ClCompile Include="ImageIdentify.cpp" />
     <ClCompile Include="LocalizationStringLoader-XML.cpp" />
     <ClCompile Include="LocalizationStringModule-XML.cpp" />
     <ClCompile Include="LocalizationStringModuleAbstact.cpp" />
+    <ClCompile Include="MonitorCamera.cpp" />
     <ClCompile Include="mycamera.cpp" />
     <ClCompile Include="OcrApi.cpp" />
     <ClCompile Include="ocrPutText.cpp" />
@@ -153,7 +156,9 @@
     <QtMoc Include="DlgSetProonnx.h" />
     <ClInclude Include="ConfigBeforeRuntimeLoader.h" />
     <ClInclude Include="ConfigBeforeRuntimeModule.h" />
-    <ClInclude Include="ImageIdentify.h" />
+    <QtMoc Include="ImageIdentify.h" />
+    <QtMoc Include="MonitorCamera.h" />
+    <QtMoc Include="DlgSelectCameraIndex.h" />
     <ClInclude Include="MVS\Includes\CameraParams.h" />
     <ClInclude Include="MVS\Includes\MvCameraControl.h" />
     <ClInclude Include="MVS\Includes\MvErrorDefine.h" />

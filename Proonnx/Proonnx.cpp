@@ -4,8 +4,10 @@
 #include<QComboBox>
 #include<QFileDialog>
 #include<QDate>
+#include<QGridLayout>
 
-//#include"mycamera.h"
+#include"mycamera.h"
+#include"MonitorCamera.h"
 //#include"ocrwork.h"
 //#include"opencv/include/opencv2/opencv.hpp"
 //#include <opencv/include/opencv2/core/core.hpp>
@@ -14,15 +16,17 @@
 #include"DlgAddProductConfig.h"
 #include"DlgChangeProductConfig.h"
 #include"DlgSetProonnx.h"
+#include"DlgSelectCameraIndex.h"
 #include"LocalizationStringLoader-XML.h"
 #include"ConfigBeforeRuntimeLoader.h"
 
-#include"spdlog/spdlog.h"
 void Proonnx::ini_ui()
 {
     ini_localizationStringLoader();
     ini_localizationStringLoaderUI();
     ini_configBeforeRuntimeLoader();
+    ini_gBox_monitoringDisplay();
+
     ui->ledit_currentDate->setText(QDate::currentDate().toString("yyyy/MM/dd"));
     auto font=ui->ledit_currentDate->font();
     font.setPointSize(20);
@@ -41,18 +45,16 @@ void Proonnx::ini_ui()
    cv::namedWindow("SrcView", cv::WINDOW_NORMAL);
    cv::imshow("SrcView", srcMat);
    cv::waitKey(0);*/
-
+    ini_cameraList();
 }
 
 void Proonnx::ini_localizationStringLoader()
 {
-    spdlog::info("Iniliazing localizationStringLoader ");
     m_locStrLoader = LocalizationStringLoaderXML::getInstance();
     m_locStrLoader->setFilePath("C:\\Users\\61795\\Desktop\\Project\\Proonnx\\Proonnx\\languageString.xml");
     m_locStrLoader->setLanguage("CHN");
     auto loadStrDataResult = m_locStrLoader->loadData();
     if (!loadStrDataResult) {
-        spdlog::warn("Failed to load data file languageString.xml");
         QMessageBox::warning(this, "ERROR", "Failed to load data file languageString.xml");
     }
 }
@@ -69,20 +71,70 @@ void Proonnx::ini_configBeforeRuntimeLoader()
 {
     m_configBeforeRuntimeLoader = new ConfigBeforeRuntimeLoader();
 
-    spdlog::info("Load config of before runtime in filePath:");
     m_configBeforeRuntimeLoader = new ConfigBeforeRuntimeLoader();
 
     QString filePath = "/config/ConfigBeforeRuntimeLoader.xml";
     auto  currentFilePath = QDir::currentPath();
     filePath = currentFilePath + filePath;
-    spdlog::info(filePath.toStdString());
 
     m_configBeforeRuntimeLoaderFilePath = filePath;
 
     auto loadResult = m_configBeforeRuntimeLoader->loadFile(filePath.toStdString());
-    spdlog::info(loadResult);
     if (!loadResult) {
         m_configBeforeRuntimeLoader->setNewFile(filePath.toStdString());
+    }
+}
+
+void Proonnx::ini_gBox_monitoringDisplay()
+{
+    auto cameraCount = m_configBeforeRuntimeLoader->readCameraCount();
+    m_disaplayCameraList = new QVector<QLabel*>;
+    QGridLayout* gBox_monitoringDisplayLayout = new QGridLayout();
+
+    // Calculate the number of rows and columns to make them as close as possible
+    int rows = static_cast<int>(std::sqrt(cameraCount));
+    int cols = (cameraCount + rows - 1) / rows; // Round Up
+
+    for (int i = 0; i < cameraCount; i++) {
+        QLabel* label = new QLabel;
+        label->setText("Camera disconnect by index:" + QString::number(i + 1));
+        label->setAlignment(Qt::AlignCenter); // Center the label text
+        label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding); // Expand tags to fill the layout
+        label->setScaledContents(true); // Fill the image with labels
+        m_disaplayCameraList->append(label);
+        int row = i / cols;
+        int col = i % cols;
+        gBox_monitoringDisplayLayout->addWidget(label, row, col);
+    }
+
+    ui->gBox_monitoringDisplay->setLayout(gBox_monitoringDisplayLayout);
+}
+
+void Proonnx::ini_cameraList()
+{
+    m_cameraList = new QVector<ImageIdentify *>;
+    auto devList = MonitorCameraUtility::checkAllConnectCamera();
+
+    for (int i = 0;i< m_disaplayCameraList->size();i++) {
+        auto item = (*m_disaplayCameraList)[i];
+        if (i< devList.size()) {
+            auto imageIdentify = new ImageIdentify(item, devList[i]);
+            auto connectResult=imageIdentify->InitCamera();
+            if (connectResult) {
+                imageIdentify->startMonitor();
+            }
+            m_cameraList->append(imageIdentify);
+        }
+        else {
+            auto imageIdentify = new ImageIdentify(item, "disconnecd");
+            m_cameraList->append(imageIdentify);
+
+
+            item->setText("disconnecd");
+
+        }
+
+
     }
 }
 
@@ -102,6 +154,15 @@ void Proonnx::des_com()
 {
     delete m_locStrLoader;
     delete m_configBeforeRuntimeLoader;
+    for (auto & item : *m_disaplayCameraList) {
+        delete item;
+    }
+    delete m_disaplayCameraList;
+
+    for (auto& item : *m_cameraList) {
+        delete item;
+    }
+    delete m_cameraList;
 }
 
 Proonnx::Proonnx(QWidget *parent)
@@ -109,7 +170,6 @@ Proonnx::Proonnx(QWidget *parent)
     , ui(new Ui::ProonnxClass())
 {
     ui->setupUi(this);
-    spdlog::info("Iniliazing ui for proonx");
     ini_ui();
     ini_connect();
 
@@ -122,13 +182,23 @@ Proonnx::~Proonnx()
 
 void Proonnx::pbt_modProductConfig_clicked()
 {
-    QFileDialog fileDlg(nullptr, tr("打开文件"), "", tr("数据文件(*.xml);;所有文件 (*)"));
-    if (fileDlg.exec() == QFileDialog::Accepted) {
-        auto filePath = fileDlg.selectedFiles().first();
-        DlgChangeProductConfig dlg;
-        dlg.setFilePath(filePath);
-        dlg.iniUI();
-        dlg.exec();
+    int cameraCount = m_cameraList->size();
+    DlgSelectCameraIndex dlgSelectCameraIndex(this, cameraCount);
+
+    auto selectCareraIndexResult = dlgSelectCameraIndex.exec();
+
+    if (selectCareraIndexResult == QDialog::Accepted) {
+        auto cameraIndex = dlgSelectCameraIndex.m_indexIndex;
+        QFileDialog fileDlg(nullptr, tr("打开文件"), "", tr("数据文件(*.xml);;所有文件 (*)"));
+        if (fileDlg.exec() == QFileDialog::Accepted) {
+            auto filePath = fileDlg.selectedFiles().first();
+            DlgChangeProductConfig dlg;
+            dlg.setFilePath(filePath);
+            dlg.setCameraIndex(cameraIndex);
+            dlg.setCamera(m_cameraList->at(cameraIndex - 1));
+            dlg.iniUI();
+            dlg.exec();
+        }
     }
 }
 
@@ -142,10 +212,21 @@ void Proonnx::pbtn_setProonnx_clicked()
 
 void Proonnx::pbt_addProductCongfig_clicked()
 {
-    spdlog::info("Open dlgAddproductConfig dialog");
-    DlgAddProductConfig dlg;
-    dlg.exec();
+    int cameraCount=m_cameraList->size();
+    DlgSelectCameraIndex dlgSelectCameraIndex(this, cameraCount);
 
+    auto selectCareraIndexResult=dlgSelectCameraIndex.exec();
+
+    if (selectCareraIndexResult==QDialog::Accepted) {
+        auto cameraIndex = dlgSelectCameraIndex.m_indexIndex;
+
+        DlgAddProductConfig dlgAddProductConfig(this);
+
+        dlgAddProductConfig.setCameraIndex(cameraIndex);
+        dlgAddProductConfig.setCamera(m_cameraList->at(cameraIndex-1));
+
+        dlgAddProductConfig.exec();
+    }
 }
 
 void Proonnx::cBox_changeLanguage_index_change_on(int index)

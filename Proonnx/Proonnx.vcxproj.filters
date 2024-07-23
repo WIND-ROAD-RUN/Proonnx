@@ -173,6 +173,12 @@
     <ClCompile Include="ImageIdentify.cpp">
       <Filter>Source Files\ImageIdentify\ImageIdentify</Filter>
     </ClCompile>
+    <ClCompile Include="MonitorCamera.cpp">
+      <Filter>Source Files\ImageIdentify\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSelectCameraIndex.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Proonnx.ui">
@@ -185,6 +191,9 @@
       <Filter>Form Files\ui</Filter>
     </QtUic>
     <QtUic Include="DlgSetProonnx.ui">
+      <Filter>Form Files\ui</Filter>
+    </QtUic>
+    <QtUic Include="DlgSelectCameraIndex.ui">
       <Filter>Form Files\ui</Filter>
     </QtUic>
   </ItemGroup>
@@ -216,6 +225,15 @@
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
     <QtMoc Include="DlgSetProonnx.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="MonitorCamera.h">
+      <Filter>Header Files\ImageIdentify\Camera</Filter>
+    </QtMoc>
+    <QtMoc Include="ImageIdentify.h">
+      <Filter>Header Files\ImageIdentify\ImageIdentify</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgSelectCameraIndex.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
   </ItemGroup>
@@ -282,9 +300,6 @@
     </ClInclude>
     <ClInclude Include="ocrPutText.h">
       <Filter>Header Files\ImageIdentify\OCR</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageIdentify.h">
-      <Filter>Header Files\ImageIdentify\ImageIdentify</Filter>
     </ClInclude>
     <ClInclude Include="ConfigBeforeRuntimeLoader.h">
       <Filter>Header Files\config\ConfigBeforeRuntime</Filter>

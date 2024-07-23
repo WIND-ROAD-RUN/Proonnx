@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
 <ConfigBeforeRuntimeModule>
-	<CameraCount>7</CameraCount>
+	<CameraCount>2</CameraCount>
 	<Language>CHN</Language>
 </ConfigBeforeRuntimeModule>

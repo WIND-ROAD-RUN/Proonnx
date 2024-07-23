@@ -9,6 +9,7 @@ QT_END_NAMESPACE
 
 struct RecognizeRange;
 class FrameSelectLabel;
+class ImageIdentify;
 
 class DlgAddProductConfig : public QDialog
 {
@@ -18,11 +19,17 @@ private:
 	RecognizeRange * m_recognizeRange{nullptr};
 private:
 	FrameSelectLabel* m_frameSelectLabel;
+private:
+	int m_cameraIndex{1};
+	ImageIdentify* m_camera{nullptr};
 public:
-	DlgAddProductConfig(QWidget *parent = nullptr);
+	explicit DlgAddProductConfig(QWidget* parent = nullptr);
 
 	~DlgAddProductConfig();
+public:
+	void setCameraIndex(int index) { m_cameraIndex = index; }
 
+	void setCamera(ImageIdentify* camera);
 private:
 	void ini_ui();
 

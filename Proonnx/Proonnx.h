@@ -4,12 +4,15 @@
 #include "ui_Proonnx.h"
 
 #include"MVS/Includes/MvCameraControl.h"
+#include"ImageIdentify.h"
+#include<QVector>
+#include<QLabel>
 
 
 namespace cv {
 	class Mat;
 }
-class MyCamera;
+class ImageIdentify;
 class ocrwork;
 class LocalizationStringLoaderXML;
 class ConfigBeforeRuntimeLoader;
@@ -25,6 +28,9 @@ private:
 	LocalizationStringLoaderXML* m_locStrLoader{ nullptr };
 	ConfigBeforeRuntimeLoader* m_configBeforeRuntimeLoader{nullptr};
 private:
+	QVector<QLabel *>* m_disaplayCameraList{ nullptr };
+	QVector<ImageIdentify*> * m_cameraList{nullptr};
+private:
 	QString m_configBeforeRuntimeLoaderFilePath{};
 private:
 	void ini_ui();
@@ -32,19 +38,16 @@ private:
 	void ini_localizationStringLoader();
 
 	void ini_localizationStringLoaderUI();
-
+private:
 	void ini_configBeforeRuntimeLoader();
+private:
+	void ini_gBox_monitoringDisplay();
 
+	void ini_cameraList();
+private:
 	void ini_connect();
 
 	void des_com();
-
-	//实例化一台相机
-	MyCamera * myCamera1;
-	//实例化一个推理模型
-	ocrwork *o;
-
-
 
 public:
 	Proonnx(QWidget* parent = nullptr);
@@ -62,18 +65,5 @@ private slots:
 	void pbt_modProductConfig_clicked();
 
 	void pbtn_setProonnx_clicked();
-
-//	//相机回调函数
-//	void DispImgBuff1(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInf);
-//
-//
-//private:
-//	//初始化相机
-//	bool InitCamera(int index);
-//
-//	int RGB2BGR(unsigned char* pRgbData, unsigned int nWidth, unsigned int nHeight);//RGB转BGR
-//
-//	cv::Mat  Convert2Mat(MV_FRAME_OUT_INFO_EX* pstImageInfo, unsigned char* pData, bool& isok);//转Mat格式
-//	QImage cvMat2QImage(cv::Mat& mat);
 
 };

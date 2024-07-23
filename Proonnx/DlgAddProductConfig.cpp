@@ -7,6 +7,7 @@
 #include"FrameSelectLabel.h"
 #include"ProductConfigLoader.h"
 #include"spdlog/spdlog.h"
+#include"ImageIdentify.h"
 
 
 DlgAddProductConfig::DlgAddProductConfig(QWidget *parent)
@@ -22,9 +23,16 @@ DlgAddProductConfig::DlgAddProductConfig(QWidget *parent)
 
 DlgAddProductConfig::~DlgAddProductConfig()
 {
+	m_camera->deleteDlgLabelForImage();
 	delete ui;
 	delete m_frameSelectLabel;
 	delete m_recognizeRange;
+}
+
+void DlgAddProductConfig::setCamera(ImageIdentify* camera)
+{
+	m_camera = camera;
+	m_camera->setDlgLabelForImage(m_frameSelectLabel);
 }
 
 void DlgAddProductConfig::ini_ui()

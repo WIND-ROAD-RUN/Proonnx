@@ -5,8 +5,15 @@
 #include"spdlog/spdlog.h"
 #include"ProductConfigLoader.h"
 #include"FrameSelectLabel.h"
+#include"ImageIdentify.h"
 
-DlgChangeProductConfig::DlgChangeProductConfig(QWidget *parent)
+void DlgChangeProductConfig::setCamera(ImageIdentify* camera)
+{
+	m_camera = camera;
+	m_camera->setDlgLabelForImage(m_frameSelectLabel);
+}
+
+DlgChangeProductConfig::DlgChangeProductConfig(QWidget *parent, int cameraIndex )
 	: QDialog(parent)
 	, ui(new Ui::DlgChangeProductConfigClass())
 {
@@ -17,6 +24,7 @@ DlgChangeProductConfig::DlgChangeProductConfig(QWidget *parent)
 
 DlgChangeProductConfig::~DlgChangeProductConfig()
 {
+	m_camera->deleteDlgLabelForImage();
 	delete ui;
 	delete m_loader;
 	delete m_recognizeRange;

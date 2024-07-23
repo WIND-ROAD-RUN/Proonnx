@@ -21,9 +21,6 @@ public:
     ~MyCamera();
       //声明相关变量及函数等
       static int EnumDevices(MV_CC_DEVICE_INFO_LIST* pstDevList);
-
-
-
 public:
       // ch:连接相机
       int connectCamera(string id);

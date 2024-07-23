@@ -1,17 +1,17 @@
 #include "Proonnx.h"
 #include <QtWidgets/QApplication>
 
-#include <spdlog/spdlog.h>
-#include <spdlog/sinks/basic_file_sink.h>
+//#include <spdlog/spdlog.h>
+//#include <spdlog/sinks/basic_file_sink.h>
 
-void iniLogger();
+//void iniLogger();
 
 int main(int argc, char *argv[])
 {
-    iniLogger();
+    //iniLogger();
 
-    spdlog::info("----------------------------------------");
-    spdlog::info("Create window Proonx");
+    //spdlog::info("----------------------------------------");
+    //spdlog::info("Create window Proonx");
     QApplication a(argc, argv);
     Proonnx w;
     w.show();
@@ -19,9 +19,9 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-void iniLogger()
-{
-    auto file_logger = spdlog::basic_logger_mt("file_logger", "logs/logDebug.txt");
-
-    spdlog::set_default_logger(file_logger);
-}
+//void iniLogger()
+//{
+//    auto file_logger = spdlog::basic_logger_mt("file_logger", "logs/logDebug.txt");
+//
+//    spdlog::set_default_logger(file_logger);
+//}
