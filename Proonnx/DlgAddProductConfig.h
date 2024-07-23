@@ -16,24 +16,32 @@ class DlgAddProductConfig : public QDialog
 	Q_OBJECT
 private:
 	int m_rotateCount{ 0 };
+
 	RecognizeRange * m_recognizeRange{nullptr};
+
 private:
 	FrameSelectLabel* m_frameSelectLabel;
+
 private:
 	int m_cameraIndex{1};
+
 	ImageIdentify* m_camera{nullptr};
+
 public:
 	explicit DlgAddProductConfig(QWidget* parent = nullptr);
 
 	~DlgAddProductConfig();
+
 public:
 	void setCameraIndex(int index) { m_cameraIndex = index; }
 
 	void setCamera(ImageIdentify* camera);
+
 private:
 	void ini_ui();
 
 	void ini_connect();
+
 private:
 	Ui::DlgAddProductConfigClass *ui;
 

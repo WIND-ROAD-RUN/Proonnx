@@ -21,20 +21,26 @@ private:
 
 public:
     MonitorCamera();
+
     ~MonitorCamera();
 
     void setIp(const std::string& ip) { m_ip = ip; }
+
     std::string getIp() { return m_ip; }
 
     bool connectCamera();
+
     void startAcquisition();
+
     void stopAcquisition();
+
 
 signals:
     void ImgCallBackSignal(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInfo);
 
 private:
     static void __stdcall ImageCallback(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInfo, void* pUser);
+
 };
 
 #endif // !MONITORCAMERA_H_

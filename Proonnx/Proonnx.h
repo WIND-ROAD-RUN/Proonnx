@@ -12,6 +12,7 @@
 namespace cv {
 	class Mat;
 }
+
 class ImageIdentify;
 class ocrwork;
 class LocalizationStringLoaderXML;
@@ -26,24 +27,32 @@ class Proonnx : public QMainWindow
 	Q_OBJECT
 private:
 	LocalizationStringLoaderXML* m_locStrLoader{ nullptr };
+
 	ConfigBeforeRuntimeLoader* m_configBeforeRuntimeLoader{nullptr};
+
 private:
 	QVector<QLabel *>* m_disaplayCameraList{ nullptr };
+
 	QVector<ImageIdentify*> * m_cameraList{nullptr};
+
 private:
 	QString m_configBeforeRuntimeLoaderFilePath{};
+
 private:
 	void ini_ui();
 
 	void ini_localizationStringLoader();
 
 	void ini_localizationStringLoaderUI();
+
 private:
 	void ini_configBeforeRuntimeLoader();
+
 private:
 	void ini_gBox_monitoringDisplay();
 
 	void ini_cameraList();
+
 private:
 	void ini_connect();
 

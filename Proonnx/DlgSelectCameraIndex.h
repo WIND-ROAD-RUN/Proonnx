@@ -13,17 +13,26 @@ class DlgSelectCameraIndex : public QDialog
 
 public:
 	explicit DlgSelectCameraIndex(QWidget *parent = nullptr,int cameraCount=1);
+
 	~DlgSelectCameraIndex();
+
 private:
 	int m_cameraCount{0};
+
 private:
 	void ini_ui();
+
 	void ini_connect();
+
 private:
 	Ui::DlgSelectCameraIndexClass *ui;
+
 public:
 	int m_indexIndex{ 1 };
+
 private slots:
 	void pbtn_ok_clicked();
+
 	void pbtn_cancel();
+
 };

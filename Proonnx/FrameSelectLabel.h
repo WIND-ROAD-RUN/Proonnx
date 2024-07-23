@@ -14,19 +14,29 @@ public:
     void enableSelection(bool enable);
 
     void setLastSelectionRect(const QRect & rect);
+
 protected:
     void mousePressEvent(QMouseEvent* event) override;
+
     void mouseMoveEvent(QMouseEvent* event) override;
+
     void mouseReleaseEvent(QMouseEvent* event) override;
+
     void paintEvent(QPaintEvent* event) override;
 
 private:
     bool isSelecting;
+
     bool selectionEnabled;
+
     QPoint startPoint;
+
     QPoint endPoint;
+
     QRect currentSelectionRect;
+
     QRect lastSelectionRect;
+
 
 signals:
     void selectionMade(const QRect& rect);

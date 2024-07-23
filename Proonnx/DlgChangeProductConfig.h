@@ -17,18 +17,26 @@ class DlgChangeProductConfig : public QDialog
 	Q_OBJECT
 private:
 	QString m_filePath{};
+
 	ProductConfigLoader* m_loader;
+
 	RecognizeRange* m_recognizeRange{nullptr};
+
 	int m_rotateCount{ 0 };
+
 private:
 	FrameSelectLabel* m_frameSelectLabel{nullptr};
+
 private:
 	int m_cameraIndex{ 1 };
+
 	ImageIdentify* m_camera{ nullptr };
+
 public:
 	void setCameraIndex(int index) { m_cameraIndex = index; }
 
 	void setCamera(ImageIdentify* camera);
+
 public:
 	explicit DlgChangeProductConfig(QWidget *parent = nullptr, int cameraIndex = 1);
 

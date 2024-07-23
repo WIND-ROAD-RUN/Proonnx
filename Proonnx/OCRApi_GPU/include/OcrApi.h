@@ -21,9 +21,13 @@ class OCR_DLL_API OcrApi {
 public:
 	
 	static OcrApi* createInstance(const char* path);  // 配置文件路径 创建实例对像
+
 	virtual ~OcrApi() {}; // 将析构函数声明为虚函数
-	virtual int Predict(char* Src_data, int Src_width, int Src_height, int Src_channel, long step) = 0;  //ocr检测  返回检测结果的数量
+
+	virtual int Predict(char* Src_data, int Src_width, int Src_height, int Src_channel, long step) = 0;  //ocr检测 
+	返回检测结果的数量
 	virtual void GetOCRResult(int size, std::vector< OCRResult >& ocrResult) = 0;  //获取检测数据
+
 };
 
 #endif // !OCRAPI_H

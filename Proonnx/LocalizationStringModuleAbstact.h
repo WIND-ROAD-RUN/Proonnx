@@ -11,6 +11,7 @@ class LocalizationStringModuleAbstract {
 public:
 
 	LocalizationStringModuleAbstract() {}
+
 	~LocalizationStringModuleAbstract() {}
 
 public:
