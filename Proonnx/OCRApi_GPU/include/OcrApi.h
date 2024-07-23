@@ -25,7 +25,7 @@ public:
 	virtual ~OcrApi() {}; // 将析构函数声明为虚函数
 
 	virtual int Predict(char* Src_data, int Src_width, int Src_height, int Src_channel, long step) = 0;  //ocr检测 
-	返回检测结果的数量
+	//返回检测结果的数量
 	virtual void GetOCRResult(int size, std::vector< OCRResult >& ocrResult) = 0;  //获取检测数据
 
 };
