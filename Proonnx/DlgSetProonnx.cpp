@@ -60,6 +60,15 @@ void DlgSetProonnx::ini_uiFromConfigBeforeRuntime()
 void DlgSetProonnx::ini_localizationStringLoaderUI()
 {
 	m_locStrLoader = LocalizationStringLoaderXML::getInstance();
+	ConfigBeforeRuntimeLoader configLoader;
+	configLoader.loadFile(m_filePath.toStdString());
+	m_locStrLoader->setLanguage(configLoader.readLanguage());
+
+	ui->label_language->setText(QString::fromStdString(m_locStrLoader->getString("17")));
+	ui->label_cameraCount->setText(QString::fromStdString(m_locStrLoader->getString("18")));
+	ui->pbtn_accpet->setText(QString::fromStdString(m_locStrLoader->getString("15")));
+	ui->pbtn_cancel->setText(QString::fromStdString(m_locStrLoader->getString("16")));
+	this->setWindowTitle(QString::fromStdString(m_locStrLoader->getString("20")));
 }
 
 

@@ -18,10 +18,13 @@ public:
 
 private:
 	int m_cameraCount{0};
-
+private:
+	QString m_configBeforeRuntime{};
+public:
+	void setConfigBeforeRuntime(const QString & filePath);
 private:
 	void ini_ui();
-
+	void ini_localizationStringLoaderUI();
 	void ini_connect();
 
 private:

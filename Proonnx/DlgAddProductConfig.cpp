@@ -8,6 +8,9 @@
 #include"ProductConfigLoader.h"
 #include"spdlog/spdlog.h"
 #include"ImageIdentify.h"
+#include"ConfigBeforeRuntimeLoader.h"
+#include"LocalizationStringLoader-XML.h"
+
 
 
 DlgAddProductConfig::DlgAddProductConfig(QWidget *parent)
@@ -35,6 +38,11 @@ void DlgAddProductConfig::setCamera(ImageIdentify* camera)
 	m_camera->setDlgLabelForImage(m_frameSelectLabel);
 }
 
+void DlgAddProductConfig::setConfigBeforeRuntime(const QString& filePath)
+{
+	m_configBeforeRuntime = filePath;
+}
+
 void DlgAddProductConfig::ini_ui()
 {
 	m_frameSelectLabel = new FrameSelectLabel;
@@ -43,6 +51,24 @@ void DlgAddProductConfig::ini_ui()
 	gBox_dispalyImageLayout->addWidget(m_frameSelectLabel);
 	ui->gBox_dispalyImage->setLayout(gBox_dispalyImageLayout);
 	m_frameSelectLabel->setScaledContents(true);
+	ini_localizationStringLoaderUI();
+}
+
+void DlgAddProductConfig::ini_localizationStringLoaderUI()
+{
+	auto loader=LocalizationStringLoaderXML::getInstance();
+	ConfigBeforeRuntimeLoader configLoader;
+	configLoader.loadFile(m_configBeforeRuntime.toStdString());
+	loader->setLanguage(configLoader.readLanguage());
+
+	ui->label_productName->setText(QString::fromStdString(loader->getString("7")));
+	ui->label_drawRecognitionRange->setText(QString::fromStdString(loader->getString("8")));
+	ui->label_gain->setText(QString::fromStdString(loader->getString("9")));
+	ui->pbtn_spinImage->setText(QString::fromStdString(loader->getString("10")));
+	ui->pbtn_drawRecognitionRange->setText(QString::fromStdString(loader->getString("11")));
+	ui->pbt_saveProductConfig->setText(QString::fromStdString(loader->getString("12")));
+	this->setWindowTitle(QString::fromStdString(loader->getString("5")));
+	
 }
 
 void DlgAddProductConfig::ini_connect()
@@ -55,6 +81,10 @@ void DlgAddProductConfig::ini_connect()
 		this, SLOT(pbtn_drawRecognitionRange_clicked()));
 	QObject::connect(m_frameSelectLabel, SIGNAL(selectionMade(const QRect & )),
 		this, SLOT(selectionMade_complete(const QRect & )));
+	QObject::connect(ui->sBox_exposureTime, SIGNAL(valueChanged(int))
+		, this, SLOT(sBox_exposureTime_value_change(int)));
+	QObject::connect(ui->pbtn_spinImage, SIGNAL(valueChanged(int))
+		, this, SLOT(sBox_gain_value_change(int)));
 }
 
 void DlgAddProductConfig::selectionMade_complete(const QRect& rect)
@@ -69,6 +99,20 @@ void DlgAddProductConfig::selectionMade_complete(const QRect& rect)
 	//qDebug() << "Top-right:" << rect.topRight();
 	//qDebug() << "Bottom-left:" << rect.bottomLeft();
 	//qDebug() << "Bottom-right:" << rect.bottomRight();
+}
+
+void DlgAddProductConfig::sBox_exposureTime_value_change(int)
+{
+	m_camera->stopAcquisition();
+	m_camera->setExposureTime(ui->sBox_exposureTime->value());
+	m_camera->startAcquisition();
+}
+
+void DlgAddProductConfig::sBox_gain_value_change(int)
+{
+	m_camera->stopAcquisition();
+	m_camera->setGain(ui->sBox_gain->value());
+	m_camera->startAcquisition();
 }
 
 void DlgAddProductConfig::pbtn_spinImage_clicked()
@@ -103,6 +147,12 @@ void DlgAddProductConfig::pbt_saveProductConfig_clicked()
 		config.lowerRightCorner = m_recognizeRange->lowerRightCorner;
 
 		auto storeConfigResult=configLoader.storeConfig(config);
+
+		ConfigBeforeRuntimeLoader configBeforeRuntimeLoader;
+		configBeforeRuntimeLoader.loadFile(m_configBeforeRuntime.toStdString());
+		configBeforeRuntimeLoader.storeCameraConfig(m_camera->m_Ip, fileName.toStdString());
+		configBeforeRuntimeLoader.saveFile(m_configBeforeRuntime.toStdString());
+
 		auto saveConfigResult = configLoader.saveFile(fileName.toStdString());
 
 		if (storeConfigResult&& saveConfigResult) {

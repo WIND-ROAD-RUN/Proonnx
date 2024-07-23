@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <QMouseEvent>
 #include <QPainter>
+#include<QPoint>
 
 class FrameSelectLabel : public QLabel {
     Q_OBJECT
@@ -37,9 +38,9 @@ private:
 
     QRect lastSelectionRect;
 
-
 signals:
     void selectionMade(const QRect& rect);
+
 };
 
 #endif // FRAMESELECTLABEL_H_

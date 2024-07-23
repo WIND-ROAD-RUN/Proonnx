@@ -27,11 +27,15 @@ public:
 
 	bool storeLanguage(const std::string& language);
 
-	void saveFile(const std::string& filePath);
+	bool storeCameraConfig(const std::string & ip, const std::string& configPath);
 
+	void saveFile(const std::string& filePath);
+public:
 	int readCameraCount();
 
 	std::string readLanguage();
+
+	bool  readCameraConfig(const std::string& ip, std::string& configPath);
 };
 
 

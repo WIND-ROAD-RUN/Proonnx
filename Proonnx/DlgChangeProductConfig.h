@@ -23,6 +23,10 @@ private:
 	RecognizeRange* m_recognizeRange{nullptr};
 
 	int m_rotateCount{ 0 };
+private:
+	QString m_configBeforeRuntime{};
+public:
+	void setConfigBeforeRuntime(const QString& filePath);
 
 private:
 	FrameSelectLabel* m_frameSelectLabel{nullptr};
@@ -44,7 +48,7 @@ public:
 
 private:
 	void ini_ui();
-
+	void ini_localizationStringLoaderUI();
 	void ini_connect();
 
 	void ini_configLoader();
@@ -65,4 +69,8 @@ private slots:
 	void pbtn_spinImage_clicked();
 
 	void pbtn_drawRecognitionRange_clicked();
+
+	void sBox_exposureTime_value_change(int);
+
+	void sBox_gain_value_change(int);
 };

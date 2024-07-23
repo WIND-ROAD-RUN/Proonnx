@@ -5,6 +5,8 @@
 #include<QFileDialog>
 #include<QDate>
 #include<QGridLayout>
+#include<QHBoxLayout>
+#include<QVBoxLayout>
 
 #include"mycamera.h"
 #include"MonitorCamera.h"
@@ -19,560 +21,300 @@
 #include"DlgSelectCameraIndex.h"
 #include"LocalizationStringLoader-XML.h"
 #include"ConfigBeforeRuntimeLoader.h"
+#include"ProductConfigLoader.h"
 
 void Proonnx::ini_ui()
 {
-    ini_localizationStringLoader();
-    ini_localizationStringLoaderUI();
-    ini_configBeforeRuntimeLoader();
-    ini_gBox_monitoringDisplay();
+	ini_configBeforeRuntimeLoader();
+	ini_localizationStringLoader();
+	ini_localizationStringLoaderUI();
+	ini_gBox_monitoringDisplay();
 
-    ui->ledit_currentDate->setText(QDate::currentDate().toString("yyyy/MM/dd"));
-    auto font=ui->ledit_currentDate->font();
-    font.setPointSize(20);
-    ui->ledit_currentDate->setFont(font);
-    ui->ledit_currentDate->setEnabled(false);
+	ui->ledit_currentDate->setText(QDate::currentDate().toString("yyyy/MM/dd"));
+	auto font = ui->ledit_currentDate->font();
+	font.setPointSize(20);
+	ui->ledit_currentDate->setFont(font);
+	ui->ledit_currentDate->setEnabled(false);
 
- /*   myCamera1 = new MyCamera();
-    o = new ocrwork();
-    InitCamera(1);
-    o->initial();*/
- /* cv::Mat srcMat = cv::imread(R"(C:\Users\61795\Desktop\Project\Proonnx\Proonnx\image\test4.jpg)");
-   std::vector<OCRResult> ocrResult;
-   o.testOcr(srcMat, ocrResult);
-   o.drawView(srcMat, ocrResult);
+	/*   myCamera1 = new MyCamera();
+	   o = new ocrwork();
+	   InitCamera(1);
+	   o->initial();*/
+	   /* cv::Mat srcMat = cv::imread(R"(C:\Users\61795\Desktop\Project\Proonnx\Proonnx\image\test4.jpg)");
+		 std::vector<OCRResult> ocrResult;
+		 o.testOcr(srcMat, ocrResult);
+		 o.drawView(srcMat, ocrResult);
 
-   cv::namedWindow("SrcView", cv::WINDOW_NORMAL);
-   cv::imshow("SrcView", srcMat);
-   cv::waitKey(0);*/
-    ini_cameraList();
+		 cv::namedWindow("SrcView", cv::WINDOW_NORMAL);
+		 cv::imshow("SrcView", srcMat);
+		 cv::waitKey(0);*/
+	ini_cameraList();
 }
 
 void Proonnx::ini_localizationStringLoader()
 {
-    m_locStrLoader = LocalizationStringLoaderXML::getInstance();
-    m_locStrLoader->setFilePath("C:\\Users\\61795\\Desktop\\Project\\Proonnx\\Proonnx\\languageString.xml");
-    m_locStrLoader->setLanguage("CHN");
-    auto loadStrDataResult = m_locStrLoader->loadData();
-    if (!loadStrDataResult) {
-        QMessageBox::warning(this, "ERROR", "Failed to load data file languageString.xml");
-    }
+	m_locStrLoader = LocalizationStringLoaderXML::getInstance();
+	m_locStrLoader->setFilePath("C:\\Users\\61795\\Desktop\\Project\\Proonnx\\Proonnx\\languageString.xml");
+	m_locStrLoader->setLanguage(m_configBeforeRuntimeLoader->readLanguage());
+	auto loadStrDataResult = m_locStrLoader->loadData();
+	if (!loadStrDataResult) {
+		QMessageBox::warning(this, "ERROR", "Failed to load data file languageString.xml");
+	}
 }
 
 void Proonnx::ini_localizationStringLoaderUI()
 {
-    ui->gBox_monitoringDisplay->setTitle(QString::fromStdString(m_locStrLoader->getString("1")));
-    ui->gBox_setPutton->setTitle(QString::fromStdString(m_locStrLoader->getString("2")));
-    ui->pbt_modProductConfig->setText(QString::fromStdString(m_locStrLoader->getString("3")));
-    ui->pbt_addProductCongfig->setText(QString::fromStdString(m_locStrLoader->getString("5")));
+	ui->gBox_monitoringDisplay->setTitle(QString::fromStdString(m_locStrLoader->getString("1")));
+	ui->gBox_setPutton->setTitle(QString::fromStdString(m_locStrLoader->getString("2")));
+	ui->pbt_modProductConfig->setText(QString::fromStdString(m_locStrLoader->getString("3")));
+	ui->pbt_addProductCongfig->setText(QString::fromStdString(m_locStrLoader->getString("5")));
+	ui->pbtn_setProonnx->setText(QString::fromStdString(m_locStrLoader->getString("20")));
+	ui->gBox_currenctDate->setTitle(QString::fromStdString(m_locStrLoader->getString("19")));
+
+	
 }
 
 void Proonnx::ini_configBeforeRuntimeLoader()
 {
-    m_configBeforeRuntimeLoader = new ConfigBeforeRuntimeLoader();
+	m_configBeforeRuntimeLoader = new ConfigBeforeRuntimeLoader();
 
-    m_configBeforeRuntimeLoader = new ConfigBeforeRuntimeLoader();
+	m_configBeforeRuntimeLoader = new ConfigBeforeRuntimeLoader();
 
-    QString filePath = "/config/ConfigBeforeRuntimeLoader.xml";
-    auto  currentFilePath = QDir::currentPath();
-    filePath = currentFilePath + filePath;
+	QString filePath = "/config/ConfigBeforeRuntimeLoader.xml";
+	auto  currentFilePath = QDir::currentPath();
+	filePath = currentFilePath + filePath;
 
-    m_configBeforeRuntimeLoaderFilePath = filePath;
+	m_configBeforeRuntimeLoaderFilePath = filePath;
 
-    auto loadResult = m_configBeforeRuntimeLoader->loadFile(filePath.toStdString());
-    if (!loadResult) {
-        m_configBeforeRuntimeLoader->setNewFile(filePath.toStdString());
-    }
+	auto loadResult = m_configBeforeRuntimeLoader->loadFile(filePath.toStdString());
+	if (!loadResult) {
+		m_configBeforeRuntimeLoader->setNewFile(filePath.toStdString());
+	}
 }
 
 void Proonnx::ini_gBox_monitoringDisplay()
 {
-    auto cameraCount = m_configBeforeRuntimeLoader->readCameraCount();
-    m_disaplayCameraList = new QVector<QLabel*>;
-    QGridLayout* gBox_monitoringDisplayLayout = new QGridLayout();
+	auto cameraCount = m_configBeforeRuntimeLoader->readCameraCount();
+	m_disaplayCameraList = new QVector<QLabel*>;
+	m_disaplayCheckInfoList= new QVector<QLabel*>;
+	m_disaplayProductList=new QVector<QLabel*>;
+	QGridLayout* gBox_monitoringDisplayLayout = new QGridLayout(this);
 
-    // Calculate the number of rows and columns to make them as close as possible
-    int rows = static_cast<int>(std::sqrt(cameraCount));
-    int cols = (cameraCount + rows - 1) / rows; // Round Up
+	// Calculate the number of rows and columns to make them as close as possible
+	int rows = static_cast<int>(std::sqrt(cameraCount));
+	int cols = (cameraCount + rows - 1) / rows; // Round Up
 
-    for (int i = 0; i < cameraCount; i++) {
-        QLabel* label = new QLabel;
-        label->setText("Camera disconnect by index:" + QString::number(i + 1));
-        label->setAlignment(Qt::AlignCenter); // Center the label text
-        label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding); // Expand tags to fill the layout
-        label->setScaledContents(true); // Fill the image with labels
-        m_disaplayCameraList->append(label);
-        int row = i / cols;
-        int col = i % cols;
-        gBox_monitoringDisplayLayout->addWidget(label, row, col);
-    }
+	for (int i = 0; i < cameraCount; i++) {
+		QLabel* label = new QLabel;
+		label->setText("Camera disconnect by index:" + QString::number(i + 1));
+		label->setAlignment(Qt::AlignCenter); // Center the label text
+		label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding); // Expand tags to fill the layout
+		label->setScaledContents(true); // Fill the image with labels
+		m_disaplayCameraList->append(label);
+		int row = i / cols;
+		int col = i % cols;
 
-    ui->gBox_monitoringDisplay->setLayout(gBox_monitoringDisplayLayout);
+		QHBoxLayout* hBoxLayout=new QHBoxLayout(this);
+		QLabel* checkInfo = new QLabel();
+		checkInfo->setText("OK");
+		m_disaplayCheckInfoList->append(checkInfo);
+		hBoxLayout->addWidget(checkInfo);
+
+		QLabel* ProductName = new QLabel();
+		m_disaplayProductList->append(ProductName);
+		ProductName->setText("ProductName");
+		hBoxLayout->addWidget(ProductName);
+
+		QVBoxLayout * vBoxLayout = new QVBoxLayout(this);
+		vBoxLayout->addLayout(hBoxLayout);
+		vBoxLayout->addWidget(label);
+
+		gBox_monitoringDisplayLayout->addLayout(vBoxLayout, row, col);
+	}
+
+	ui->gBox_monitoringDisplay->setLayout(gBox_monitoringDisplayLayout);
 }
 
 void Proonnx::ini_cameraList()
 {
-    m_cameraList = new QVector<ImageIdentify *>;
-    auto devList = MonitorCameraUtility::checkAllConnectCamera();
+	m_cameraList = new QVector<ImageIdentify*>;
+	auto devList = MonitorCameraUtility::checkAllConnectCamera();
 
-    for (int i = 0;i< m_disaplayCameraList->size();i++) {
-        auto item = (*m_disaplayCameraList)[i];
-        if (i< devList.size()) {
-            auto imageIdentify = new ImageIdentify(item, devList[i]);
-            auto connectResult=imageIdentify->InitCamera();
-            if (connectResult) {
-                imageIdentify->startMonitor();
-            }
-            m_cameraList->append(imageIdentify);
-        }
-        else {
-            auto imageIdentify = new ImageIdentify(item, "disconnecd");
-            m_cameraList->append(imageIdentify);
+	for (int i = 0; i < m_disaplayCameraList->size(); i++) {
+		auto item = (*m_disaplayCameraList)[i];
+		if (i < devList.size()) {
+			auto imageIdentify = new ImageIdentify(item, devList[i]);
+			auto connectResult = imageIdentify->InitCamera();
+			imageIdentify->setDisaplayCheckInfo((*m_disaplayCheckInfoList)[i]);
+			imageIdentify->IniOcr();
+			if (connectResult) {
+				std::string cameraConfigFilePath;
+				auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(devList[i], cameraConfigFilePath);
+				if (readResult) {
+					ProductConfigLoader productConfigLoader;
+					auto config = productConfigLoader.loadConfig(cameraConfigFilePath);
+					imageIdentify->setExposureTime(config.ExposureTime);
+					imageIdentify->setGain(config.ExposureTime);
+
+					(*m_disaplayProductList)[i]->setText(QString::fromStdString(config.productName));
+				}
+				imageIdentify->startMonitor();
+			}
+			else {
+				qDebug() << "Disconnected by ip :" + QString::fromStdString(devList[i]);
+			}
+			m_cameraList->append(imageIdentify);
+		}
+		else {
+			auto imageIdentify = new ImageIdentify(item, "disconnecd");
+			m_cameraList->append(imageIdentify);
 
 
-            item->setText("disconnecd");
+			item->setText("disconnecd");
 
-        }
+		}
 
 
-    }
+	}
 }
 
 void Proonnx::ini_connect()
 {
-    QObject::connect(ui->cBox_changeLanguage, SIGNAL(currentIndexChanged(int)),
-        this, SLOT(cBox_changeLanguage_index_change_on(int)));
-    QObject::connect(ui->pbt_addProductCongfig, SIGNAL(clicked()),
-        this, SLOT(pbt_addProductCongfig_clicked()));
-    QObject::connect(ui->pbt_modProductConfig, SIGNAL(clicked()),
-        this, SLOT(pbt_modProductConfig_clicked()));
-    QObject::connect(ui->pbtn_setProonnx, SIGNAL(clicked()),
-        this, SLOT(pbtn_setProonnx_clicked()));
+	QObject::connect(ui->cBox_changeLanguage, SIGNAL(currentIndexChanged(int)),
+		this, SLOT(cBox_changeLanguage_index_change_on(int)));
+	QObject::connect(ui->pbt_addProductCongfig, SIGNAL(clicked()),
+		this, SLOT(pbt_addProductCongfig_clicked()));
+	QObject::connect(ui->pbt_modProductConfig, SIGNAL(clicked()),
+		this, SLOT(pbt_modProductConfig_clicked()));
+	QObject::connect(ui->pbtn_setProonnx, SIGNAL(clicked()),
+		this, SLOT(pbtn_setProonnx_clicked()));
 }
 
 void Proonnx::des_com()
 {
-    delete m_locStrLoader;
-    delete m_configBeforeRuntimeLoader;
-    for (auto & item : *m_disaplayCameraList) {
-        delete item;
-    }
-    delete m_disaplayCameraList;
+	delete m_locStrLoader;
+	delete m_configBeforeRuntimeLoader;
+	for (auto& item : *m_disaplayCameraList) {
+		delete item;
+	}
+	delete m_disaplayCameraList;
 
-    for (auto& item : *m_cameraList) {
-        delete item;
-    }
-    delete m_cameraList;
+	for (auto& item : *m_cameraList) {
+		delete item;
+	}
+	delete m_cameraList;
+
+	for (auto& item : *m_disaplayCheckInfoList) {
+		delete item;
+	}
+	delete m_disaplayCheckInfoList;
+
+	for (auto& item : *m_disaplayProductList) {
+		delete item;
+	}
+	delete m_disaplayProductList;
+
+	
 }
 
-Proonnx::Proonnx(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::ProonnxClass())
+Proonnx::Proonnx(QWidget* parent)
+	: QMainWindow(parent)
+	, ui(new Ui::ProonnxClass())
 {
-    ui->setupUi(this);
-    ini_ui();
-    ini_connect();
+	ui->setupUi(this);
+	ini_ui();
+	ini_connect();
 
 }
 
 Proonnx::~Proonnx()
 {
-    delete ui;
+	delete ui;
 }
 
 void Proonnx::pbt_modProductConfig_clicked()
 {
-    int cameraCount = m_cameraList->size();
-    DlgSelectCameraIndex dlgSelectCameraIndex(this, cameraCount);
+	int cameraCount = m_cameraList->size();
+	DlgSelectCameraIndex dlgSelectCameraIndex(this, cameraCount);
+	dlgSelectCameraIndex.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
+	auto selectCareraIndexResult = dlgSelectCameraIndex.exec();
 
-    auto selectCareraIndexResult = dlgSelectCameraIndex.exec();
+	if (selectCareraIndexResult == QDialog::Accepted) {
+		auto cameraIndex = dlgSelectCameraIndex.m_indexIndex;
 
-    if (selectCareraIndexResult == QDialog::Accepted) {
-        auto cameraIndex = dlgSelectCameraIndex.m_indexIndex;
-        QFileDialog fileDlg(nullptr, tr("打开文件"), "", tr("数据文件(*.xml);;所有文件 (*)"));
-        if (fileDlg.exec() == QFileDialog::Accepted) {
-            auto filePath = fileDlg.selectedFiles().first();
-            DlgChangeProductConfig dlg;
-            dlg.setFilePath(filePath);
-            dlg.setCameraIndex(cameraIndex);
-            dlg.setCamera(m_cameraList->at(cameraIndex - 1));
-            dlg.iniUI();
-            dlg.exec();
-        }
-    }
+
+		DlgChangeProductConfig dlg;
+		std::string path;
+		auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(m_cameraList->at(cameraIndex - 1)->m_Ip, path);
+		if (readResult) {
+			dlg.setFilePath(QString::fromStdString(path));
+			dlg.setCameraIndex(cameraIndex);
+			dlg.setCamera(m_cameraList->at(cameraIndex - 1));
+			dlg.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
+			dlg.iniUI();
+			dlg.exec();
+		}
+		else {
+			QFileDialog fileDlg(nullptr, tr("打开文件"), "", tr("数据文件(*.xml);;所有文件 (*)"));
+			if (fileDlg.exec() == QFileDialog::Accepted) {
+				auto filePath = fileDlg.selectedFiles().first();
+				dlg.setFilePath(QString::fromStdString(filePath.toStdString()));
+				dlg.setCameraIndex(cameraIndex);
+				dlg.setCamera(m_cameraList->at(cameraIndex - 1));
+				dlg.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
+				dlg.iniUI();
+				dlg.exec();
+			}
+		}
+
+
+
+
+	}
 }
 
 void Proonnx::pbtn_setProonnx_clicked()
 {
-    DlgSetProonnx dlg;
-    dlg.setFilePath(m_configBeforeRuntimeLoaderFilePath);
-    dlg.iniComponet();
-    dlg.exec();
+	DlgSetProonnx dlg;
+	dlg.setFilePath(m_configBeforeRuntimeLoaderFilePath);
+	dlg.iniComponet();
+	dlg.exec();
 }
 
 void Proonnx::pbt_addProductCongfig_clicked()
 {
-    int cameraCount=m_cameraList->size();
-    DlgSelectCameraIndex dlgSelectCameraIndex(this, cameraCount);
+	int cameraCount = m_cameraList->size();
+	DlgSelectCameraIndex dlgSelectCameraIndex(this, cameraCount);
+	dlgSelectCameraIndex.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
 
-    auto selectCareraIndexResult=dlgSelectCameraIndex.exec();
+	auto selectCareraIndexResult = dlgSelectCameraIndex.exec();
 
-    if (selectCareraIndexResult==QDialog::Accepted) {
-        auto cameraIndex = dlgSelectCameraIndex.m_indexIndex;
+	if (selectCareraIndexResult == QDialog::Accepted) {
+		auto cameraIndex = dlgSelectCameraIndex.m_indexIndex;
 
-        DlgAddProductConfig dlgAddProductConfig(this);
+		DlgAddProductConfig dlgAddProductConfig(this);
 
-        dlgAddProductConfig.setCameraIndex(cameraIndex);
-        dlgAddProductConfig.setCamera(m_cameraList->at(cameraIndex-1));
+		dlgAddProductConfig.setCameraIndex(cameraIndex);
+		dlgAddProductConfig.setCamera(m_cameraList->at(cameraIndex - 1));
 
-        dlgAddProductConfig.exec();
-    }
+		dlgAddProductConfig.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
+
+		dlgAddProductConfig.exec();
+	}
 }
 
 void Proonnx::cBox_changeLanguage_index_change_on(int index)
 {
-    if (index==0) {
-        m_locStrLoader->setLanguage("CHN");
-        auto loadStrDataResult = m_locStrLoader->loadData();
-    }
-    else if(index == 1){
-        m_locStrLoader->setLanguage("USA");
-        auto loadStrDataResult = m_locStrLoader->loadData();
-    }
-    ini_localizationStringLoaderUI();
+	if (index == 0) {
+		m_locStrLoader->setLanguage("CHN");
+		auto loadStrDataResult = m_locStrLoader->loadData();
+	}
+	else if (index == 1) {
+		m_locStrLoader->setLanguage("USA");
+		auto loadStrDataResult = m_locStrLoader->loadData();
+	}
+	ini_localizationStringLoaderUI();
 }
-
-//
-//int Proonnx::RGB2BGR(unsigned char* pRgbData, unsigned int nWidth, unsigned int nHeight)//RGB转BGR
-//{
-//    if (NULL == pRgbData)
-//    {
-//        return MV_E_PARAMETER;
-//    }
-//
-//    for (unsigned int j = 0; j < nHeight; j++)
-//    {
-//        for (unsigned int i = 0; i < nWidth; i++)
-//        {
-//            unsigned char red = pRgbData[j * (nWidth * 3) + i * 3];
-//            pRgbData[j * (nWidth * 3) + i * 3] = pRgbData[j * (nWidth * 3) + i * 3 + 2];
-//            pRgbData[j * (nWidth * 3) + i * 3 + 2] = red;
-//        }
-//    }
-//
-//    return MV_OK;
-//}
-//cv::Mat  Proonnx::Convert2Mat(MV_FRAME_OUT_INFO_EX* pstImageInfo, unsigned char* pData, bool& isok)//转Mat格式
-//{
-//    cv::Mat srcImage;
-//    if (pstImageInfo->enPixelType == PixelType_Gvsp_Mono8)
-//    {
-//        srcImage = cv::Mat(pstImageInfo->nHeight, pstImageInfo->nWidth, CV_8UC1, pData);
-//        isok = true;
-//        return srcImage;
-//    }
-//    else if (pstImageInfo->enPixelType == PixelType_Gvsp_RGB8_Packed)
-//    {
-//        RGB2BGR(pData, pstImageInfo->nWidth, pstImageInfo->nHeight);
-//        srcImage = cv::Mat(pstImageInfo->nHeight, pstImageInfo->nWidth, CV_8UC3, pData);
-//        //cvtColor(srcImage,srcImage,COLOR_BGR2GRAY);
-//        isok = true;
-//        return srcImage;
-//    }
-//    else
-//    {
-//
-//        //QMessageBox::warning(this,"警告","不支持此类型转换");
-//        QString str = QString("不支持此类型转换");
-//        qDebug() << str;
-//
-//        isok = false;
-//
-//
-//        return srcImage;
-//    }
-//
-//    if (NULL == srcImage.data)
-//    {
-//        // QMessageBox::warning(this,"警告","转换图像为空");
-//        QString str = QString("转换图像为空");
-//        qDebug() << str;
-//        isok = false;
-//
-//        return srcImage;
-//    }
-//}
-//QImage Proonnx::cvMat2QImage(cv::Mat& mat)
-//{
-//    // 8-bits unsigned, NO. OF CHANNELS = 1
-//    if (mat.type() == CV_8UC1)
-//    {
-//        QImage qimage(mat.cols, mat.rows, QImage::Format_Indexed8);
-//        // Set the color table (used to translate colour indexes to qRgb values)
-//        qimage.setColorCount(256);
-//        for (int i = 0; i < 256; i++)
-//        {
-//            qimage.setColor(i, qRgb(i, i, i));
-//        }
-//        // Copy input Mat
-//        uchar* pSrc = mat.data;
-//        for (int row = 0; row < mat.rows; row++)
-//        {
-//            uchar* pDest = qimage.scanLine(row);
-//            memcpy(pDest, pSrc, mat.cols);
-//            pSrc += mat.step;
-//        }
-//        return qimage;
-//    }
-//    // 8-bits unsigned, NO. OF CHANNELS = 3
-//    else if (mat.type() == CV_8UC3)
-//    {
-//        // Copy input Mat
-//        const uchar* pSrc = (const uchar*)mat.data;
-//        // Create QImage with same dimensions as input Mat
-//        QImage image(pSrc, mat.cols, mat.rows, mat.step, QImage::Format_RGB888);
-//        return image.rgbSwapped();
-//    }
-//    else if (mat.type() == CV_8UC4)
-//    {
-//        // Copy input Mat
-//        const uchar* pSrc = (const uchar*)mat.data;
-//        // Create QImage with same dimensions as input Mat
-//        QImage image(pSrc, mat.cols, mat.rows, mat.step, QImage::Format_ARGB32);
-//        return image.copy();
-//    }
-//    else
-//    {
-//        return QImage();
-//    }
-//}
-////回调得到的图片在这个里面
-//void Proonnx::DispImgBuff1(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInfo)
-//{
-//
-//    cv::Mat dstImga1;
-//    bool convertisok = false;
-//    //将byte类型的数据转换成mat格式
-//    dstImga1 = Convert2Mat(pFrameInfo, pData, convertisok);
-//
-//    cv::Mat dstImga2;
-//    //深拷贝一份数据
-//    dstImga1.copyTo(dstImga2);
-//
-//    //进行图像处理
-//    //将感兴趣的区域分割出来，旋转
-//    //旋转代码
-//    //int cishu = (GlobelParam::peifang1[3].toInt() - 1) % 4;
-//  /*  if (cishu >= 0)
-//    {
-//        if (cishu <= 2)
-//        {
-//            cv::rotate(dstImga1, dstImga1, cishu);
-//        }
-//        else
-//        {
-//            cv::rotate(dstImga1, dstImga1, 3);
-//            cv::rotate(dstImga1, dstImga1, 0);
-//
-//        }
-//
-//    }*/
-//
-//
-//    //分割代码
-//    //if (GlobelParam::peifang1[4].toDouble() > 0 && GlobelParam::peifang1[5].toDouble() > 0 && GlobelParam::peifang1[6].toDouble() > 0 && GlobelParam::peifang1[7].toDouble() > 0)
-//    //{
-//
-//    //    double x1 = GlobelParam::peifang1[4].toDouble();
-//    //    double y1 = GlobelParam::peifang1[5].toDouble();
-//    //    double x2 = GlobelParam::peifang1[6].toDouble();
-//    //    double y2 = GlobelParam::peifang1[7].toDouble();
-//    //    double mx = 0;
-//    //    double my = 0;
-//    //    if (x1 > x2)
-//    //    {
-//    //        mx = x1;
-//
-//    //        x1 = x2;
-//    //        x2 = mx;
-//    //    }
-//    //    if (y1 > y2)
-//    //    {
-//    //        my = y1;
-//
-//    //        y1 = y2;
-//    //        y2 = my;
-//    //    }
-//
-//    //    if (y2 > dstImga1.rows)
-//    //    {
-//    //        y2 = dstImga1.rows;
-//
-//    //    }
-//    //    if (x2 > dstImga1.cols)
-//    //    {
-//    //        x2 = dstImga1.cols;
-//
-//    //    }
-//    //    cv::Rect rect1(x1, y1, (x2 - x1), (y2 - y1));//创建一个Rect对象
-//
-//    //    cv::Mat rectmat;
-//    //    rectmat = dstImga1(rect1);
-//
-//
-//
-//
-//    //    rectmat.copyTo(dstImga1);
-//
-//    //}
-//
-//
-//
-//
-//    //对这张图片进行字符识别
-//    std::vector<OCRResult> ocrResult;
-//    o->testOcr(dstImga2, ocrResult);
-//    o->drawView(dstImga2, ocrResult);
-//
-//   //算法执行{}
-//
-//
-//
-//
-//
-//    //将opencv转换成qimage
-//    //QImage im = cvMat2QImage(dstImga2);
-//
-//
-//    //QPixmap pixmap = QPixmap::fromImage(im);
-//    //pixmap.scaled(ui->label ->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-//    //ui->label->setPixmap(pixmap);
-//   // ui->label->setScaledContents(true);    //让图片填充满QLabel
-//
-//    
-//
-//
-//
-//
-//  
-//
-//}
-//
-//bool Proonnx::InitCamera(int index)
-//{
-//    MV_CC_DEVICE_INFO_LIST m_stDevList;//设备列表
-//    //查找连接的相机
-//    int neRt = myCamera1->EnumDevices(&m_stDevList);
-//   
-//    //保存的ip地址
-//    QString nIp;
-//    
-//   
-//    bool isok = false;
-//
-//
-//
-//    //获取相机的IP地址
-//    for (int i = 0; i < m_stDevList.nDeviceNum; i++)
-//    {
-//
-//        if (1 == m_stDevList.pDeviceInfo[i]->nTLayerType) {
-//            int nIp1, nIp2, nIp3, nIp4;
-//            nIp1 = ((m_stDevList.pDeviceInfo[i]->SpecialInfo.stGigEInfo.nCurrentIp & 0xff000000) >> 24);
-//            nIp2 = ((m_stDevList.pDeviceInfo[i]->SpecialInfo.stGigEInfo.nCurrentIp & 0x00ff0000) >> 16);
-//            nIp3 = ((m_stDevList.pDeviceInfo[i]->SpecialInfo.stGigEInfo.nCurrentIp & 0x0000ff00) >> 8);
-//            nIp4 = (m_stDevList.pDeviceInfo[i]->SpecialInfo.stGigEInfo.nCurrentIp & 0x000000ff);
-//            nIp = QString("%1.%2.%3.%4").arg(nIp1).arg(nIp2).arg(nIp3).arg(nIp4);
-//            //             qDebug() << "nIp";
-//            //            qDebug() << nIp;
-//        }
-//        else
-//        {
-//            qDebug() << "没有联上相机";
-//            nIp = "";
-//        }
-//
-//
-//        //如果找到相机则进行连接
-//        //            if(nIp!="")
-//        //            {
-//        
-//        QStringList   qlist = nIp.split(".");
-//
-//        //一号相机
-//        if (qlist[2] == "1" && index == 1)
-//        {
-//            string cameraName; //相机名称
-//            cameraName = (char*)m_stDevList.pDeviceInfo[i]->SpecialInfo.stGigEInfo.chSerialNumber;
-//
-//
-//
-//            int linkCamera;
-//            //连接相机
-//            linkCamera = myCamera1->connectCamera(cameraName);
-//
-//
-//
-//            qDebug() << linkCamera;
-//
-//            if (linkCamera == 0) {
-//
-//                //qDebug() << "连接相机成功";
-//
-//            }
-//            else {
-//
-//                //qDebug() << "连接相机失败";
-//
-//            }
-//            int satrtCamera;
-//
-//            //开启抓图
-//            satrtCamera = myCamera1->startCamera();
-//            //GlobelParam::myCamera1.HardCap();
-//
-//
-//
-//            if (satrtCamera != 0) {
-//                //qDebug() << "启动相机采集失败";
-//
-//                myCamera1->isConnet = false;
-//
-//
-//
-//
-//
-//            }
-//            else
-//            {
-//
-//                myCamera1->isConnet = true;
-//                myCamera1->serialName = QString::fromStdString(cameraName);
-//               /* ui->lb_CameraState1->setText("连接成功");
-//                ui->lb_CameraState1->setStyleSheet(QString("QLabel{color:rgb(105, 217,181);} "));*/
-//                connect(myCamera1, &MyCamera::ImgCallBackSignal, this, &Proonnx::DispImgBuff1);
-//                //实时采集
-//                myCamera1->RunCapture();
-//                // GlobelParam::myCamera1.setExposureTime(lightNumber[0]);
-//                isok = true;
-//            }
-//        }
-//      
-//    }
-//    return isok;
-//
-//
-//    //  }
-//
-//
-//
-//
-//
-//
-//}
-
-
-
 
 
 

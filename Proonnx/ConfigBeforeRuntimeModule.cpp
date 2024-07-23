@@ -67,6 +67,26 @@ bool ConfigBeforeRuntimeModule::storeLanguage(const std::string& language)
     return storeResult;
 }
 
+bool ConfigBeforeRuntimeModule::storeCameraConfig(const std::string& ip, const std::string& configPath)
+{
+    auto configBeforeRuntimeModuleNode = m_doc->child("ConfigBeforeRuntimeModule");
+    if (!configBeforeRuntimeModuleNode) {
+        return false;
+    }
+    auto cameraConfigNode = configBeforeRuntimeModuleNode.find_child_by_attribute("ip",ip.c_str());
+    if (cameraConfigNode) {
+        auto storeResult=cameraConfigNode.text().set(configPath.c_str());
+        return storeResult;
+    }
+    else {
+        cameraConfigNode = configBeforeRuntimeModuleNode.append_child("CameraConfig");
+        if (!cameraConfigNode){ return false;}
+        cameraConfigNode.append_attribute("ip").set_value(ip.c_str());
+        auto storeResult=cameraConfigNode.text().set(configPath.c_str());
+        return storeResult;
+    }
+}
+
 void ConfigBeforeRuntimeModule::saveFile(const std::string& filePath)
 {
     m_doc->save_file(filePath.c_str());
@@ -91,3 +111,20 @@ std::string ConfigBeforeRuntimeModule::readLanguage()
 
     return result;
 }
+
+bool ConfigBeforeRuntimeModule::readCameraConfig(const std::string& ip, std::string& configPath)
+{
+    auto configBeforeRuntimeModuleNode = m_doc->child("ConfigBeforeRuntimeModule");
+    if (!configBeforeRuntimeModuleNode) {
+        return false;
+    }
+    auto cameraConfigNode = configBeforeRuntimeModuleNode.find_child_by_attribute("ip", ip.c_str());
+    if (cameraConfigNode) {
+        configPath = cameraConfigNode.text().as_string();
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+

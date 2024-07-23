@@ -6,6 +6,13 @@
 #include"ProductConfigLoader.h"
 #include"FrameSelectLabel.h"
 #include"ImageIdentify.h"
+#include"LocalizationStringLoader-XML.h"
+#include"ConfigBeforeRuntimeLoader.h"
+
+void DlgChangeProductConfig::setConfigBeforeRuntime(const QString& filePath)
+{
+	m_configBeforeRuntime = filePath;
+}
 
 void DlgChangeProductConfig::setCamera(ImageIdentify* camera)
 {
@@ -40,6 +47,24 @@ void DlgChangeProductConfig::ini_ui()
 	gBox_dispalyImageLayout->addWidget(m_frameSelectLabel);
 	ui->gBox_dispalyImage->setLayout(gBox_dispalyImageLayout);
 	m_frameSelectLabel->setScaledContents(true);
+	ini_localizationStringLoaderUI();
+}
+
+void DlgChangeProductConfig::ini_localizationStringLoaderUI()
+{
+	auto loader = LocalizationStringLoaderXML::getInstance();
+	ConfigBeforeRuntimeLoader configLoader;
+	configLoader.loadFile(m_configBeforeRuntime.toStdString());
+	loader->setLanguage(configLoader.readLanguage());
+
+	ui->label_productName->setText(QString::fromStdString(loader->getString("7")));
+	ui->label_drawRecognitionRange->setText(QString::fromStdString(loader->getString("8")));
+	ui->label_gain->setText(QString::fromStdString(loader->getString("9")));
+	ui->pbtn_spinImage->setText(QString::fromStdString(loader->getString("10")));
+	ui->pbtn_drawRecognitionRange->setText(QString::fromStdString(loader->getString("11")));
+	ui->pbt_saveProductConfig->setText(QString::fromStdString(loader->getString("12")));
+	ui->label_filePath->setText(QString::fromStdString(loader->getString("13")));
+	this->setWindowTitle(QString::fromStdString(loader->getString("6")));
 }
 
 void DlgChangeProductConfig::ini_connect()
@@ -52,6 +77,10 @@ void DlgChangeProductConfig::ini_connect()
 		this, SLOT(pbtn_drawRecognitionRange_clicked()));
 	QObject::connect(m_frameSelectLabel, SIGNAL(selectionMade(const QRect&)),
 		this, SLOT(selectionMade_complete(const QRect&)));
+	QObject::connect(ui->sBox_exposureTime, SIGNAL(valueChanged(int))
+		, this, SLOT(sBox_exposureTime_value_change(int)));
+	QObject::connect(ui->pbtn_spinImage, SIGNAL(valueChanged(int))
+		, this, SLOT(sBox_gain_value_change(int)));
 }
 
 void DlgChangeProductConfig::ini_configLoader()
@@ -121,6 +150,20 @@ void DlgChangeProductConfig::pbtn_spinImage_clicked()
 void DlgChangeProductConfig::pbtn_drawRecognitionRange_clicked()
 {
 	m_frameSelectLabel->enableSelection(true);
+}
+
+void DlgChangeProductConfig::sBox_exposureTime_value_change(int)
+{
+	m_camera->stopAcquisition();
+	m_camera->setExposureTime(ui->sBox_exposureTime->value());
+	m_camera->startAcquisition();
+}
+
+void DlgChangeProductConfig::sBox_gain_value_change(int)
+{
+	m_camera->stopAcquisition();
+	m_camera->setGain(ui->sBox_gain->value());
+	m_camera->startAcquisition();
 }
 
 void DlgChangeProductConfig::selectionMade_complete(const QRect& rect)

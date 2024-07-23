@@ -2,4 +2,7 @@
 <ConfigBeforeRuntimeModule>
 	<CameraCount>2</CameraCount>
 	<Language>CHN</Language>
+	<CameraConfig ip="192.168.121.1">C:\Users\61795\Desktop\Project\asdasd.xml</CameraConfig>
+	<CameraConfig ip="192.168.121.1.111">C:\Users\61795\Desktop\Project\asdasd.xml</CameraConfig>
+	<CameraConfig ip="169.254.193.111">C:/Users/61795/Desktop/Project/chicken.xml</CameraConfig>
 </ConfigBeforeRuntimeModule>

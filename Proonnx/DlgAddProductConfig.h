@@ -21,7 +21,8 @@ private:
 
 private:
 	FrameSelectLabel* m_frameSelectLabel;
-
+private:
+	QString m_configBeforeRuntime;
 private:
 	int m_cameraIndex{1};
 
@@ -37,9 +38,11 @@ public:
 
 	void setCamera(ImageIdentify* camera);
 
+	void setConfigBeforeRuntime(const QString & filePath);
+
 private:
 	void ini_ui();
-
+	void ini_localizationStringLoaderUI();
 	void ini_connect();
 
 private:
@@ -53,4 +56,8 @@ private slots:
 	void pbtn_drawRecognitionRange_clicked();
 
 	void selectionMade_complete(const QRect& rect);
+
+	void sBox_exposureTime_value_change(int);
+
+	void sBox_gain_value_change(int);
 };

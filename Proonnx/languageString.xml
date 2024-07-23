@@ -4,7 +4,7 @@
 		<language language="CHN">监控展示</language>
 	</string>
 	<string id="2">
-		<language language="USA">software configuration</language>
+		<language language="USA">Software configuration</language>
 		<language language="CHN">软件配置</language>
 	</string>
 	<string id="3">
@@ -22,5 +22,61 @@
 	<string id="6">
 		<language language="USA">Modify camera configuration</language>
 		<language language="CHN">修改摄像机配置</language>
+	</string>
+	<string id="7">
+		<language language="USA">Product name</language>
+		<language language="CHN">产品名称：</language>
+	</string>
+	<string id="8">
+		<language language="USA">Exposure time(10000-50000)</language>
+		<language language="CHN">曝光时间（10000-50000）</language>
+	</string>
+	<string id="9">
+		<language language="USA">Gain（0-10）</language>
+		<language language="CHN">增益（0-10）</language>
+	</string>
+	<string id="10">
+		<language language="USA">Rotate</language>
+		<language language="CHN">旋转</language>
+	</string>
+	<string id="11">
+		<language language="USA">Draw recognition range</language>
+		<language language="CHN">绘制识别范围</language>
+	</string>
+	<string id="12">
+		<language language="USA">Save</language>
+		<language language="CHN">保存</language>
+	</string>
+	<string id="13">
+		<language language="USA">Data file path:</language>
+		<language language="CHN">数据文件路径：</language>
+	</string>
+	<string id="14">
+		<language language="USA">Select the camera to be set up</language>
+		<language language="CHN">选择要设置的相机：</language>
+	</string>
+	<string id="15">
+		<language language="USA">Ok</language>
+		<language language="CHN">确定</language>
+	</string>
+	<string id="16">
+		<language language="USA">Cancel</language>
+		<language language="CHN">取消</language>
+	</string>
+	<string id="17">
+		<language language="USA">Language：</language>
+		<language language="CHN">语言：</language>
+	</string>
+	<string id="18">
+		<language language="USA">Cameras'count：</language>
+		<language language="CHN">相机数目:</language>
+	</string>
+	<string id="19">
+		<language language="USA">Date</language>
+		<language language="CHN">日期</language>
+	</string>
+	<string id="20">
+		<language language="USA">Set</language>
+		<language language="CHN">设置</language>
 	</string>
 </MyLocalizationStringModele_strings>

@@ -37,6 +37,16 @@ bool ConfigBeforeRuntimeLoader::storeLanguage(const std::string& language)
 	return m_configBeforeRuntimeModule->storeLanguage(language);
 }
 
+bool ConfigBeforeRuntimeLoader::storeCameraConfig(const std::string& ip, const std::string& configPath)
+{
+	return m_configBeforeRuntimeModule->storeCameraConfig(ip,configPath);
+}
+
+bool ConfigBeforeRuntimeLoader::readCameraConfig(const std::string& ip, std::string& configPath)
+{
+	return m_configBeforeRuntimeModule->readCameraConfig(ip, configPath);
+}
+
 int ConfigBeforeRuntimeLoader::readCameraCount()
 {
 	return m_configBeforeRuntimeModule->readCameraCount();

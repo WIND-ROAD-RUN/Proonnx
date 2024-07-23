@@ -32,6 +32,8 @@ private:
 
 private:
 	QVector<QLabel *>* m_disaplayCameraList{ nullptr };
+	QVector<QLabel*>* m_disaplayProductList{ nullptr };
+	QVector<QLabel*>* m_disaplayCheckInfoList{ nullptr };
 
 	QVector<ImageIdentify*> * m_cameraList{nullptr};
 

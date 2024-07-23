@@ -25,6 +25,10 @@ public:
 	bool storeCameraCount(int count);
 
 	bool storeLanguage(const std::string& language);
+public:
+	bool storeCameraConfig(const std::string& ip, const std::string& configPath);
+
+	bool readCameraConfig(const std::string& ip, std::string& configPath);
 
 public:
 	int readCameraCount();

@@ -33,13 +33,10 @@ public:
 	void iniComponet();
 private:
 	void ini_ui();
-
+	void ini_localizationStringLoaderUI();
 	void ini_configBeforeRuntimeLoader(const std::string& filePath);
 
 	void ini_uiFromConfigBeforeRuntime();
-
-
-	void ini_localizationStringLoaderUI();
 
 
 	void ini_connect();

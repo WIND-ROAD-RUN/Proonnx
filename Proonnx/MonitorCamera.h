@@ -34,6 +34,10 @@ public:
 
     void stopAcquisition();
 
+    bool setExposureTime(int exposureTime);
+
+    bool setGain(int gain); 
+
 
 signals:
     void ImgCallBackSignal(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInfo);
