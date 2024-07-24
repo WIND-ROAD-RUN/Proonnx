@@ -173,7 +173,6 @@
     <ClInclude Include="ProductCheck.h" />
     <ClInclude Include="ProductConfigLoader.h" />
     <ClInclude Include="ProductConfigModule.h" />
-    <ClInclude Include="Utilty.h" />
     <QtMoc Include="DlgAddProductConfig.h" />
     <ClInclude Include="DateTransform.h" />
     <ClInclude Include="LocalizationStringLoader-XML.h" />

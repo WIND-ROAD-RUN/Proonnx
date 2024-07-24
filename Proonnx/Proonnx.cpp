@@ -106,7 +106,7 @@ void Proonnx::ini_gBox_monitoringDisplay()
 
 	for (int i = 0; i < cameraCount; i++) {
 		QLabel* label = new QLabel;
-		label->setText("Camera disconnect by index:" + QString::number(i + 1));
+		label->setText(QString::fromStdString(m_locStrLoader->getString("26")) + QString::number(i + 1));
 		label->setAlignment(Qt::AlignCenter); // Center the label text
 		label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding); // Expand tags to fill the layout
 		label->setScaledContents(true); // Fill the image with labels
@@ -122,7 +122,7 @@ void Proonnx::ini_gBox_monitoringDisplay()
 
 		QLabel* ProductName = new QLabel();
 		m_disaplayProductList->append(ProductName);
-		ProductName->setText("ProductName");
+		ProductName->setText(QString::fromStdString(m_locStrLoader->getString("7")));
 		hBoxLayout->addWidget(ProductName);
 
 		QVBoxLayout * vBoxLayout = new QVBoxLayout(this);
@@ -146,6 +146,7 @@ void Proonnx::ini_cameraList()
 			auto imageIdentify = new ImageIdentify(item, devList[i]);
 			auto connectResult = imageIdentify->InitCamera();
 			imageIdentify->setDisaplayCheckInfo((*m_disaplayCheckInfoList)[i]);
+			imageIdentify->setStandDate(ui->ledit_currentDate->text());
 			imageIdentify->IniOcr();
 			if (connectResult) {
 				std::string cameraConfigFilePath;
@@ -170,7 +171,7 @@ void Proonnx::ini_cameraList()
 			m_cameraList->append(imageIdentify);
 
 
-			item->setText("disconnecd");
+			item->setText(QString::fromStdString(m_locStrLoader->getString("21")));
 
 		}
 
@@ -180,8 +181,6 @@ void Proonnx::ini_cameraList()
 
 void Proonnx::ini_connect()
 {
-	QObject::connect(ui->cBox_changeLanguage, SIGNAL(currentIndexChanged(int)),
-		this, SLOT(cBox_changeLanguage_index_change_on(int)));
 	QObject::connect(ui->pbt_addProductCongfig, SIGNAL(clicked()),
 		this, SLOT(pbt_addProductCongfig_clicked()));
 	QObject::connect(ui->pbt_modProductConfig, SIGNAL(clicked()),
@@ -255,7 +254,7 @@ void Proonnx::pbt_modProductConfig_clicked()
 			dlg.exec();
 		}
 		else {
-			QFileDialog fileDlg(nullptr, tr("打开文件"), "", tr("数据文件(*.xml);;所有文件 (*)"));
+			QFileDialog fileDlg(nullptr, QString::fromStdString(m_locStrLoader->getString("22")), "", QString::fromStdString(m_locStrLoader->getString("23")));
 			if (fileDlg.exec() == QFileDialog::Accepted) {
 				auto filePath = fileDlg.selectedFiles().first();
 				dlg.setFilePath(QString::fromStdString(filePath.toStdString()));
@@ -266,10 +265,6 @@ void Proonnx::pbt_modProductConfig_clicked()
 				dlg.exec();
 			}
 		}
-
-
-
-
 	}
 }
 
@@ -303,18 +298,6 @@ void Proonnx::pbt_addProductCongfig_clicked()
 	}
 }
 
-void Proonnx::cBox_changeLanguage_index_change_on(int index)
-{
-	if (index == 0) {
-		m_locStrLoader->setLanguage("CHN");
-		auto loadStrDataResult = m_locStrLoader->loadData();
-	}
-	else if (index == 1) {
-		m_locStrLoader->setLanguage("USA");
-		auto loadStrDataResult = m_locStrLoader->loadData();
-	}
-	ini_localizationStringLoaderUI();
-}
 
 
 

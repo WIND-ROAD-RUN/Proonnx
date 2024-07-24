@@ -46,7 +46,8 @@ void DlgAddProductConfig::setConfigBeforeRuntime(const QString& filePath)
 void DlgAddProductConfig::ini_ui()
 {
 	m_frameSelectLabel = new FrameSelectLabel;
-	m_frameSelectLabel->setText("disconnect");
+	auto loader = LocalizationStringLoaderXML::getInstance();
+	m_frameSelectLabel->setText(QString::fromStdString(loader->getString("21")));
 	QVBoxLayout* gBox_dispalyImageLayout = new QVBoxLayout();
 	gBox_dispalyImageLayout->addWidget(m_frameSelectLabel);
 	ui->gBox_dispalyImage->setLayout(gBox_dispalyImageLayout);
@@ -127,9 +128,11 @@ void DlgAddProductConfig::pbtn_drawRecognitionRange_clicked()
 
 void DlgAddProductConfig::pbt_saveProductConfig_clicked()
 {
+	auto loader = LocalizationStringLoaderXML::getInstance();
+	
 	QFileDialog 
-		fileDlg(nullptr, tr("打开文件"), 
-			"", tr("数据文件(*.xml);;所有文件 (*)"));
+		fileDlg(nullptr, QString::fromStdString(loader->getString("22")),
+			"", QString::fromStdString(loader->getString("23")));
 	if (fileDlg.exec() == QFileDialog::Accepted) {
 		auto fileName = fileDlg.selectedFiles().first();
 
@@ -156,11 +159,11 @@ void DlgAddProductConfig::pbt_saveProductConfig_clicked()
 		auto saveConfigResult = configLoader.saveFile(fileName.toStdString());
 
 		if (storeConfigResult&& saveConfigResult) {
-			QMessageBox::information(this, "保存", "保存成功");
+			QMessageBox::information(this, QString::fromStdString(loader->getString("12")), QString::fromStdString(loader->getString("24")));
 			spdlog::info("Add new product config in "+ fileName.toStdString());
 		}
 		else {
-			QMessageBox::warning(this, "保存", "保存失败");
+			QMessageBox::warning(this, QString::fromStdString(loader->getString("12")), QString::fromStdString(loader->getString("25")));
 			spdlog::info("Failed add new product config in " + fileName.toStdString());
 		}
 	}

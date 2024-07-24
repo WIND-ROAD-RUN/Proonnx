@@ -40,9 +40,10 @@ DlgChangeProductConfig::~DlgChangeProductConfig()
 
 void DlgChangeProductConfig::ini_ui()
 {
+	auto loader = LocalizationStringLoaderXML::getInstance();
 	ui->lEdit_filePath->setEnabled(false);
 	m_frameSelectLabel = new FrameSelectLabel();
-	m_frameSelectLabel->setText("disconnect");
+	m_frameSelectLabel->setText(QString::fromStdString(loader->getString("21")));
 	QVBoxLayout* gBox_dispalyImageLayout = new QVBoxLayout();
 	gBox_dispalyImageLayout->addWidget(m_frameSelectLabel);
 	ui->gBox_dispalyImage->setLayout(gBox_dispalyImageLayout);
@@ -132,12 +133,12 @@ void DlgChangeProductConfig::pbt_saveProductConfig_clicked()
 
 		auto storeConfigResult = configLoader.storeConfig(config);
 		auto saveConfigResult = configLoader.saveFile(m_filePath.toStdString());
-
+		auto loader = LocalizationStringLoaderXML::getInstance();
 		if (storeConfigResult && saveConfigResult) {
-			QMessageBox::information(this, "保存", "保存成功");
+			QMessageBox::information(this, QString::fromStdString(loader->getString("12")), QString::fromStdString(loader->getString("24")));
 		}
 		else {
-			QMessageBox::warning(this, "保存", "保存失败");
+			QMessageBox::warning(this, QString::fromStdString(loader->getString("12")), QString::fromStdString(loader->getString("25")));
 		}
 
 }

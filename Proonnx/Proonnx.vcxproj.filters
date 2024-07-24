@@ -256,9 +256,6 @@
     <ClInclude Include="ProductCheck.h">
       <Filter>Header Files\ImageIdentify\ProductDateCheck</Filter>
     </ClInclude>
-    <ClInclude Include="Utilty.h">
-      <Filter>Header Files\ImageIdentify\ProductDateCheck</Filter>
-    </ClInclude>
     <ClInclude Include="ProductConfigModule.h">
       <Filter>Header Files\config\ProductConfig</Filter>
     </ClInclude>

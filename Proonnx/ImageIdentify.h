@@ -24,7 +24,15 @@ struct ImageIdentifyUtilty
 	static
 		QImage convcertImageFormCvMat
 		(cv::Mat& mat);
+	static bool checkProduct(std::vector<OCRResult>& data, QString& standardDate);
+	static bool isAlphanumericOrPunct(const char* str);
+	static std::string replaceChar(const char* str, char oldChar, char newChar);
+	static std::string trimToSubstring(std::string str1, const std::string& str2);
+	static std::string getFirstNCharacters(const std::string& str, int n);
+	static int hashSimilarity(const std::string& str1, const std::string& str2);
 };
+
+
 
 class MonitorCamera;
 
@@ -55,6 +63,11 @@ public:
 private:
 	ProductCheck<std::vector<OCRResult>, QString> * m_productCheck;
 
+	QString m_standardDate;
+
+public:
+	void setStandDate(const QString & standardDate);
+
 public:
 	QString m_standDate;
 
@@ -82,16 +95,11 @@ public:
 
 	void startMonitor();
 
-public:
-
-	void iniProductCheck
-	(int m_kConsecutiveErrorThreshold,
-		ProductCheck<std::vector<OCRResult>, QString>::Compare compare);
-
 private:
 	void display_image(cv::Mat& image);
 	void render_image(cv::Mat& image);
 	std::vector<OCRResult> ocr_image(cv::Mat srcMat);
+	bool check_productDate(const std::vector<OCRResult> & date);
 	void change_check_state(bool check);
 private slots:
 	void DisplayImage(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInf);

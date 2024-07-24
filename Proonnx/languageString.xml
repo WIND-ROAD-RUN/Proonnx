@@ -79,4 +79,29 @@
 		<language language="USA">Set</language>
 		<language language="CHN">设置</language>
 	</string>
+	<string id="21">
+		<language language="USA">Disconnected</language>
+		<language language="CHN">未连接</language>
+	</string>
+	<string id="22">
+		<language language="USA">Open file</language>
+		<language language="CHN">打开文件</language>
+	</string>
+	<string id="23">
+		<language language="USA">Data files(*.xml);;All files(*)</language>
+		<language language="CHN">数据文件(*.xml);;所有文件 (*)</language>
+	</string>
+	<string id="24">
+		<language language="USA">Save successfully</language>
+		<language language="CHN">保存成功</language>
+	</string>
+	<string id="25">
+		<language language="USA">Save failed</language>
+		<language language="CHN">保存失败</language>
+	</string>
+	<string id="26">
+		<language language="USA">Camera disconnect by index:</language>
+		<language language="CHN">未连接的相机序号</language>
+	</string>
+	
 </MyLocalizationStringModele_strings>
