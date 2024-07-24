@@ -40,6 +40,8 @@ public:
 
 	void setConfigBeforeRuntime(const QString & filePath);
 
+	QString getProductName() { return ui->lEdit_productName->text(); }
+
 private:
 	void ini_ui();
 	void ini_localizationStringLoaderUI();

@@ -103,5 +103,41 @@
 		<language language="USA">Camera disconnect by index:</language>
 		<language language="CHN">未连接的相机序号</language>
 	</string>
+	<string id="27">
+		<language language="USA">Total:</language>
+		<language language="CHN">总数：</language>
+	</string>
+	<string id="28">
+		<language language="USA">Pass:</language>
+		<language language="CHN">合格：</language>
+	</string>
+	<string id="29">
+		<language language="USA">Out:</language>
+		<language language="CHN">不合格：</language>
+	</string>
+	<string id="30">
+		<language language="USA">Start recognizing images</language>
+		<language language="CHN">开始识别图像</language>
+	</string>
+	<string id="31">
+		<language language="USA">Stop recognizing images</language>
+		<language language="CHN">停止识别图像</language>
+	</string>
+	<string id="32">
+		<language language="USA">Set whether the camera recognizes images</language>
+		<language language="CHN">设置摄像机是否识别图像</language>
+	</string>
+	<string id="33">
+		<language language="USA">Set the recognition status of the corresponding camera</language>
+		<language language="CHN">设置对应摄像机的识别状态</language>
+	</string>
+	<string id="34">
+		<language language="USA">Error</language>
+		<language language="CHN">错误</language>
+	</string>
+	<string id="35">
+		<language language="USA">The product name cannot be empty</language>
+		<language language="CHN">产品名不能为空</language>
+	</string>
 	
 </MyLocalizationStringModele_strings>

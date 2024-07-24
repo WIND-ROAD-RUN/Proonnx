@@ -20,7 +20,7 @@ void DlgChangeProductConfig::setCamera(ImageIdentify* camera)
 	m_camera->setDlgLabelForImage(m_frameSelectLabel);
 }
 
-DlgChangeProductConfig::DlgChangeProductConfig(QWidget *parent, int cameraIndex )
+DlgChangeProductConfig::DlgChangeProductConfig(QWidget* parent, int cameraIndex)
 	: QDialog(parent)
 	, ui(new Ui::DlgChangeProductConfigClass())
 {
@@ -31,7 +31,9 @@ DlgChangeProductConfig::DlgChangeProductConfig(QWidget *parent, int cameraIndex 
 
 DlgChangeProductConfig::~DlgChangeProductConfig()
 {
-	m_camera->deleteDlgLabelForImage();
+	if (m_camera) {
+		m_camera->deleteDlgLabelForImage();
+	}
 	delete ui;
 	delete m_loader;
 	delete m_recognizeRange;
@@ -80,7 +82,7 @@ void DlgChangeProductConfig::ini_connect()
 		this, SLOT(selectionMade_complete(const QRect&)));
 	QObject::connect(ui->sBox_exposureTime, SIGNAL(valueChanged(int))
 		, this, SLOT(sBox_exposureTime_value_change(int)));
-	QObject::connect(ui->pbtn_spinImage, SIGNAL(valueChanged(int))
+	QObject::connect(ui->sBox_gain, SIGNAL(valueChanged(int))
 		, this, SLOT(sBox_gain_value_change(int)));
 }
 
@@ -97,7 +99,7 @@ void DlgChangeProductConfig::ini_configLoader()
 	QRect lastRange;
 	m_recognizeRange->leftLowerCorner = productConfig.leftLowerCorner;
 	lastRange.setBottomLeft(QPoint(productConfig.leftLowerCorner.first, productConfig.leftLowerCorner.second));
-	
+
 	m_recognizeRange->lowerRightCorner = productConfig.lowerRightCorner;
 	lastRange.setBottomRight(QPoint(productConfig.lowerRightCorner.first, productConfig.lowerRightCorner.second));
 
@@ -118,34 +120,41 @@ void DlgChangeProductConfig::iniUI()
 
 void DlgChangeProductConfig::pbt_saveProductConfig_clicked()
 {
-		ProductConfigLoader configLoader;
-		configLoader.setNewFile(m_filePath.toStdString());
+	auto loader = LocalizationStringLoaderXML::getInstance();
+	if (ui->lEdit_productName->text().size() == 0) {
+		QMessageBox::warning(this, QString::fromStdString(loader->getString("34")), QString::fromStdString(loader->getString("35")));
+		return;
+	}
 
-		ProductConfig config;
-		config.gain = ui->sBox_gain->value();
-		config.productName = ui->lEdit_productName->text().toStdString();
-		config.rotateCount = m_rotateCount;
-		config.ExposureTime = ui->sBox_exposureTime->value();
-		config.topLeftCorner = m_recognizeRange->topLeftCorner;
-		config.leftLowerCorner = m_recognizeRange->leftLowerCorner;
-		config.upperRightCorner = m_recognizeRange->upperRightCorner;
-		config.lowerRightCorner = m_recognizeRange->lowerRightCorner;
+	ProductConfigLoader configLoader;
+	configLoader.setNewFile(m_filePath.toStdString());
 
-		auto storeConfigResult = configLoader.storeConfig(config);
-		auto saveConfigResult = configLoader.saveFile(m_filePath.toStdString());
-		auto loader = LocalizationStringLoaderXML::getInstance();
-		if (storeConfigResult && saveConfigResult) {
-			QMessageBox::information(this, QString::fromStdString(loader->getString("12")), QString::fromStdString(loader->getString("24")));
-		}
-		else {
-			QMessageBox::warning(this, QString::fromStdString(loader->getString("12")), QString::fromStdString(loader->getString("25")));
-		}
+	ProductConfig config;
+	config.gain = ui->sBox_gain->value();
+	config.productName = ui->lEdit_productName->text().toStdString();
+	config.rotateCount = m_rotateCount;
+	config.ExposureTime = ui->sBox_exposureTime->value();
+	config.topLeftCorner = m_recognizeRange->topLeftCorner;
+	config.leftLowerCorner = m_recognizeRange->leftLowerCorner;
+	config.upperRightCorner = m_recognizeRange->upperRightCorner;
+	config.lowerRightCorner = m_recognizeRange->lowerRightCorner;
 
+	auto storeConfigResult = configLoader.storeConfig(config);
+	auto saveConfigResult = configLoader.saveFile(m_filePath.toStdString());
+	if (storeConfigResult && saveConfigResult) {
+		QMessageBox::information(this, QString::fromStdString(loader->getString("12")), QString::fromStdString(loader->getString("24")));
+	}
+	else {
+		QMessageBox::warning(this, QString::fromStdString(loader->getString("12")), QString::fromStdString(loader->getString("25")));
+	}
+
+	this->accept();
 }
 
 void DlgChangeProductConfig::pbtn_spinImage_clicked()
 {
 	m_rotateCount++;
+	m_rotateCount = m_rotateCount % 4;
 }
 
 void DlgChangeProductConfig::pbtn_drawRecognitionRange_clicked()

@@ -22,6 +22,7 @@
 #include"LocalizationStringLoader-XML.h"
 #include"ConfigBeforeRuntimeLoader.h"
 #include"ProductConfigLoader.h"
+#include"DlgSetIsCheckProduct.h"
 
 void Proonnx::ini_ui()
 {
@@ -48,7 +49,7 @@ void Proonnx::ini_ui()
 		 cv::namedWindow("SrcView", cv::WINDOW_NORMAL);
 		 cv::imshow("SrcView", srcMat);
 		 cv::waitKey(0);*/
-	ini_cameraList();
+	ini_configBeforeRuntime();
 }
 
 void Proonnx::ini_localizationStringLoader()
@@ -92,12 +93,28 @@ void Proonnx::ini_configBeforeRuntimeLoader()
 	}
 }
 
+void Proonnx::ini_configBeforeRuntime()
+{
+	ini_cameraList();
+
+	if (m_cameraList->size()==1){
+		ui->pbt_setIsCheckProduct->setText(QString::fromStdString(m_locStrLoader->getString("30")));
+	}
+	else {
+		ui->pbt_setIsCheckProduct->setText(QString::fromStdString(m_locStrLoader->getString("32")));
+	}
+}
+
 void Proonnx::ini_gBox_monitoringDisplay()
 {
 	auto cameraCount = m_configBeforeRuntimeLoader->readCameraCount();
 	m_disaplayCameraList = new QVector<QLabel*>;
 	m_disaplayCheckInfoList= new QVector<QLabel*>;
-	m_disaplayProductList=new QVector<QLabel*>;
+	m_disaplayProductNameList=new QVector<QLabel*>;
+	m_productCountList = new QVector<QLabel*>;
+	m_productPassCountList = new QVector<QLabel*>;
+	m_productOutCountList = new QVector<QLabel*>;
+	m_productCountList = new QVector<QLabel*>;
 	QGridLayout* gBox_monitoringDisplayLayout = new QGridLayout(this);
 
 	// Calculate the number of rows and columns to make them as close as possible
@@ -114,20 +131,37 @@ void Proonnx::ini_gBox_monitoringDisplay()
 		int row = i / cols;
 		int col = i % cols;
 
-		QHBoxLayout* hBoxLayout=new QHBoxLayout(this);
+		QHBoxLayout* hBoxLayout1=new QHBoxLayout(this);
 		QLabel* checkInfo = new QLabel();
 		checkInfo->setText("OK");
 		m_disaplayCheckInfoList->append(checkInfo);
-		hBoxLayout->addWidget(checkInfo);
+		hBoxLayout1->addWidget(checkInfo);
 
 		QLabel* ProductName = new QLabel();
-		m_disaplayProductList->append(ProductName);
+		m_disaplayProductNameList->append(ProductName);
 		ProductName->setText(QString::fromStdString(m_locStrLoader->getString("7")));
-		hBoxLayout->addWidget(ProductName);
+		hBoxLayout1->addWidget(ProductName);
+
+		QHBoxLayout* hBoxLayoutProductCheckInfo = new QHBoxLayout(this);
+		QLabel* productCount = new QLabel();
+		productCount->setText(QString::fromStdString(m_locStrLoader->getString("27")));
+		m_productCountList->append(productCount);
+		hBoxLayoutProductCheckInfo->addWidget(productCount);
+
+		QLabel* productPassCount = new QLabel();
+		m_productPassCountList->append(productPassCount);
+		productPassCount->setText(QString::fromStdString(m_locStrLoader->getString("28")));
+		hBoxLayoutProductCheckInfo->addWidget(productPassCount);
+
+		QLabel* productOutCount = new QLabel();
+		m_productOutCountList->append(productOutCount);
+		productOutCount->setText(QString::fromStdString(m_locStrLoader->getString("29")));
+		hBoxLayoutProductCheckInfo->addWidget(productOutCount);
 
 		QVBoxLayout * vBoxLayout = new QVBoxLayout(this);
-		vBoxLayout->addLayout(hBoxLayout);
+		vBoxLayout->addLayout(hBoxLayout1);
 		vBoxLayout->addWidget(label);
+		vBoxLayout->addLayout(hBoxLayoutProductCheckInfo);
 
 		gBox_monitoringDisplayLayout->addLayout(vBoxLayout, row, col);
 	}
@@ -144,22 +178,39 @@ void Proonnx::ini_cameraList()
 		auto item = (*m_disaplayCameraList)[i];
 		if (i < devList.size()) {
 			auto imageIdentify = new ImageIdentify(item, devList[i]);
-			auto connectResult = imageIdentify->InitCamera();
 			imageIdentify->setDisaplayCheckInfo((*m_disaplayCheckInfoList)[i]);
+			imageIdentify->m_labelForProductCount = (*m_productCountList)[i];
+			imageIdentify->m_labelForProductOutCount = (*m_productOutCountList)[i];
+			imageIdentify->m_labelForProductPassCount = (*m_productPassCountList)[i];
 			imageIdentify->setStandDate(ui->ledit_currentDate->text());
 			imageIdentify->IniOcr();
+			auto connectResult = imageIdentify->connectCamera();
 			if (connectResult) {
 				std::string cameraConfigFilePath;
 				auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(devList[i], cameraConfigFilePath);
 				if (readResult) {
-					ProductConfigLoader productConfigLoader;
-					auto config = productConfigLoader.loadConfig(cameraConfigFilePath);
-					imageIdentify->setExposureTime(config.ExposureTime);
-					imageIdentify->setGain(config.ExposureTime);
-
-					(*m_disaplayProductList)[i]->setText(QString::fromStdString(config.productName));
+					imageIdentify->m_productConfigFilePath = cameraConfigFilePath;
 				}
+				else {
+					ProductConfigLoader productConfigLoader;
+					ProductConfig newConfig;
+					newConfig.productName = "UNDEFINED"+ (devList[i]);
+					newConfig.ExposureTime = 10000;
+					newConfig.gain = 1;
+					QString filePath = "/ProductConfig/";
+					auto  currentFilePath = QDir::currentPath();
+					filePath = currentFilePath + filePath+ QString::fromStdString(newConfig.productName)+".xml";
+					imageIdentify->m_productConfigFilePath = filePath.toStdString();
+					productConfigLoader.setNewFile(filePath.toStdString());
+					productConfigLoader.storeConfig(newConfig);
+					productConfigLoader.saveFile(filePath.toStdString());
+					m_configBeforeRuntimeLoader->storeCameraConfig(devList[i], filePath.toStdString());
+					m_configBeforeRuntimeLoader->saveFile(m_configBeforeRuntimeLoaderFilePath.toStdString());
+				}
+				imageIdentify->m_labelForProductName = (*m_disaplayProductNameList)[i];
+				imageIdentify->iniCamera();
 				imageIdentify->startMonitor();
+				imageIdentify->setIsCheckProduct(false);
 			}
 			else {
 				qDebug() << "Disconnected by ip :" + QString::fromStdString(devList[i]);
@@ -187,6 +238,8 @@ void Proonnx::ini_connect()
 		this, SLOT(pbt_modProductConfig_clicked()));
 	QObject::connect(ui->pbtn_setProonnx, SIGNAL(clicked()),
 		this, SLOT(pbtn_setProonnx_clicked()));
+	QObject::connect(ui->pbt_setIsCheckProduct, SIGNAL(clicked()),
+		this, SLOT(pbt_setIsCheckProduct_clicked()));
 }
 
 void Proonnx::des_com()
@@ -208,12 +261,32 @@ void Proonnx::des_com()
 	}
 	delete m_disaplayCheckInfoList;
 
-	for (auto& item : *m_disaplayProductList) {
+	for (auto& item : *m_disaplayProductNameList) {
 		delete item;
 	}
-	delete m_disaplayProductList;
+	delete m_disaplayProductNameList;
 
-	
+	for (auto& item : *m_productCountList) {
+		delete item;
+	}
+	delete m_productCountList;
+
+	for (auto& item : *m_productOutCountList) {
+		delete item;
+	}
+	delete m_productOutCountList;
+
+	for (auto& item : *m_productPassCountList) {
+		delete item;
+	}
+	delete m_productPassCountList;
+}
+
+void Proonnx::set_isCheckProduct(bool is)
+{
+	for (auto & item:*m_cameraList) {
+		item->setIsCheckProduct(is);
+	}
 }
 
 Proonnx::Proonnx(QWidget* parent)
@@ -231,41 +304,109 @@ Proonnx::~Proonnx()
 	delete ui;
 }
 
+QVector<bool> Proonnx::get_isCheckProductList()
+{
+	QVector<bool> result;
+	for (const auto & item:*m_cameraList) {
+		result.append(item->getIsCheckProduct());
+	}
+	return result;
+}
+
+void Proonnx::set_isCheckProductByList(const QVector<bool>& list)
+{
+	for (int i = 0;i<list.size();++i) {
+		(*m_cameraList)[i]->setIsCheckProduct(list[i]);
+	}
+}
+
+void Proonnx::set_allDoNotCheck()
+{
+	for (auto & item:(*m_cameraList)) {
+		item->setIsCheckProduct(false);
+	}
+}
+
 void Proonnx::pbt_modProductConfig_clicked()
 {
+	set_isCheckProduct(false);
 	int cameraCount = m_cameraList->size();
-	DlgSelectCameraIndex dlgSelectCameraIndex(this, cameraCount);
-	dlgSelectCameraIndex.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
-	auto selectCareraIndexResult = dlgSelectCameraIndex.exec();
-
-	if (selectCareraIndexResult == QDialog::Accepted) {
-		auto cameraIndex = dlgSelectCameraIndex.m_indexIndex;
-
-
+	if (cameraCount==1) {
 		DlgChangeProductConfig dlg;
 		std::string path;
-		auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(m_cameraList->at(cameraIndex - 1)->m_Ip, path);
+		auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(m_cameraList->at(0)->m_Ip, path);
 		if (readResult) {
 			dlg.setFilePath(QString::fromStdString(path));
-			dlg.setCameraIndex(cameraIndex);
-			dlg.setCamera(m_cameraList->at(cameraIndex - 1));
+			dlg.setCameraIndex(1);
+			dlg.setCamera(m_cameraList->at(0));
 			dlg.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
 			dlg.iniUI();
-			dlg.exec();
+			auto dlgResult = dlg.exec();
+			if (dlgResult == QDialog::Accepted) {
+				auto productName = dlg.getProductName();
+				(*m_disaplayProductNameList)[0]->setText(productName);
+			}
 		}
 		else {
-			QFileDialog fileDlg(nullptr, QString::fromStdString(m_locStrLoader->getString("22")), "", QString::fromStdString(m_locStrLoader->getString("23")));
+			QFileDialog fileDlg(this, QString::fromStdString(m_locStrLoader->getString("22")), "", QString::fromStdString(m_locStrLoader->getString("23")));
 			if (fileDlg.exec() == QFileDialog::Accepted) {
 				auto filePath = fileDlg.selectedFiles().first();
-				dlg.setFilePath(QString::fromStdString(filePath.toStdString()));
+				dlg.setFilePath(filePath);
+				dlg.setCameraIndex(1);
+				dlg.setCamera(m_cameraList->at(0));
+				dlg.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
+				dlg.iniUI();
+				auto dlgResult = dlg.exec();
+				if (dlgResult == QDialog::Accepted) {
+					auto productName = dlg.getProductName();
+					(*m_disaplayProductNameList)[0]->setText(productName);
+				}
+			}
+		}
+	}
+	else {
+		DlgSelectCameraIndex dlgSelectCameraIndex(this, cameraCount);
+		dlgSelectCameraIndex.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
+		auto selectCareraIndexResult = dlgSelectCameraIndex.exec();
+
+		if (selectCareraIndexResult == QDialog::Accepted) {
+			auto cameraIndex = dlgSelectCameraIndex.m_indexIndex;
+
+
+			DlgChangeProductConfig dlg;
+			std::string path;
+			auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(m_cameraList->at(cameraIndex - 1)->m_Ip, path);
+			if (readResult) {
+				dlg.setFilePath(QString::fromStdString(path));
 				dlg.setCameraIndex(cameraIndex);
 				dlg.setCamera(m_cameraList->at(cameraIndex - 1));
 				dlg.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
 				dlg.iniUI();
-				dlg.exec();
+				auto dlgResult = dlg.exec();
+				if (dlgResult == QDialog::Accepted) {
+					auto productName = dlg.getProductName();
+					(*m_disaplayProductNameList)[cameraIndex - 1]->setText(productName);
+				}
+			}
+			else {
+				QFileDialog fileDlg(this, QString::fromStdString(m_locStrLoader->getString("22")), "", QString::fromStdString(m_locStrLoader->getString("23")));
+				if (fileDlg.exec() == QFileDialog::Accepted) {
+					auto filePath = fileDlg.selectedFiles().first();
+					dlg.setFilePath(filePath);
+					dlg.setCameraIndex(cameraIndex);
+					dlg.setCamera(m_cameraList->at(cameraIndex - 1));
+					dlg.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
+					dlg.iniUI();
+					auto dlgResult = dlg.exec();
+					if (dlgResult == QDialog::Accepted) {
+						auto productName = dlg.getProductName();
+						(*m_disaplayProductNameList)[cameraIndex - 1]->setText(productName);
+					}
+				}
 			}
 		}
 	}
+	set_isCheckProduct(true);
 }
 
 void Proonnx::pbtn_setProonnx_clicked()
@@ -276,26 +417,81 @@ void Proonnx::pbtn_setProonnx_clicked()
 	dlg.exec();
 }
 
+void Proonnx::pbt_setIsCheckProduct_clicked()
+{
+	if (m_cameraList->size() == 1) {
+		if (!m_isSingleCheckProduct) {
+			ui->pbt_setIsCheckProduct->setText(QString::fromStdString(m_locStrLoader->getString("31")));
+			set_isCheckProduct(true);
+			m_isSingleCheckProduct = true;
+		}
+		else {
+			ui->pbt_setIsCheckProduct->setText(QString::fromStdString(m_locStrLoader->getString("30")));
+			set_isCheckProduct(false);
+			m_isSingleCheckProduct = false;
+		}
+	}
+	else {
+		DlgSetIsCheckProduct dlg;
+		auto checkList=get_isCheckProductList();
+		set_allDoNotCheck();
+		dlg.iniGBox_cameraList(checkList);
+		auto dlgResult=dlg.exec();
+
+		if (dlgResult==QDialog::Accepted) {
+			auto currentCheckList = dlg.getCurrentIsCheckList();
+			set_isCheckProductByList(currentCheckList);
+		}
+		else {
+			auto nativeCheckList = dlg.getNativeIsCheckList();
+			set_isCheckProductByList(nativeCheckList);
+		}
+	}
+}
+
 void Proonnx::pbt_addProductCongfig_clicked()
 {
+	set_isCheckProduct(false);
 	int cameraCount = m_cameraList->size();
-	DlgSelectCameraIndex dlgSelectCameraIndex(this, cameraCount);
-	dlgSelectCameraIndex.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
-
-	auto selectCareraIndexResult = dlgSelectCameraIndex.exec();
-
-	if (selectCareraIndexResult == QDialog::Accepted) {
-		auto cameraIndex = dlgSelectCameraIndex.m_indexIndex;
-
+	if (cameraCount==1) {
 		DlgAddProductConfig dlgAddProductConfig(this);
 
-		dlgAddProductConfig.setCameraIndex(cameraIndex);
-		dlgAddProductConfig.setCamera(m_cameraList->at(cameraIndex - 1));
+		dlgAddProductConfig.setCameraIndex(1);
+		dlgAddProductConfig.setCamera(m_cameraList->at(0));
 
 		dlgAddProductConfig.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
 
-		dlgAddProductConfig.exec();
+		auto dlgResult=dlgAddProductConfig.exec();
+		if (dlgResult==QDialog::Accepted) {
+			auto productName=dlgAddProductConfig.getProductName();
+			(*m_disaplayProductNameList)[0]->setText(productName);
+		}
 	}
+	else {
+		DlgSelectCameraIndex dlgSelectCameraIndex(this, cameraCount);
+		dlgSelectCameraIndex.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
+
+		auto selectCareraIndexResult = dlgSelectCameraIndex.exec();
+
+		if (selectCareraIndexResult == QDialog::Accepted) {
+			auto cameraIndex = dlgSelectCameraIndex.m_indexIndex;
+
+			DlgAddProductConfig dlgAddProductConfig(this);
+
+			dlgAddProductConfig.setCameraIndex(cameraIndex);
+			dlgAddProductConfig.setCamera(m_cameraList->at(cameraIndex - 1));
+
+			dlgAddProductConfig.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
+
+			auto dlgResult = dlgAddProductConfig.exec();
+			if (dlgResult == QDialog::Accepted) {
+				auto productName = dlgAddProductConfig.getProductName();
+				(*m_disaplayProductNameList)[cameraIndex-1]->setText(productName);
+			}
+		}
+	}
+	set_isCheckProduct(true);
+	
 }
 
 

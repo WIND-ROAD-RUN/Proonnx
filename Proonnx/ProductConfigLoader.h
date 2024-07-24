@@ -7,8 +7,8 @@ class ProductConfigModule;
 
 struct ProductConfig {
 	std::string productName{"XXXX"};
-	long ExposureTime{0};
-	int gain{0};
+	long ExposureTime{10000};
+	int gain{1};
 	int rotateCount{0};
 	std::pair<int, int> topLeftCorner{0,0};
 	std::pair<int, int> upperRightCorner{ 0,0 };

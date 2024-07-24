@@ -2,6 +2,7 @@
 
 #include"pugixml.hpp"
 #include"spdlog/spdlog.h"
+#include<qdebug>
 
 ProductConfigModule::ProductConfigModule()
 {
@@ -23,8 +24,11 @@ void ProductConfigModule::setNewFile(const std::string filePath)
 
 	auto productProductInfoNode = productConfigNode.append_child("ProductProductInfo");
 	auto totalCountNode = productProductInfoNode.append_child("TotalCount");
+	totalCountNode.text().set(0);
 	auto passCountNode = productProductInfoNode.append_child("PassCount");
+	passCountNode.text().set(0);
 	auto outCountNode = productProductInfoNode.append_child("OutCount");
+	outCountNode.text().set(0);
 
 	auto recognizeRangeNode = productConfigNode.append_child("RecognizeRange");
 
@@ -44,7 +48,8 @@ void ProductConfigModule::setNewFile(const std::string filePath)
 	lowerRightCornerNode.append_child("X");
 	lowerRightCornerNode.append_child("Y");
 
-	m_doc->save_file(filePath.c_str());
+	auto result= m_doc->save_file(filePath.c_str());
+	qDebug() << result;
 }
 
 bool ProductConfigModule::loadFile(const std::string filePath)

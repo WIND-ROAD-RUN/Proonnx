@@ -1,13 +1,17 @@
 #include"ImageIdentify.h"
-#include"MonitorCamera.h"
 
-#include<QPainter>
-#include"qdebug.h"
-#include"ProductCheck.h"
 #include <cctype> 
 #include <cstring> 
 #include <unordered_set>
 #include <algorithm>
+#include<QPainter>
+
+#include"qdebug.h"
+#include"ProductCheck.h"
+#include"ProductConfigLoader.h"
+#include"MonitorCamera.h"
+
+
 void ImageIdentify::setDlgLabelForImage(QLabel* label)
 {
 	m_dlgLabelForImage = label;
@@ -16,6 +20,37 @@ void ImageIdentify::setDlgLabelForImage(QLabel* label)
 void ImageIdentify::setDisaplayCheckInfo(QLabel* label)
 {
 	m_disaplayCheckInfo = label;
+}
+
+void ImageIdentify::iniCamera()
+{
+	m_productLoader = new ProductConfigLoader();
+
+	auto cameraConfig = m_productLoader->loadConfig(m_productConfigFilePath);
+	setExposureTime(cameraConfig.ExposureTime);
+	setGain(cameraConfig.ExposureTime);
+
+	if (m_labelForProductName) {
+		m_labelForProductName->setText(QString::fromStdString(cameraConfig.productName));
+	}
+
+	auto productConfig= m_productLoader->loadProductProductInfo(m_productConfigFilePath);
+
+	if (m_labelForProductCount) {
+		m_stringForProductCount=m_labelForProductCount->text();
+		m_labelForProductCount->setText(m_stringForProductCount+ QString::number(productConfig.totalCount));
+		m_productCount = productConfig.totalCount;
+	}
+	if (m_labelForProductOutCount) {
+		m_stringForProductOutCount = m_labelForProductOutCount->text();
+		m_labelForProductOutCount->setText(m_stringForProductOutCount+ QString::number(productConfig.outCount));
+		m_productOutCount = productConfig.outCount;
+	}
+	if (m_labelForProductPassCount) {
+		m_stringForProductPassCount= m_labelForProductPassCount->text();
+		m_labelForProductPassCount->setText(m_stringForProductPassCount+ QString::number(productConfig.passCount));
+		m_productPassCount= productConfig.passCount;
+	}
 }
 
 void ImageIdentify::setStandDate(const QString& standardDate)
@@ -40,6 +75,7 @@ ImageIdentify::~ImageIdentify()
 	delete m_labelForImage;
 	delete m_monitorCamera;
 	delete m_productCheck;
+	delete m_productLoader;
 }
 
 void ImageIdentify::ini_connect()
@@ -48,11 +84,12 @@ void ImageIdentify::ini_connect()
 		this, SLOT(DisplayImage(unsigned char*, MV_FRAME_OUT_INFO_EX*)));
 }
 
-bool ImageIdentify::InitCamera()
+bool ImageIdentify::connectCamera()
 {
 	m_monitorCamera->setIp(m_Ip);
 	return m_monitorCamera->connectCamera();
 }
+
 
 void ImageIdentify::IniOcr()
 {
@@ -113,6 +150,27 @@ void ImageIdentify::display_image(cv::Mat& mat)
 	}
 }
 
+void ImageIdentify::update_productInfo_label(bool check)
+{
+	++m_productCount;
+	m_labelForProductCount->setText(m_stringForProductCount + QString::number(m_productCount));
+	if (check) {
+		++m_productPassCount;
+		m_labelForProductPassCount->setText(m_stringForProductPassCount + QString::number(m_productPassCount));
+	}
+	else {
+		++m_productOutCount;
+		m_labelForProductOutCount->setText(m_stringForProductOutCount + QString::number(m_productOutCount));
+	}
+	ProductProductInfo config;
+	config.totalCount = m_productCount;
+	config.passCount = m_productPassCount;
+	config.outCount = m_productOutCount;
+	
+	m_productLoader->storeProductProductInfo(config);
+	m_productLoader->saveFile(m_productConfigFilePath);
+}
+
 void ImageIdentify::render_image(cv::Mat& image)
 {
 	display_image(image);
@@ -157,14 +215,18 @@ void ImageIdentify::DisplayImage(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFr
 		return;
 	}
 	auto recognizeResult = ocr_image(mat);
-	auto checkResult = m_productCheck->check(recognizeResult,m_standardDate);
-	if (checkResult == ProductCheckUtilty::ProductCheckInfo::WITHIN_THRESHOLD) {
-		change_check_state(true);
-	}
-	else {
-		change_check_state(false);
-	}
 
+	if (is_check) {
+		auto checkResult = m_productCheck->check(recognizeResult, m_standardDate);
+		if (checkResult == ProductCheckUtilty::ProductCheckInfo::WITHIN_THRESHOLD) {
+			change_check_state(true);
+			update_productInfo_label(true);
+		}
+		else {
+			change_check_state(false);
+			update_productInfo_label(false);
+		}
+	}
 	render_image(mat);
 }
 

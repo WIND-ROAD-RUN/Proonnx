@@ -84,7 +84,7 @@ void DlgAddProductConfig::ini_connect()
 		this, SLOT(selectionMade_complete(const QRect & )));
 	QObject::connect(ui->sBox_exposureTime, SIGNAL(valueChanged(int))
 		, this, SLOT(sBox_exposureTime_value_change(int)));
-	QObject::connect(ui->pbtn_spinImage, SIGNAL(valueChanged(int))
+	QObject::connect(ui->sBox_gain, SIGNAL(valueChanged(int))
 		, this, SLOT(sBox_gain_value_change(int)));
 }
 
@@ -119,6 +119,7 @@ void DlgAddProductConfig::sBox_gain_value_change(int)
 void DlgAddProductConfig::pbtn_spinImage_clicked()
 {
 	m_rotateCount++;
+	m_rotateCount = m_rotateCount % 4;
 }
 
 void DlgAddProductConfig::pbtn_drawRecognitionRange_clicked()
@@ -129,9 +130,14 @@ void DlgAddProductConfig::pbtn_drawRecognitionRange_clicked()
 void DlgAddProductConfig::pbt_saveProductConfig_clicked()
 {
 	auto loader = LocalizationStringLoaderXML::getInstance();
+	if (ui->lEdit_productName->text().size()==0) {
+		QMessageBox::warning(this, QString::fromStdString(loader->getString("34")),QString::fromStdString(loader->getString("35")));
+		return;
+	}
+
 	
 	QFileDialog 
-		fileDlg(nullptr, QString::fromStdString(loader->getString("22")),
+		fileDlg(this, QString::fromStdString(loader->getString("22")),
 			"", QString::fromStdString(loader->getString("23")));
 	if (fileDlg.exec() == QFileDialog::Accepted) {
 		auto fileName = fileDlg.selectedFiles().first();
@@ -161,10 +167,14 @@ void DlgAddProductConfig::pbt_saveProductConfig_clicked()
 		if (storeConfigResult&& saveConfigResult) {
 			QMessageBox::information(this, QString::fromStdString(loader->getString("12")), QString::fromStdString(loader->getString("24")));
 			spdlog::info("Add new product config in "+ fileName.toStdString());
+
+			this->accept();
 		}
 		else {
 			QMessageBox::warning(this, QString::fromStdString(loader->getString("12")), QString::fromStdString(loader->getString("25")));
 			spdlog::info("Failed add new product config in " + fileName.toStdString());
 		}
+
+
 	}
 }

@@ -32,8 +32,11 @@ private:
 
 private:
 	QVector<QLabel *>* m_disaplayCameraList{ nullptr };
-	QVector<QLabel*>* m_disaplayProductList{ nullptr };
+	QVector<QLabel*>* m_disaplayProductNameList{ nullptr };
 	QVector<QLabel*>* m_disaplayCheckInfoList{ nullptr };
+	QVector<QLabel*>* m_productCountList{ nullptr };
+	QVector<QLabel*>* m_productPassCountList{ nullptr };
+	QVector<QLabel*>* m_productOutCountList{ nullptr };
 
 	QVector<ImageIdentify*> * m_cameraList{nullptr};
 
@@ -50,6 +53,7 @@ private:
 private:
 	void ini_configBeforeRuntimeLoader();
 
+	void ini_configBeforeRuntime();
 private:
 	void ini_gBox_monitoringDisplay();
 
@@ -59,7 +63,8 @@ private:
 	void ini_connect();
 
 	void des_com();
-
+private:
+	void set_isCheckProduct(bool is);
 public:
 	Proonnx(QWidget* parent = nullptr);
 
@@ -67,7 +72,14 @@ public:
 
 private:
 	Ui::ProonnxClass* ui;
+private:
+	bool m_isSingleCheckProduct{false};
+private:
+	QVector<bool> get_isCheckProductList();
 
+	void set_isCheckProductByList(const QVector<bool> & list);
+
+	void set_allDoNotCheck();
 private slots:
 	void pbt_addProductCongfig_clicked();
 
@@ -75,4 +87,5 @@ private slots:
 
 	void pbtn_setProonnx_clicked();
 
+	void pbt_setIsCheckProduct_clicked();
 };

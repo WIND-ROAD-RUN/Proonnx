@@ -35,17 +35,15 @@ struct ImageIdentifyUtilty
 
 
 class MonitorCamera;
+class ProductConfigLoader;
 
 class ImageIdentify
 	:public QAction {
 	Q_OBJECT
 private:
-
 	MonitorCamera* m_monitorCamera{nullptr};
 
-
 	ocrwork* m_indentModel{nullptr};
-
 
 private:
 	QLabel* m_labelForImage{ nullptr };
@@ -59,7 +57,32 @@ public:
 	void deleteDlgLabelForImage() { m_dlgLabelForImage = nullptr; }
 
 	void setDisaplayCheckInfo(QLabel* label);
+public:
+	QLabel* m_labelForProductCount{ nullptr };
+	QString m_stringForProductCount{};
+	int m_productCount{0};
 
+	QLabel* m_labelForProductPassCount{ nullptr };
+	QString m_stringForProductPassCount{};
+	int m_productPassCount{ 0 };
+
+	QLabel* m_labelForProductOutCount{ nullptr };
+	QString m_stringForProductOutCount{};
+	int m_productOutCount{ 0 };
+
+	QLabel* m_labelForProductName{ nullptr };
+private:
+	ProductConfigLoader* m_productLoader{nullptr};
+private:
+	bool is_check{false};
+public:
+	void setIsCheckProduct(bool is) { is_check = is; }
+ 
+	bool getIsCheckProduct() { return is_check; }
+public:
+	void iniCamera();
+public:
+	std::string m_productConfigFilePath{};
 private:
 	ProductCheck<std::vector<OCRResult>, QString> * m_productCheck;
 
@@ -81,7 +104,7 @@ private:
 	void ini_connect();
 
 public:
-	bool InitCamera();
+	bool connectCamera();
 
 	void IniOcr();
 
@@ -97,10 +120,17 @@ public:
 
 private:
 	void display_image(cv::Mat& image);
+
+	void update_productInfo_label(bool check);
+
 	void render_image(cv::Mat& image);
+
 	std::vector<OCRResult> ocr_image(cv::Mat srcMat);
+
 	bool check_productDate(const std::vector<OCRResult> & date);
+
 	void change_check_state(bool check);
+
 private slots:
 	void DisplayImage(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInf);
 

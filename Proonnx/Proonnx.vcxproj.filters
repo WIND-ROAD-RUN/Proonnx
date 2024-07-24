@@ -179,6 +179,12 @@
     <ClCompile Include="DlgSelectCameraIndex.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
+    <ClCompile Include="DlgSetIsCheckProduct.cpp">
+      <Filter>Form Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSetIsCheckProduct.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Proonnx.ui">
@@ -194,6 +200,9 @@
       <Filter>Form Files\ui</Filter>
     </QtUic>
     <QtUic Include="DlgSelectCameraIndex.ui">
+      <Filter>Form Files\ui</Filter>
+    </QtUic>
+    <QtUic Include="DlgSetIsCheckProduct.ui">
       <Filter>Form Files\ui</Filter>
     </QtUic>
   </ItemGroup>
@@ -234,6 +243,12 @@
       <Filter>Header Files\ImageIdentify\ImageIdentify</Filter>
     </QtMoc>
     <QtMoc Include="DlgSelectCameraIndex.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgSetIsCheckProduct.h">
+      <Filter>Form Files\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgSetIsCheckProduct.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
   </ItemGroup>

@@ -2,6 +2,7 @@
 
 #include"pugixml.hpp"
 #include"spdlog/spdlog.h"
+#include<qDebug>
 
 ConfigBeforeRuntimeModule::ConfigBeforeRuntimeModule()
 {
@@ -89,7 +90,7 @@ bool ConfigBeforeRuntimeModule::storeCameraConfig(const std::string& ip, const s
 
 void ConfigBeforeRuntimeModule::saveFile(const std::string& filePath)
 {
-    m_doc->save_file(filePath.c_str());
+    auto result=m_doc->save_file(filePath.c_str());
 }
 
 int ConfigBeforeRuntimeModule::readCameraCount()

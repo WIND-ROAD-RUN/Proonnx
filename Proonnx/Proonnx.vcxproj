@@ -115,6 +115,7 @@
     <QtUic Include="DlgAddProductConfig.ui" />
     <QtUic Include="DlgChangeProductConfig.ui" />
     <QtUic Include="DlgSelectCameraIndex.ui" />
+    <QtUic Include="DlgSetIsCheckProduct.ui" />
     <QtUic Include="DlgSetProonnx.ui" />
     <QtUic Include="Proonnx.ui" />
     <QtMoc Include="Proonnx.h" />
@@ -124,6 +125,7 @@
     <ClCompile Include="DlgAddProductConfig.cpp" />
     <ClCompile Include="DlgChangeProductConfig.cpp" />
     <ClCompile Include="DlgSelectCameraIndex.cpp" />
+    <ClCompile Include="DlgSetIsCheckProduct.cpp" />
     <ClCompile Include="DlgSetProonnx.cpp" />
     <ClCompile Include="FrameSelectLabel.cpp" />
     <ClCompile Include="ImageIdentify.cpp" />
@@ -159,6 +161,7 @@
     <QtMoc Include="ImageIdentify.h" />
     <QtMoc Include="MonitorCamera.h" />
     <QtMoc Include="DlgSelectCameraIndex.h" />
+    <QtMoc Include="DlgSetIsCheckProduct.h" />
     <ClInclude Include="MVS\Includes\CameraParams.h" />
     <ClInclude Include="MVS\Includes\MvCameraControl.h" />
     <ClInclude Include="MVS\Includes\MvErrorDefine.h" />

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<ProductConfig>
+	<ProductName>UNDEFINED169.254.193.8</ProductName>
+	<ExposureTime>10000</ExposureTime>
+	<Gain>1</Gain>
+	<RotateCount>0</RotateCount>
+	<ProductProductInfo>
+		<TotalCount>550</TotalCount>
+		<PassCount>52</PassCount>
+		<OutCount>498</OutCount>
+	</ProductProductInfo>
+	<RecognizeRange>
+		<TopLeftCorner>
+			<X>0</X>
+			<Y>0</Y>
+		</TopLeftCorner>
+		<UpperRightCorner>
+			<X>0</X>
+			<Y>0</Y>
+		</UpperRightCorner>
+		<LeftLowerCorner>
+			<X>0</X>
+			<Y>0</Y>
+		</LeftLowerCorner>
+		<LowerRightCorner>
+			<X>0</X>
+			<Y>0</Y>
+		</LowerRightCorner>
+	</RecognizeRange>
+</ProductConfig>

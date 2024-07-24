@@ -41,6 +41,8 @@ public:
 
 	void setCamera(ImageIdentify* camera);
 
+	QString getProductName() { return ui->lEdit_productName->text(); }
+
 public:
 	explicit DlgChangeProductConfig(QWidget *parent = nullptr, int cameraIndex = 1);
 
