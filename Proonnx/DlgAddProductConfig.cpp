@@ -68,6 +68,9 @@ void DlgAddProductConfig::ini_localizationStringLoaderUI()
 	ui->pbtn_spinImage->setText(QString::fromStdString(loader->getString("10")));
 	ui->pbtn_drawRecognitionRange->setText(QString::fromStdString(loader->getString("11")));
 	ui->pbt_saveProductConfig->setText(QString::fromStdString(loader->getString("12")));
+	ui->label_disposalTime->setText(QString::fromStdString(loader->getString("39")));
+	ui->label_delayInRejection->setText(QString::fromStdString(loader->getString("38")));
+	ui->label_numberOffsets->setText(QString::fromStdString(loader->getString("37")));
 	this->setWindowTitle(QString::fromStdString(loader->getString("5")));
 	
 }
@@ -88,18 +91,65 @@ void DlgAddProductConfig::ini_connect()
 		, this, SLOT(sBox_gain_value_change(int)));
 }
 
+void DlgAddProductConfig::setWindowSize(int wide, int height)
+{
+	this->setFixedSize(wide, height);
+}
+
 void DlgAddProductConfig::selectionMade_complete(const QRect& rect)
 {
-	m_recognizeRange->leftLowerCorner = { rect.bottomLeft().x(),rect.bottomLeft().y() };
-	m_recognizeRange->topLeftCorner = { rect.topLeft() .x(),rect.topLeft() .y()};
-	m_recognizeRange->lowerRightCorner = { rect.bottomRight().x(),rect.bottomRight().y() };
-	m_recognizeRange->upperRightCorner = { rect.topRight().x(),rect.topRight().y() };
+	int labelWidth = m_frameSelectLabel->width();
+	int labelHeight = m_frameSelectLabel->height();
+
+	{
+		auto x = (double)(rect.bottomLeft().x()) / labelWidth;
+		if (x > 1) {
+			x = 0.99;
+		}
+		auto y = (double)(rect.bottomLeft().y()) / (double)(labelHeight);
+		if (y > 1) {
+			y = 0.99;
+		}
+		m_recognizeRange->leftLowerCorner = { x,y };
+	}
+
+	{
+		auto x = (double)(rect.topLeft().x()) / labelWidth;
+		if (x > 1) {
+			x = 0.99;
+		}
+		auto y = (double)(rect.topLeft().y()) / (double)(labelHeight);
+		if (y > 1) {
+			y = 0.99;
+		}
+		m_recognizeRange->topLeftCorner = { x,y };
+	}
+
+	{
+		auto x = (double)(rect.bottomRight().x()) / labelWidth;
+		if (x > 1) {
+			x = 0.99;
+		}
+		auto y = (double)(rect.bottomRight().y()) / (double)(labelHeight);
+		if (y > 1) {
+			y = 0.99;
+		}
+		m_recognizeRange->lowerRightCorner = { x,y };
+	}
+
+	{
+		auto x = (double)(rect.topRight().x()) / labelWidth;
+		if (x > 1) {
+			x = 0.99;
+		}
+		auto y = (double)(rect.topRight().y()) / (double)(labelHeight);
+		if (y > 1) {
+			y = 0.99;
+		}
+		m_recognizeRange->upperRightCorner = { x,y };
+	}
+	
 	m_frameSelectLabel->enableSelection(false);
-	//qDebug() << "Selection made:" << rect;
-	//qDebug() << "Top-left:" << rect.topLeft();
-	//qDebug() << "Top-right:" << rect.topRight();
-	//qDebug() << "Bottom-left:" << rect.bottomLeft();
-	//qDebug() << "Bottom-right:" << rect.bottomRight();
 }
 
 void DlgAddProductConfig::sBox_exposureTime_value_change(int)
@@ -120,6 +170,7 @@ void DlgAddProductConfig::pbtn_spinImage_clicked()
 {
 	m_rotateCount++;
 	m_rotateCount = m_rotateCount % 4;
+	m_camera->setRotateCount(m_rotateCount);
 }
 
 void DlgAddProductConfig::pbtn_drawRecognitionRange_clicked()
@@ -144,27 +195,41 @@ void DlgAddProductConfig::pbt_saveProductConfig_clicked()
 
 		ProductConfigLoader configLoader;
 		configLoader.setNewFile(fileName.toStdString());
+		qDebug() << fileName;
 
 		ProductConfig config;
+		RecognizeRange recognizeRange;
 		config.gain = ui->sBox_gain->value();
 		config.productName = ui->lEdit_productName->text().toStdString();
 		config.rotateCount = m_rotateCount;
 		config.ExposureTime = ui->sBox_exposureTime->value();
 		config.topLeftCorner = m_recognizeRange->topLeftCorner;
+		recognizeRange.topLeftCorner = m_recognizeRange->topLeftCorner;
 		config.leftLowerCorner = m_recognizeRange->leftLowerCorner;
+		recognizeRange.leftLowerCorner = m_recognizeRange->leftLowerCorner;
 		config.upperRightCorner = m_recognizeRange->upperRightCorner;
+		recognizeRange.upperRightCorner = m_recognizeRange->upperRightCorner;
 		config.lowerRightCorner = m_recognizeRange->lowerRightCorner;
+		recognizeRange.lowerRightCorner = m_recognizeRange->lowerRightCorner;
 
-		auto storeConfigResult=configLoader.storeConfig(config);
+		m_camera->setRecognizeRange(recognizeRange);
+
+		RejectAttribute rejectAttribute;
+		rejectAttribute.DisposalTime = ui->sBox_disposalTime->value();
+		rejectAttribute.OffsetsNumber = ui->sBox_numberOffsets->value();
+		rejectAttribute.RejectDelay = ui->sBox_delayInRejection->value();
+		m_camera->setRejectAttribute(rejectAttribute);
 
 		ConfigBeforeRuntimeLoader configBeforeRuntimeLoader;
 		configBeforeRuntimeLoader.loadFile(m_configBeforeRuntime.toStdString());
 		configBeforeRuntimeLoader.storeCameraConfig(m_camera->m_Ip, fileName.toStdString());
 		configBeforeRuntimeLoader.saveFile(m_configBeforeRuntime.toStdString());
 
+		auto storeRejectAttributeResult = configLoader.storeRejectAttribute(rejectAttribute);
+		auto storeConfigResult = configLoader.storeConfig(config);
 		auto saveConfigResult = configLoader.saveFile(fileName.toStdString());
 
-		if (storeConfigResult&& saveConfigResult) {
+		if (storeConfigResult&& saveConfigResult&& storeRejectAttributeResult) {
 			QMessageBox::information(this, QString::fromStdString(loader->getString("12")), QString::fromStdString(loader->getString("24")));
 			spdlog::info("Add new product config in "+ fileName.toStdString());
 

@@ -59,7 +59,8 @@ public:
 	void setFilePath(const QString& filePath) { m_filePath = filePath; }
 
 	void iniUI();
-
+public:
+	void setWindowSize(int wide, int height);
 private:
 	Ui::DlgChangeProductConfigClass *ui;
 

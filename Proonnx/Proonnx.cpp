@@ -10,10 +10,6 @@
 
 #include"mycamera.h"
 #include"MonitorCamera.h"
-//#include"ocrwork.h"
-//#include"opencv/include/opencv2/opencv.hpp"
-//#include <opencv/include/opencv2/core/core.hpp>
-//#include <opencv/include/opencv2/highgui/highgui.hpp>
 
 #include"DlgAddProductConfig.h"
 #include"DlgChangeProductConfig.h"
@@ -23,6 +19,9 @@
 #include"ConfigBeforeRuntimeLoader.h"
 #include"ProductConfigLoader.h"
 #include"DlgSetIsCheckProduct.h"
+#include"ConfigForImageSave.h"
+#include"DateTransform.h"
+#include"DlgClearCount.h"
 
 void Proonnx::ini_ui()
 {
@@ -49,6 +48,7 @@ void Proonnx::ini_ui()
 		 cv::namedWindow("SrcView", cv::WINDOW_NORMAL);
 		 cv::imshow("SrcView", srcMat);
 		 cv::waitKey(0);*/
+	ini_configForImageSave();
 	ini_configBeforeRuntime();
 }
 
@@ -72,7 +72,7 @@ void Proonnx::ini_localizationStringLoaderUI()
 	ui->pbtn_setProonnx->setText(QString::fromStdString(m_locStrLoader->getString("20")));
 	ui->gBox_currenctDate->setTitle(QString::fromStdString(m_locStrLoader->getString("19")));
 
-	
+
 }
 
 void Proonnx::ini_configBeforeRuntimeLoader()
@@ -97,7 +97,7 @@ void Proonnx::ini_configBeforeRuntime()
 {
 	ini_cameraList();
 
-	if (m_cameraList->size()==1){
+	if (m_cameraList->size() == 1) {
 		ui->pbt_setIsCheckProduct->setText(QString::fromStdString(m_locStrLoader->getString("30")));
 	}
 	else {
@@ -105,12 +105,23 @@ void Proonnx::ini_configBeforeRuntime()
 	}
 }
 
+void Proonnx::ini_configForImageSave()
+{
+	m_configForImageSave = ConfigForImageSave::getInstance();
+	m_configForImageSave->setToday(QString::fromStdString(DateTransFormUtilty::replaceSlashWithDash(ui->ledit_currentDate->text().toStdString())));
+	m_configForImageSave->setSaveDays(7);
+	auto currentPath = QDir::currentPath();
+	currentPath = currentPath + "/historyImages";
+	m_configForImageSave->setCurrentFilePath(currentPath);
+	m_configForImageSave->iniConfig();
+}
+
 void Proonnx::ini_gBox_monitoringDisplay()
 {
 	auto cameraCount = m_configBeforeRuntimeLoader->readCameraCount();
 	m_disaplayCameraList = new QVector<QLabel*>;
-	m_disaplayCheckInfoList= new QVector<QLabel*>;
-	m_disaplayProductNameList=new QVector<QLabel*>;
+	m_disaplayCheckInfoList = new QVector<QLabel*>;
+	m_disaplayProductNameList = new QVector<QLabel*>;
 	m_productCountList = new QVector<QLabel*>;
 	m_productPassCountList = new QVector<QLabel*>;
 	m_productOutCountList = new QVector<QLabel*>;
@@ -131,7 +142,7 @@ void Proonnx::ini_gBox_monitoringDisplay()
 		int row = i / cols;
 		int col = i % cols;
 
-		QHBoxLayout* hBoxLayout1=new QHBoxLayout(this);
+		QHBoxLayout* hBoxLayout1 = new QHBoxLayout(this);
 		QLabel* checkInfo = new QLabel();
 		checkInfo->setText("OK");
 		m_disaplayCheckInfoList->append(checkInfo);
@@ -158,7 +169,7 @@ void Proonnx::ini_gBox_monitoringDisplay()
 		productOutCount->setText(QString::fromStdString(m_locStrLoader->getString("29")));
 		hBoxLayoutProductCheckInfo->addWidget(productOutCount);
 
-		QVBoxLayout * vBoxLayout = new QVBoxLayout(this);
+		QVBoxLayout* vBoxLayout = new QVBoxLayout(this);
 		vBoxLayout->addLayout(hBoxLayout1);
 		vBoxLayout->addWidget(label);
 		vBoxLayout->addLayout(hBoxLayoutProductCheckInfo);
@@ -194,12 +205,12 @@ void Proonnx::ini_cameraList()
 				else {
 					ProductConfigLoader productConfigLoader;
 					ProductConfig newConfig;
-					newConfig.productName = "UNDEFINED"+ (devList[i]);
+					newConfig.productName = "UNDEFINED" + (devList[i]);
 					newConfig.ExposureTime = 10000;
 					newConfig.gain = 1;
 					QString filePath = "/ProductConfig/";
 					auto  currentFilePath = QDir::currentPath();
-					filePath = currentFilePath + filePath+ QString::fromStdString(newConfig.productName)+".xml";
+					filePath = currentFilePath + filePath + QString::fromStdString(newConfig.productName) + ".xml";
 					imageIdentify->m_productConfigFilePath = filePath.toStdString();
 					productConfigLoader.setNewFile(filePath.toStdString());
 					productConfigLoader.storeConfig(newConfig);
@@ -210,6 +221,8 @@ void Proonnx::ini_cameraList()
 				imageIdentify->m_labelForProductName = (*m_disaplayProductNameList)[i];
 				imageIdentify->iniCamera();
 				imageIdentify->startMonitor();
+				imageIdentify->setSoftwareTriggeredAcquisition();
+				imageIdentify->m_setIsCheck = false;
 				imageIdentify->setIsCheckProduct(false);
 			}
 			else {
@@ -240,6 +253,8 @@ void Proonnx::ini_connect()
 		this, SLOT(pbtn_setProonnx_clicked()));
 	QObject::connect(ui->pbt_setIsCheckProduct, SIGNAL(clicked()),
 		this, SLOT(pbt_setIsCheckProduct_clicked()));
+	QObject::connect(ui->pbtn_clearCount, SIGNAL(clicked()),
+		this, SLOT(pbtn_clearCount_clicked()));
 }
 
 void Proonnx::des_com()
@@ -280,11 +295,12 @@ void Proonnx::des_com()
 		delete item;
 	}
 	delete m_productPassCountList;
+	delete m_configForImageSave;
 }
 
 void Proonnx::set_isCheckProduct(bool is)
 {
-	for (auto & item:*m_cameraList) {
+	for (auto& item : *m_cameraList) {
 		item->setIsCheckProduct(is);
 	}
 }
@@ -307,7 +323,7 @@ Proonnx::~Proonnx()
 QVector<bool> Proonnx::get_isCheckProductList()
 {
 	QVector<bool> result;
-	for (const auto & item:*m_cameraList) {
+	for (const auto& item : *m_cameraList) {
 		result.append(item->getIsCheckProduct());
 	}
 	return result;
@@ -315,24 +331,32 @@ QVector<bool> Proonnx::get_isCheckProductList()
 
 void Proonnx::set_isCheckProductByList(const QVector<bool>& list)
 {
-	for (int i = 0;i<list.size();++i) {
+	for (int i = 0; i < list.size(); ++i) {
 		(*m_cameraList)[i]->setIsCheckProduct(list[i]);
+		if (list[i]) {
+			//(*m_cameraList)[i]->setHardwareTriggeredAcquisition();
+		}
+		else {
+			//(*m_cameraList)[i]->setSoftwareTriggeredAcquisition();
+		}
 	}
 }
 
 void Proonnx::set_allDoNotCheck()
 {
-	for (auto & item:(*m_cameraList)) {
+	for (auto& item : (*m_cameraList)) {
 		item->setIsCheckProduct(false);
 	}
 }
 
 void Proonnx::pbt_modProductConfig_clicked()
 {
+	auto isCheckList = get_isCheckProductList();
 	set_isCheckProduct(false);
 	int cameraCount = m_cameraList->size();
-	if (cameraCount==1) {
+	if (cameraCount == 1) {
 		DlgChangeProductConfig dlg;
+		dlg.setWindowSize(this->width()*0.75,this->height()*0.75);
 		std::string path;
 		auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(m_cameraList->at(0)->m_Ip, path);
 		if (readResult) {
@@ -374,6 +398,7 @@ void Proonnx::pbt_modProductConfig_clicked()
 
 
 			DlgChangeProductConfig dlg;
+			dlg.setWindowSize(this->width() * 0.75, this->height() * 0.75);
 			std::string path;
 			auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(m_cameraList->at(cameraIndex - 1)->m_Ip, path);
 			if (readResult) {
@@ -406,7 +431,7 @@ void Proonnx::pbt_modProductConfig_clicked()
 			}
 		}
 	}
-	set_isCheckProduct(true);
+	set_isCheckProductByList(isCheckList);
 }
 
 void Proonnx::pbtn_setProonnx_clicked()
@@ -424,21 +449,23 @@ void Proonnx::pbt_setIsCheckProduct_clicked()
 			ui->pbt_setIsCheckProduct->setText(QString::fromStdString(m_locStrLoader->getString("31")));
 			set_isCheckProduct(true);
 			m_isSingleCheckProduct = true;
+			//(*m_cameraList)[0]->setHardwareTriggeredAcquisition();
 		}
 		else {
 			ui->pbt_setIsCheckProduct->setText(QString::fromStdString(m_locStrLoader->getString("30")));
 			set_isCheckProduct(false);
 			m_isSingleCheckProduct = false;
+			//(*m_cameraList)[0]->setSoftwareTriggeredAcquisition();
 		}
 	}
 	else {
 		DlgSetIsCheckProduct dlg;
-		auto checkList=get_isCheckProductList();
+		auto checkList = get_isCheckProductList();
 		set_allDoNotCheck();
 		dlg.iniGBox_cameraList(checkList);
-		auto dlgResult=dlg.exec();
+		auto dlgResult = dlg.exec();
 
-		if (dlgResult==QDialog::Accepted) {
+		if (dlgResult == QDialog::Accepted) {
 			auto currentCheckList = dlg.getCurrentIsCheckList();
 			set_isCheckProductByList(currentCheckList);
 		}
@@ -449,21 +476,48 @@ void Proonnx::pbt_setIsCheckProduct_clicked()
 	}
 }
 
-void Proonnx::pbt_addProductCongfig_clicked()
+void Proonnx::pbtn_clearCount_clicked()
 {
+	auto isCheckList = get_isCheckProductList();
 	set_isCheckProduct(false);
 	int cameraCount = m_cameraList->size();
-	if (cameraCount==1) {
+	if (cameraCount == 1) {
+		(*m_cameraList)[0]->setProductCount(0, 0, 0);
+	}
+	else {
+		DlgClearCount dlg;
+		dlg.iniGBox_cameraList(m_cameraList->size());
+		auto dlgResult = dlg.exec();
+
+		if (dlgResult == QDialog::Accepted) {
+			auto isCheckList = dlg.getIsCheckList();
+			for (int i = 0; i < isCheckList.size(); i++) {
+				if (isCheckList[i]) {
+					(*m_cameraList)[i]->setProductCount(0,0,0);
+				}
+			}
+		}
+	}
+	set_isCheckProductByList(isCheckList);
+}
+
+void Proonnx::pbt_addProductCongfig_clicked()
+{
+	auto isCheckList = get_isCheckProductList();
+	set_isCheckProduct(false);
+	int cameraCount = m_cameraList->size();
+	if (cameraCount == 1) {
 		DlgAddProductConfig dlgAddProductConfig(this);
+		dlgAddProductConfig.setWindowSize(this->width() * 0.75, this->height() * 0.75);
 
 		dlgAddProductConfig.setCameraIndex(1);
 		dlgAddProductConfig.setCamera(m_cameraList->at(0));
 
 		dlgAddProductConfig.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
 
-		auto dlgResult=dlgAddProductConfig.exec();
-		if (dlgResult==QDialog::Accepted) {
-			auto productName=dlgAddProductConfig.getProductName();
+		auto dlgResult = dlgAddProductConfig.exec();
+		if (dlgResult == QDialog::Accepted) {
+			auto productName = dlgAddProductConfig.getProductName();
 			(*m_disaplayProductNameList)[0]->setText(productName);
 		}
 	}
@@ -477,6 +531,7 @@ void Proonnx::pbt_addProductCongfig_clicked()
 			auto cameraIndex = dlgSelectCameraIndex.m_indexIndex;
 
 			DlgAddProductConfig dlgAddProductConfig(this);
+			dlgAddProductConfig.setWindowSize(this->width() * 0.75, this->height() * 0.75);
 
 			dlgAddProductConfig.setCameraIndex(cameraIndex);
 			dlgAddProductConfig.setCamera(m_cameraList->at(cameraIndex - 1));
@@ -486,12 +541,12 @@ void Proonnx::pbt_addProductCongfig_clicked()
 			auto dlgResult = dlgAddProductConfig.exec();
 			if (dlgResult == QDialog::Accepted) {
 				auto productName = dlgAddProductConfig.getProductName();
-				(*m_disaplayProductNameList)[cameraIndex-1]->setText(productName);
+				(*m_disaplayProductNameList)[cameraIndex - 1]->setText(productName);
 			}
 		}
 	}
-	set_isCheckProduct(true);
-	
+	set_isCheckProductByList(isCheckList);
+
 }
 
 

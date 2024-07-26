@@ -8,6 +8,7 @@
 #include <iomanip>
 #include<sstream>
 #include <algorithm>
+#include <QRegExp>
 
 DateTransFormUtilty::RWstring
 DateTransFormUtilty::dateFromISOToGregorian
@@ -121,3 +122,14 @@ DateTransFormUtilty::dateHashSimilarity
 	return static_cast<double>(sameCharCount) / totalCharCount;
 
 }
+
+QString DateTransFormUtilty::removeSymbolsAndSpaces(const QString& input)
+{
+	QString result = input;
+	result.remove(QRegExp("[^a-zA-Z0-9]")); 
+	return result;
+}
+
+
+
+

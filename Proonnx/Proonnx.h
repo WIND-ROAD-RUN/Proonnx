@@ -17,6 +17,7 @@ class ImageIdentify;
 class ocrwork;
 class LocalizationStringLoaderXML;
 class ConfigBeforeRuntimeLoader;
+class ConfigForImageSave;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ProonnxClass; };
@@ -30,12 +31,19 @@ private:
 
 	ConfigBeforeRuntimeLoader* m_configBeforeRuntimeLoader{nullptr};
 
+	ConfigForImageSave* m_configForImageSave{ nullptr };
+
 private:
 	QVector<QLabel *>* m_disaplayCameraList{ nullptr };
+
 	QVector<QLabel*>* m_disaplayProductNameList{ nullptr };
+
 	QVector<QLabel*>* m_disaplayCheckInfoList{ nullptr };
+
 	QVector<QLabel*>* m_productCountList{ nullptr };
+
 	QVector<QLabel*>* m_productPassCountList{ nullptr };
+
 	QVector<QLabel*>* m_productOutCountList{ nullptr };
 
 	QVector<ImageIdentify*> * m_cameraList{nullptr};
@@ -54,6 +62,8 @@ private:
 	void ini_configBeforeRuntimeLoader();
 
 	void ini_configBeforeRuntime();
+
+	void ini_configForImageSave();
 private:
 	void ini_gBox_monitoringDisplay();
 
@@ -88,4 +98,6 @@ private slots:
 	void pbtn_setProonnx_clicked();
 
 	void pbt_setIsCheckProduct_clicked();
+
+	void pbtn_clearCount_clicked();
 };

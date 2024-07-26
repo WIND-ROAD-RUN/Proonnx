@@ -22,31 +22,39 @@ void ProductConfigModule::setNewFile(const std::string filePath)
 	auto gainNode = productConfigNode.append_child("Gain");
 	auto rotateCountNode = productConfigNode.append_child("RotateCount");
 
-	auto productProductInfoNode = productConfigNode.append_child("ProductProductInfo");
-	auto totalCountNode = productProductInfoNode.append_child("TotalCount");
+	auto productCountInfoNode = productConfigNode.append_child("ProductCountInfo");
+	auto totalCountNode = productCountInfoNode.append_child("TotalCount");
 	totalCountNode.text().set(0);
-	auto passCountNode = productProductInfoNode.append_child("PassCount");
+	auto passCountNode = productCountInfoNode.append_child("PassCount");
 	passCountNode.text().set(0);
-	auto outCountNode = productProductInfoNode.append_child("OutCount");
+	auto outCountNode = productCountInfoNode.append_child("OutCount");
 	outCountNode.text().set(0);
+
+	auto rejectAttributeNode = productConfigNode.append_child("RejectAttribute");
+	auto rejectDelayNode = rejectAttributeNode.append_child("RejectDelay");
+	rejectDelayNode.text().set(0);
+	auto offsetsNumberNode = rejectAttributeNode.append_child("OffsetsNumber");
+	offsetsNumberNode.text().set(0);
+	auto oisposalTimeNode = rejectAttributeNode.append_child("DisposalTime");
+	oisposalTimeNode.text().set(0);
 
 	auto recognizeRangeNode = productConfigNode.append_child("RecognizeRange");
 
 	auto topLeftCornerNode = recognizeRangeNode.append_child("TopLeftCorner");
-	topLeftCornerNode.append_child("X");
-	topLeftCornerNode.append_child("Y");
+	topLeftCornerNode.append_child("X").text().set(0);
+	topLeftCornerNode.append_child("Y").text().set(0);
 
 	auto upperRightCornerNode = recognizeRangeNode.append_child("UpperRightCorner");
-	upperRightCornerNode.append_child("X");
-	upperRightCornerNode.append_child("Y");
+	upperRightCornerNode.append_child("X").text().set(0);
+	upperRightCornerNode.append_child("Y").text().set(0);
 
 	auto leftLowerCornerNode = recognizeRangeNode.append_child("LeftLowerCorner");
-	leftLowerCornerNode.append_child("X");
-	leftLowerCornerNode.append_child("Y");
+	leftLowerCornerNode.append_child("X").text().set(0);
+	leftLowerCornerNode.append_child("Y").text().set(0);
 
 	auto lowerRightCornerNode = recognizeRangeNode.append_child("LowerRightCorner");
-	lowerRightCornerNode.append_child("X");
-	lowerRightCornerNode.append_child("Y");
+	lowerRightCornerNode.append_child("X").text().set(0);
+	lowerRightCornerNode.append_child("Y").text().set(0);
 
 	auto result= m_doc->save_file(filePath.c_str());
 	qDebug() << result;
@@ -136,7 +144,58 @@ bool ProductConfigModule::storeGain(int gain)
 	return true;
 }
 
-bool ProductConfigModule::storeTopLeftCorner(int x, int y)
+bool ProductConfigModule::storeRejectdelay(int rejectDelay)
+{
+	auto productConfigNode = m_doc->child("ProductConfig");
+	if (!productConfigNode) {
+		return false;
+	}
+	auto rejectAttributeNode = productConfigNode.child("RejectAttribute");
+	if (!rejectAttributeNode) {
+		return false;
+	}
+	auto rejectDelayNode = rejectAttributeNode.child("RejectDelay");
+	if (!rejectDelayNode) {
+		return false;
+	}
+	return rejectDelayNode.text().set(rejectDelay);
+}
+
+bool ProductConfigModule::storeOffsetsNumber(int offsetsNumber)
+{
+	auto productConfigNode = m_doc->child("ProductConfig");
+	if (!productConfigNode) {
+		return false;
+	}
+	auto rejectAttributeNode = productConfigNode.child("RejectAttribute");
+	if (!rejectAttributeNode) {
+		return false;
+	}
+	auto offsetsNumberNode = rejectAttributeNode.child("OffsetsNumber");
+	if (!offsetsNumberNode) {
+		return false;
+	}
+	return offsetsNumberNode.text().set(offsetsNumber);
+}
+
+bool ProductConfigModule::storeDisposalTime(int disposalTime)
+{
+	auto productConfigNode = m_doc->child("ProductConfig");
+	if (!productConfigNode) {
+		return false;
+	}
+	auto rejectAttributeNode = productConfigNode.child("RejectAttribute");
+	if (!rejectAttributeNode) {
+		return false;
+	}
+	auto disposalTimeNode = rejectAttributeNode.child("DisposalTime");
+	if (!disposalTimeNode) {
+		return false;
+	}
+	return disposalTimeNode.text().set(disposalTime);
+}
+
+bool ProductConfigModule::storeTopLeftCorner(double x, double y)
 {
 	auto productConfigNode = m_doc->child("ProductConfig");
 	if (!productConfigNode) {
@@ -171,7 +230,7 @@ bool ProductConfigModule::storeTopLeftCorner(int x, int y)
 	return true;
 }
 
-bool ProductConfigModule::storeUpperRightCorner(int x, int y)
+bool ProductConfigModule::storeUpperRightCorner(double x, double y)
 {
 	auto productConfigNode = m_doc->child("ProductConfig");
 	if (!productConfigNode) {
@@ -206,7 +265,7 @@ bool ProductConfigModule::storeUpperRightCorner(int x, int y)
 	return true;
 }
 
-bool ProductConfigModule::storeLeftLowerCorner(int x, int y)
+bool ProductConfigModule::storeLeftLowerCorner(double x, double y)
 {
 	auto productConfigNode = m_doc->child("ProductConfig");
 	if (!productConfigNode) {
@@ -241,7 +300,7 @@ bool ProductConfigModule::storeLeftLowerCorner(int x, int y)
 	return true;
 }
 
-bool ProductConfigModule::storeLowerRightCornerr(int x, int y)
+bool ProductConfigModule::storeLowerRightCornerr(double x, double y)
 {
 	auto productConfigNode = m_doc->child("ProductConfig");
 	if (!productConfigNode) {
@@ -283,7 +342,7 @@ bool ProductConfigModule::storeTotalCount(int count)
 	if (!productConfigNode) {
 		return false;
 	}
-	auto productProductInfoNode = productConfigNode.child("ProductProductInfo");
+	auto productProductInfoNode = productConfigNode.child("ProductCountInfo");
 	if (!productProductInfoNode) {
 		return false;
 	}
@@ -303,7 +362,7 @@ bool ProductConfigModule::storePassCount(int count)
 	if (!productConfigNode) {
 		return false;
 	}
-	auto productProductInfoNode = productConfigNode.child("ProductProductInfo");
+	auto productProductInfoNode = productConfigNode.child("ProductCountInfo");
 	if (!productProductInfoNode) {
 		return false;
 	}
@@ -322,7 +381,7 @@ bool ProductConfigModule::storeOutCount(int count)
 	if (!productConfigNode) {
 		return false;
 	}
-	auto productProductInfoNode = productConfigNode.child("ProductProductInfo");
+	auto productProductInfoNode = productConfigNode.child("ProductCountInfo");
 	if (!productProductInfoNode) {
 		return false;
 	}
@@ -372,54 +431,84 @@ int ProductConfigModule::readGain()
 	return result;
 }
 
-std::pair<int, int> ProductConfigModule::readTopLeftCorner()
+int ProductConfigModule::readRejectdelay()
+{
+	auto productConfigNode = m_doc->child("ProductConfig");
+	auto rejectAttributeNode = productConfigNode.child("RejectAttribute");
+	auto rejectDelayNode = productConfigNode.child("RejectDelay");
+	auto result = rejectDelayNode.text().as_int();
+
+	return result;
+}
+
+int ProductConfigModule::readOffsetsNumber()
+{
+	auto productConfigNode = m_doc->child("ProductConfig");
+	auto rejectAttributeNode = productConfigNode.child("RejectAttribute");
+	auto offsetsNumberNode = productConfigNode.child("OffsetsNumber");
+	auto result = offsetsNumberNode.text().as_int();
+
+	return result;
+}
+
+int ProductConfigModule::readDisposalTime()
+{
+	auto productConfigNode = m_doc->child("ProductConfig");
+	auto rejectAttributeNode = productConfigNode.child("RejectAttribute");
+	auto disposalTimeNode = productConfigNode.child("DisposalTime");
+	auto result = disposalTimeNode.text().as_int();
+
+	return result;
+}
+
+std::pair<double, double> ProductConfigModule::readTopLeftCorner()
 {
 	auto productConfigNode = m_doc->child("ProductConfig");
 	auto recognizeRangeNode = productConfigNode.child("RecognizeRange");
 	auto topLeftCornerNode = recognizeRangeNode.child("TopLeftCorner");
 	auto xNode = topLeftCornerNode.child("X");
-	auto x = xNode.text().as_int();
+	auto x = xNode.text().as_double();
 	auto yNode = topLeftCornerNode.child("Y");
-	auto y = yNode.text().as_int();
+	auto y = yNode.text().as_double();
 
 	return {x,y};
 }
 
-std::pair<int, int> ProductConfigModule::readUpperRightCorner()
+std::pair<double, double> ProductConfigModule::readUpperRightCorner()
 {
 	auto productConfigNode = m_doc->child("ProductConfig");
 	auto recognizeRangeNode = productConfigNode.child("RecognizeRange");
 	auto upperRightCornerNode = recognizeRangeNode.child("UpperRightCorner");
 	auto xNode = upperRightCornerNode.child("X");
-	auto x = xNode.text().as_int();
+	auto x = xNode.text().as_double();
 	auto yNode = upperRightCornerNode.child("Y");
-	auto y = yNode.text().as_int();
+	auto y = yNode.text().as_double();
 
 	return { x,y };
 }
 
-std::pair<int, int> ProductConfigModule::readLeftLowerCorner()
+std::pair<double, double> ProductConfigModule::readLeftLowerCorner()
 {
 	auto productConfigNode = m_doc->child("ProductConfig");
 	auto recognizeRangeNode = productConfigNode.child("RecognizeRange");
 	auto leftLowerCornerNode = recognizeRangeNode.child("LeftLowerCorner");
 	auto xNode = leftLowerCornerNode.child("X");
-	auto x = xNode.text().as_int();
+	auto x = xNode.text().as_double();
 	auto yNode = leftLowerCornerNode.child("Y");
-	auto y = yNode.text().as_int();
+	auto y = yNode.text().as_double();
 
 	return { x,y };
 }
 
-std::pair<int, int> ProductConfigModule::readLowerRightCornerr()
+std::pair<double, double> ProductConfigModule::readLowerRightCornerr()
 {
 	auto productConfigNode = m_doc->child("ProductConfig");
 	auto recognizeRangeNode = productConfigNode.child("RecognizeRange");
 	auto lowerRightCornerNode = recognizeRangeNode.child("LowerRightCorner");
 	auto xNode = lowerRightCornerNode.child("X");
-	auto x = xNode.text().as_int();
+	auto x = xNode.text().as_double();
 	auto yNode = lowerRightCornerNode.child("Y");
-	auto y = yNode.text().as_int();
+	auto y = yNode.text().as_double();
 
 	return { x,y };
 }
@@ -427,7 +516,7 @@ std::pair<int, int> ProductConfigModule::readLowerRightCornerr()
 int ProductConfigModule::readTotalCount()
 {
 	auto productConfigNode = m_doc->child("ProductConfig");
-	auto productProductInfoNode = productConfigNode.child("ProductProductInfo");
+	auto productProductInfoNode = productConfigNode.child("ProductCountInfo");
 	auto totalCountNode = productProductInfoNode.child("TotalCount");
 	return totalCountNode.text().as_int();
 }
@@ -435,7 +524,7 @@ int ProductConfigModule::readTotalCount()
 int ProductConfigModule::readPassCount()
 {
 	auto productConfigNode = m_doc->child("ProductConfig");
-	auto productProductInfoNode = productConfigNode.child("ProductProductInfo");
+	auto productProductInfoNode = productConfigNode.child("ProductCountInfo");
 	auto passCountNode = productProductInfoNode.child("PassCount");
 	return passCountNode.text().as_int();
 }
@@ -443,7 +532,7 @@ int ProductConfigModule::readPassCount()
 int ProductConfigModule::readOutCount()
 {
 	auto productConfigNode = m_doc->child("ProductConfig");
-	auto productProductInfoNode = productConfigNode.child("ProductProductInfo");
+	auto productProductInfoNode = productConfigNode.child("ProductCountInfo");
 	auto outCountNode = productProductInfoNode.child("OutCount");
 	return outCountNode.text().as_int();
 }

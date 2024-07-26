@@ -24,6 +24,8 @@ protected:
     void mouseReleaseEvent(QMouseEvent* event) override;
 
     void paintEvent(QPaintEvent* event) override;
+public:
+    void paintLastRange();
 
 private:
     bool isSelecting;

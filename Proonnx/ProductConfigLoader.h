@@ -10,23 +10,29 @@ struct ProductConfig {
 	long ExposureTime{10000};
 	int gain{1};
 	int rotateCount{0};
-	std::pair<int, int> topLeftCorner{0,0};
-	std::pair<int, int> upperRightCorner{ 0,0 };
-	std::pair<int, int> leftLowerCorner{ 0,0 };
-	std::pair<int, int> lowerRightCorner{ 0,0 };
+	std::pair<double, double> topLeftCorner{0,0};
+	std::pair<double, double> upperRightCorner{ 0,0 };
+	std::pair<double, double> leftLowerCorner{ 0,0 };
+	std::pair<double, double> lowerRightCorner{ 0,0 };
 };
 
 struct RecognizeRange {
-	std::pair<int, int> topLeftCorner{ 0,0 };
-	std::pair<int, int> upperRightCorner{ 0,0 };
-	std::pair<int, int> leftLowerCorner{ 0,0 };
-	std::pair<int, int> lowerRightCorner{ 0,0 };
+	std::pair<double, double> topLeftCorner{ 0,0 };
+	std::pair<double, double> upperRightCorner{ 0,0 };
+	std::pair<double, double> leftLowerCorner{ 0,0 };
+	std::pair<double, double> lowerRightCorner{ 0,0 };
 };
 
-struct ProductProductInfo {
-	int totalCount;
-	int passCount;
-	int outCount;
+struct ProductCountInfo {
+	int totalCount{ 0 };
+	int passCount{ 0 };
+	int outCount{ 0 };
+};
+
+struct RejectAttribute {
+	int RejectDelay{ 0 };
+	int OffsetsNumber{ 0 };
+	int DisposalTime{ 0 };
 };
 
 class ProductConfigLoader {
@@ -41,11 +47,14 @@ public:
 	void setNewFile(const std::string& filePath);
 	bool saveFile(const std::string& filePath);
 public:
-	ProductConfig loadConfig(const std::string& filePath);
-	ProductProductInfo loadProductProductInfo(const std::string& filePath);
+	ProductConfig loadProductConfig(const std::string& filePath);
+	ProductCountInfo loadProductCountInfo(const std::string& filePath);
+	RejectAttribute loadRejectAttribute(const std::string& filePath);
 
+public:
 	bool storeConfig(const ProductConfig& productConfig);
-	bool storeProductProductInfo(const ProductProductInfo & productProductInfo);
+	bool storeProductProductInfo(const ProductCountInfo & productProductInfo);
+	bool storeRejectAttribute(const RejectAttribute& productConfig);
 
 };
 

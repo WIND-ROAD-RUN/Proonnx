@@ -108,6 +108,12 @@
     <Filter Include="Source Files\config\ConfigBeforeRuntime">
       <UniqueIdentifier>{7217464b-97f9-4bf9-ab45-ec88ac8d5bf0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\config\ConfigForImageSave">
+      <UniqueIdentifier>{5d229c63-76b0-412d-9f81-662cd9a5bb47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\config\ConfigForImageSave">
+      <UniqueIdentifier>{76b668ec-280e-43ec-9db7-433213c5ee2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Proonnx.cpp">
@@ -185,6 +191,15 @@
     <ClCompile Include="DlgSetIsCheckProduct.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
+    <ClCompile Include="ConfigForImageSave.cpp">
+      <Filter>Source Files\config\ConfigForImageSave</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgClearCount.cpp">
+      <Filter>Form Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgClearCount.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Proonnx.ui">
@@ -203,6 +218,9 @@
       <Filter>Form Files\ui</Filter>
     </QtUic>
     <QtUic Include="DlgSetIsCheckProduct.ui">
+      <Filter>Form Files\ui</Filter>
+    </QtUic>
+    <QtUic Include="DlgClearCount.ui">
       <Filter>Form Files\ui</Filter>
     </QtUic>
   </ItemGroup>
@@ -249,6 +267,12 @@
       <Filter>Form Files\ui</Filter>
     </QtMoc>
     <QtMoc Include="DlgSetIsCheckProduct.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgClearCount.h">
+      <Filter>Form Files\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgClearCount.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
   </ItemGroup>
@@ -318,6 +342,9 @@
     </ClInclude>
     <ClInclude Include="ConfigBeforeRuntimeModule.h">
       <Filter>Header Files\config\ConfigBeforeRuntime</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigForImageSave.h">
+      <Filter>Header Files\config\ConfigForImageSave</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

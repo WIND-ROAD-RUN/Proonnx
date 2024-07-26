@@ -38,6 +38,12 @@ public:
 
     bool setGain(int gain); 
 
+    bool setHardwareTriggeredAcquisition();
+
+    bool setSoftwareTriggeredAcquisition();
+
+    int setIOStart(int time);
+
 
 signals:
     void ImgCallBackSignal(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInfo);

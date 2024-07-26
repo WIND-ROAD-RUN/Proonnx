@@ -12,7 +12,10 @@ void FrameSelectLabel::setLastSelectionRect(const QRect& rect)
 {
     lastSelectionRect = rect;
     QPainter painter(this);
-    painter.setPen(Qt::DashLine);
+    QPen pen;
+    pen.setColor(Qt::red);
+    pen.setStyle(Qt::DashLine);
+    painter.setPen(pen);
     painter.drawRect(lastSelectionRect);
 }
 
@@ -51,7 +54,10 @@ void FrameSelectLabel::paintEvent(QPaintEvent* event)
 {
     QLabel::paintEvent(event);
     QPainter painter(this);
-    painter.setPen(Qt::DashLine);
+    QPen pen;
+    pen.setColor(Qt::red);
+    pen.setStyle(Qt::DashLine);
+    painter.setPen(pen);
 
     // 绘制上一次的框选矩形
     if (!lastSelectionRect.isNull()) {
@@ -61,5 +67,19 @@ void FrameSelectLabel::paintEvent(QPaintEvent* event)
     // 绘制当前的框选矩形
     if (isSelecting) {
         painter.drawRect(currentSelectionRect);
+    }
+}
+
+void FrameSelectLabel::paintLastRange()
+{
+    QPainter painter(this);
+    QPen pen;
+    pen.setColor(Qt::red);
+    pen.setStyle(Qt::DashLine);
+    painter.setPen(pen);
+
+    // 绘制上一次的框选矩形
+    if (!lastSelectionRect.isNull()) {
+        painter.drawRect(lastSelectionRect);
     }
 }

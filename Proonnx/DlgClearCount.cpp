@@ -1,12 +1,11 @@
-#include "DlgSetIsCheckProduct.h"
+#include "DlgClearCount.h"
 
 #include"LocalizationStringLoader-XML.h"
 #include<QVBoxLayout>
 #include<QCheckBox>
-
-DlgSetIsCheckProduct::DlgSetIsCheckProduct(QWidget *parent)
+DlgClearCount::DlgClearCount(QWidget *parent)
 	: QDialog(parent)
-	, ui(new Ui::DlgSetIsCheckProductClass())
+	, ui(new Ui::DlgClearCountClass())
 {
 	ui->setupUi(this);
 	ini_ui();
@@ -14,24 +13,25 @@ DlgSetIsCheckProduct::DlgSetIsCheckProduct(QWidget *parent)
 	ini_connect();
 }
 
-DlgSetIsCheckProduct::~DlgSetIsCheckProduct()
+DlgClearCount::~DlgClearCount()
 {
 	delete ui;
 }
 
-void DlgSetIsCheckProduct::ini_ui()
+void DlgClearCount::ini_ui()
 {
+
 }
 
-void DlgSetIsCheckProduct::ini_localizationStringLoaderUI()
+void DlgClearCount::ini_localizationStringLoaderUI()
 {
 	auto loader = LocalizationStringLoaderXML::getInstance();
-	this->setWindowTitle(QString::fromStdString(loader->getString("33")));
+	this->setWindowTitle(QString::fromStdString(loader->getString("36")));
 	ui->pbtn_ok->setText(QString::fromStdString(loader->getString("15")));
 	ui->pbtn_cancel->setText(QString::fromStdString(loader->getString("16")));
 }
 
-void DlgSetIsCheckProduct::ini_connect()
+void DlgClearCount::ini_connect()
 {
 	QObject::connect(ui->pbtn_ok, SIGNAL(clicked()),
 		this, SLOT(pbtn_ok_clicked()));
@@ -39,15 +39,13 @@ void DlgSetIsCheckProduct::ini_connect()
 		this, SLOT(pbtn_cancel_clicked()));
 }
 
-void DlgSetIsCheckProduct::iniGBox_cameraList(const QVector<bool>& list)
+void DlgClearCount::iniGBox_cameraList(int cameraCount)
 {
-	m_isCheckedlist = list;
 	QVBoxLayout* layout = new QVBoxLayout(this);
-	for (int i = 0;i<list.size();i++) {
+	for (int i = 0; i < cameraCount; i++) {
 		QCheckBox* cBox = new QCheckBox();
-		cBox->setText(QString::number(i+1));
-		auto sizePolicy=cBox->sizePolicy();
-		cBox->setChecked(list[i]);
+		cBox->setText(QString::number(i + 1));
+		auto sizePolicy = cBox->sizePolicy();
 		sizePolicy.setHorizontalPolicy(QSizePolicy::Expanding);
 		sizePolicy.setVerticalPolicy(QSizePolicy::Expanding);
 		cBox->setSizePolicy(sizePolicy);
@@ -56,10 +54,10 @@ void DlgSetIsCheckProduct::iniGBox_cameraList(const QVector<bool>& list)
 	ui->gBox_cameraList->setLayout(layout);
 }
 
-QVector<bool> DlgSetIsCheckProduct::getCurrentIsCheckList()
+QVector<bool> DlgClearCount::getIsCheckList()
 {
 	QVector<bool> result;
-	auto layout=ui->gBox_cameraList->layout();
+	auto layout = ui->gBox_cameraList->layout();
 
 	for (int i = 0; i < layout->count(); ++i) {
 		QCheckBox* checkBox = qobject_cast<QCheckBox*>(layout->itemAt(i)->widget());
@@ -71,12 +69,12 @@ QVector<bool> DlgSetIsCheckProduct::getCurrentIsCheckList()
 	return result;
 }
 
-void DlgSetIsCheckProduct::pbtn_ok_clicked()
+void DlgClearCount::pbtn_ok_clicked()
 {
 	this->accept();
 }
 
-void DlgSetIsCheckProduct::pbtn_cancel_clicked()
+void DlgClearCount::pbtn_cancel_clicked()
 {
 	this->reject();
 }

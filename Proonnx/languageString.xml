@@ -139,5 +139,21 @@
 		<language language="USA">The product name cannot be empty</language>
 		<language language="CHN">产品名不能为空</language>
 	</string>
+	<string id="36">
+		<language language="USA">Select the camera that needs to reset the count to zero</language>
+		<language language="CHN">选择需要清零计数的摄像机</language>
+	</string>
+	<string id="37">
+		<language language="USA">Number of offsets (0-10):</language>
+		<language language="CHN">偏移个数(0-10)：</language>
+	</string>
+	<string id="38">
+		<language language="USA">Rejecting delay (0-10000):</language>
+		<language language="CHN">剔废延迟(0-10000):</language>
+	</string>
+	<string id="39">
+		<language language="USA">Disposal time (0-50000):</language>
+		<language language="CHN">剔废时间(0-50000):</language>
+	</string>
 	
 </MyLocalizationStringModele_strings>
