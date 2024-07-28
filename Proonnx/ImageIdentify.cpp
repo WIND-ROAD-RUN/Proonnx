@@ -36,12 +36,13 @@ void ImageIdentify::setRejectAttribute(const RejectAttribute& rejectAttribute)
 void ImageIdentify::save_caputure_time()
 {
 	qint64 currentTimeInMs = QDateTime::currentMSecsSinceEpoch();
-	if (m_lastCapture_time==0) {
+	if (!is_saveCaputureTime) {
 		m_lastCapture_time = currentTimeInMs;
-		m_Capture_time_mid = 0;
+		is_saveCaputureTime = true;
+		return;		//第一次不记录
 	}
 	else {
-		m_Capture_time_mid = currentTimeInMs - m_lastCapture_time;
+		m_Capture_time_mid = m_rollingAverage->addData(currentTimeInMs - m_lastCapture_time);
 		m_lastCapture_time = currentTimeInMs;
 	}
 	qDebug() << m_Capture_time_mid;
@@ -79,6 +80,7 @@ void ImageIdentify::setProductCount(int total, int pass, int out)
 void ImageIdentify::iniCamera()
 {
 	m_productLoader = new ProductConfigLoader();
+	m_rollingAverage = new RollingAverage<qint64>(10);
 
 	auto cameraConfig = m_productLoader->loadProductConfig(m_productConfigFilePath);
 	setExposureTime(cameraConfig.ExposureTime);
@@ -143,6 +145,7 @@ ImageIdentify::~ImageIdentify()
 	delete m_productCheck;
 	delete m_productLoader;
 	delete m_recognizeRange;
+	delete m_rollingAverage;
 	delete m_rejectAttribute;
 }
 
@@ -405,6 +408,9 @@ void ImageIdentify::DisplayImage(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFr
 			save_image(false, ImageIdentifyUtilty::convcertImageFromCvMat(matToSave));
 			send_checkErrorSignal();
 		}
+	}
+	else {
+		is_saveCaputureTime = false;
 	}
 	render_image(matToRecognize, nativeMat);
 }

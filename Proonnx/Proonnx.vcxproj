@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="RollingAverage.cpp" />
     <QtRcc Include="Proonnx.qrc" />
     <QtUic Include="DlgAddProductConfig.ui" />
     <QtUic Include="DlgChangeProductConfig.ui" />
@@ -155,6 +156,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RollingAverage.h" />
     <QtMoc Include="DlgChangeProductConfig.h" />
     <QtMoc Include="mycamera.h" />
     <QtMoc Include="FrameSelectLabel.h" />

@@ -10,6 +10,7 @@
 #include<QAction>
 #include<QLabel>
 #include"ProductCheck.h"
+#include"RollingAverage.h"
 
 struct ImageIdentifyUtilty
 {
@@ -78,7 +79,7 @@ private:
 private:
 	qint64  m_lastCapture_time{0};
 
-	qint64 m_Capture_time_mid{0};
+	qint64 m_Capture_time_mid{200};
 private:
 	RecognizeRange * m_recognizeRange{};
 
@@ -89,7 +90,8 @@ public:
 	void setRejectAttribute(const RejectAttribute & rejectAttribute);
 private:
 	void save_caputure_time();
-
+private:
+	bool is_saveCaputureTime{ false };
 public:
 	bool m_setIsCheck{false};
 
@@ -148,6 +150,8 @@ public:
 
 private:
 	ProductCheck<std::vector<OCRResult>, QString> * m_productCheck;
+
+	RollingAverage<qint64>* m_rollingAverage;
 
 	QString m_standardDate;
 
@@ -209,6 +213,7 @@ private:
 	cv::Mat rotate_image(const cv::Mat& image, int rotations);
 
 	void save_image(bool productCheckResult,const QImage & image);
+
 
 	int set_IO_start(int time);
 

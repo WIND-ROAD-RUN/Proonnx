@@ -5,31 +5,31 @@
 	<Gain>1</Gain>
 	<RotateCount>0</RotateCount>
 	<ProductCountInfo>
-		<TotalCount>33</TotalCount>
-		<PassCount>8</PassCount>
-		<OutCount>25</OutCount>
+		<TotalCount>0</TotalCount>
+		<PassCount>0</PassCount>
+		<OutCount>0</OutCount>
 	</ProductCountInfo>
 	<RejectAttribute>
 		<RejectDelay>0</RejectDelay>
 		<OffsetsNumber>0</OffsetsNumber>
-		<DisposalTime>0</DisposalTime>
+		<DisposalTime>100</DisposalTime>
 	</RejectAttribute>
 	<RecognizeRange>
 		<TopLeftCorner>
-			<X>0</X>
-			<Y>0</Y>
+			<X>0.005893909626719057</X>
+			<Y>0.027542372881355932</Y>
 		</TopLeftCorner>
 		<UpperRightCorner>
-			<X>0</X>
-			<Y>0</Y>
+			<X>0.96463654223968565</X>
+			<Y>0.027542372881355932</Y>
 		</UpperRightCorner>
 		<LeftLowerCorner>
-			<X>0</X>
-			<Y>0</Y>
+			<X>0.005893909626719057</X>
+			<Y>0.94279661016949157</Y>
 		</LeftLowerCorner>
 		<LowerRightCorner>
-			<X>0</X>
-			<Y>0</Y>
+			<X>0.96463654223968565</X>
+			<Y>0.94279661016949157</Y>
 		</LowerRightCorner>
 	</RecognizeRange>
 </ProductConfig>

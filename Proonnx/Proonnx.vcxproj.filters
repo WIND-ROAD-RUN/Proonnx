@@ -200,6 +200,9 @@
     <ClCompile Include="DlgClearCount.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
+    <ClCompile Include="RollingAverage.cpp">
+      <Filter>Source Files\ImageIdentify\ProductDateCheck</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Proonnx.ui">
@@ -345,6 +348,9 @@
     </ClInclude>
     <ClInclude Include="ConfigForImageSave.h">
       <Filter>Header Files\config\ConfigForImageSave</Filter>
+    </ClInclude>
+    <ClInclude Include="RollingAverage.h">
+      <Filter>Header Files\ImageIdentify\ProductDateCheck</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
