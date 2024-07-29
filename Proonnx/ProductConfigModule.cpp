@@ -435,7 +435,7 @@ int ProductConfigModule::readRejectdelay()
 {
 	auto productConfigNode = m_doc->child("ProductConfig");
 	auto rejectAttributeNode = productConfigNode.child("RejectAttribute");
-	auto rejectDelayNode = productConfigNode.child("RejectDelay");
+	auto rejectDelayNode = rejectAttributeNode.child("RejectDelay");
 	auto result = rejectDelayNode.text().as_int();
 
 	return result;
@@ -445,7 +445,7 @@ int ProductConfigModule::readOffsetsNumber()
 {
 	auto productConfigNode = m_doc->child("ProductConfig");
 	auto rejectAttributeNode = productConfigNode.child("RejectAttribute");
-	auto offsetsNumberNode = productConfigNode.child("OffsetsNumber");
+	auto offsetsNumberNode = rejectAttributeNode.child("OffsetsNumber");
 	auto result = offsetsNumberNode.text().as_int();
 
 	return result;
@@ -455,7 +455,7 @@ int ProductConfigModule::readDisposalTime()
 {
 	auto productConfigNode = m_doc->child("ProductConfig");
 	auto rejectAttributeNode = productConfigNode.child("RejectAttribute");
-	auto disposalTimeNode = productConfigNode.child("DisposalTime");
+	auto disposalTimeNode = rejectAttributeNode.child("DisposalTime");
 	auto result = disposalTimeNode.text().as_int();
 
 	return result;

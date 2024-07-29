@@ -84,7 +84,7 @@ void ImageIdentify::iniCamera()
 
 	auto cameraConfig = m_productLoader->loadProductConfig(m_productConfigFilePath);
 	setExposureTime(cameraConfig.ExposureTime);
-	setGain(cameraConfig.ExposureTime);
+	setGain(cameraConfig.gain);
 	setRotateCount(cameraConfig.rotateCount);
 	m_recognizeRange = new RecognizeRange();
 	m_recognizeRange->topLeftCorner= cameraConfig.topLeftCorner;
@@ -139,8 +139,6 @@ ImageIdentify::~ImageIdentify()
 {
 	m_monitorCamera->stopAcquisition();
 	delete m_indentModel;
-	delete m_labelForImage;
-	delete m_labelForImage;
 	delete m_monitorCamera;
 	delete m_productCheck;
 	delete m_productLoader;
@@ -185,11 +183,13 @@ void ImageIdentify::stopAcquisition()
 
 bool ImageIdentify::setExposureTime(int exposureTime)
 {
+	m_exposureTime = exposureTime;
 	return m_monitorCamera->setExposureTime(exposureTime);
 }
 
 bool ImageIdentify::setGain(int gain)
 {
+	m_gain = gain;
 	return m_monitorCamera->setGain(gain);
 }
 
@@ -239,7 +239,7 @@ void ImageIdentify::display_image(cv::Mat& mat)
 void ImageIdentify::display_dlgImage(cv::Mat& mat)
 {
 	if (m_dlgLabelForImage) {
-		auto recognizeResult = ocr_image(mat);
+		//auto recognizeResult = ocr_image(mat);
 		QImage im =
 			ImageIdentifyUtilty::convcertImageFromCvMat(mat);
 
@@ -356,9 +356,12 @@ int ImageIdentify::set_IO_start(int time)
 void ImageIdentify::send_checkErrorSignal()
 {
 	QtConcurrent::run([this]() {
-		int sleepTime =( m_Capture_time_mid * ((double)m_rejectAttribute->RejectDelay / (double)m_rejectAttribute->DisposalTime))* m_rejectAttribute->DisposalTime;
+		/*int sleepTime =( m_Capture_time_mid * ((double)m_rejectAttribute->RejectDelay / (double)m_rejectAttribute->DisposalTime))* m_rejectAttribute->DisposalTime;
 		QThread::msleep(sleepTime);
-		set_IO_start(m_rejectAttribute->RejectDelay);
+		set_IO_start(m_rejectAttribute->RejectDelay);*/
+		int sleepTime = (m_Capture_time_mid * m_rejectAttribute->OffsetsNumber)+m_rejectAttribute->RejectDelay;
+		QThread::msleep(sleepTime);
+		set_IO_start((double)m_rejectAttribute->DisposalTime);
 		});
 	
 }
@@ -466,10 +469,11 @@ cv::Mat ImageIdentifyUtilty::ConvertMat(MV_FRAME_OUT_INFO_EX* pFrameInfo, unsign
 		break;
 	case PixelType_Gvsp_BayerRG8:
 		mat = cv::Mat(pFrameInfo->nHeight, pFrameInfo->nWidth, CV_8UC1, pData);
-		cv::cvtColor(mat, mat, cv::COLOR_BayerRG2RGB);
+		cv::cvtColor(mat, mat, cv::COLOR_BayerBG2RGB); // ÐÞ¸ÄÎª BayerBG2RGB
 		break;
 	default:
 		qDebug() << "Unsupported pixel type";
+		qDebug() << pFrameInfo->enPixelType;
 		return mat;
 	}
 	return mat;

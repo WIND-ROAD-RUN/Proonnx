@@ -26,6 +26,11 @@ void DlgSetProonnx::iniComponet()
 	ini_configBeforeRuntimeLoader(m_filePath.toStdString());
 }
 
+void DlgSetProonnx::setWindowSize(int wide, int height)
+{
+	this->setFixedSize(wide, height);
+}
+
 void DlgSetProonnx::ini_ui()
 {
 	ini_localizationStringLoaderUI();

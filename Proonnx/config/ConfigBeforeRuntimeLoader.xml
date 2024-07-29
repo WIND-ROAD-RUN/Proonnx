@@ -2,6 +2,6 @@
 <ConfigBeforeRuntimeModule>
 	<CameraCount>2</CameraCount>
 	<Language>CHN</Language>
-	<CameraConfig ip="169.254.193.8">C:/Users/61795/Desktop/Project/asdasd.xml</CameraConfig>
-	<CameraConfig ip="192.168.1.11">C:/Users/61795/Desktop/Project/Proonnx/Proonnx/ProductConfig/UNDEFINED192.168.1.11.xml</CameraConfig>
+	<CameraConfig ip="169.254.193.8">C:/Users/61795/Desktop/zg1.xml</CameraConfig>
+	<CameraConfig ip="192.168.1.11">C:/Users/61795/Desktop/zg-1.xml</CameraConfig>
 </ConfigBeforeRuntimeModule>

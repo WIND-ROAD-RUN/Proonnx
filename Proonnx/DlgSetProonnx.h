@@ -31,6 +31,8 @@ public:
 	void setFilePath(const QString& filePath) { m_filePath = filePath; }
 
 	void iniComponet();
+
+	void setWindowSize(int wide, int height);
 private:
 	void ini_ui();
 	void ini_localizationStringLoaderUI();

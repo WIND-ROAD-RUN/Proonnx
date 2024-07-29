@@ -111,6 +111,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LogModule.cpp" />
+    <ClCompile Include="LogRecorder.cpp" />
+    <ClCompile Include="LogSystemUtilty.cpp" />
     <ClCompile Include="RollingAverage.cpp" />
     <QtRcc Include="Proonnx.qrc" />
     <QtUic Include="DlgAddProductConfig.ui" />
@@ -156,6 +159,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LogRecorder.h" />
+    <ClInclude Include="LogModule.h" />
+    <ClInclude Include="LogSystemUtilty.h" />
     <ClInclude Include="RollingAverage.h" />
     <QtMoc Include="DlgChangeProductConfig.h" />
     <QtMoc Include="mycamera.h" />

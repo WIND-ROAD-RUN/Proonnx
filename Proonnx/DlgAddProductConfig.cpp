@@ -6,12 +6,12 @@
 
 #include"FrameSelectLabel.h"
 #include"ProductConfigLoader.h"
-#include"spdlog/spdlog.h"
 #include"ImageIdentify.h"
 #include"ConfigBeforeRuntimeLoader.h"
 #include"LocalizationStringLoader-XML.h"
+#include"LogRecorder.h"
 
-
+static LogRecorder* LOGRECORDER = LogRecorder::getInstance();
 
 DlgAddProductConfig::DlgAddProductConfig(QWidget *parent)
 	: QDialog(parent)
@@ -19,7 +19,6 @@ DlgAddProductConfig::DlgAddProductConfig(QWidget *parent)
 {
 	ui->setupUi(this);
 	m_recognizeRange = new RecognizeRange();
-	spdlog::info("Iniliazing ui for dlgAddProductConfig");
 	ini_ui();
 	ini_connect();
 }
@@ -36,6 +35,9 @@ void DlgAddProductConfig::setCamera(ImageIdentify* camera)
 {
 	m_camera = camera;
 	m_camera->setDlgLabelForImage(m_frameSelectLabel);
+	ui->sBox_exposureTime->setValue(m_camera->getExposureTime())  ;
+	ui->sBox_gain->setValue(m_camera->getGain());
+	m_rotateCount = m_camera->getRotateCont();
 }
 
 void DlgAddProductConfig::setConfigBeforeRuntime(const QString& filePath)
@@ -149,6 +151,9 @@ void DlgAddProductConfig::selectionMade_complete(const QRect& rect)
 		m_recognizeRange->upperRightCorner = { x,y };
 	}
 	
+	LOGRECORDER->info("Draw recognize range :");
+	LOGRECORDER->info(*m_recognizeRange);
+
 	m_frameSelectLabel->enableSelection(false);
 }
 
@@ -157,6 +162,8 @@ void DlgAddProductConfig::sBox_exposureTime_value_change(int)
 	m_camera->stopAcquisition();
 	m_camera->setExposureTime(ui->sBox_exposureTime->value());
 	m_camera->startAcquisition();
+
+	LOGRECORDER->info("Set exposire time is:"+std::to_string(ui->sBox_exposureTime->value()));
 }
 
 void DlgAddProductConfig::sBox_gain_value_change(int)
@@ -164,6 +171,8 @@ void DlgAddProductConfig::sBox_gain_value_change(int)
 	m_camera->stopAcquisition();
 	m_camera->setGain(ui->sBox_gain->value());
 	m_camera->startAcquisition();
+
+	LOGRECORDER->info("Set gain is:" + std::to_string(ui->sBox_gain->value()));
 }
 
 void DlgAddProductConfig::pbtn_spinImage_clicked()
@@ -171,6 +180,8 @@ void DlgAddProductConfig::pbtn_spinImage_clicked()
 	m_rotateCount++;
 	m_rotateCount = m_rotateCount % 4;
 	m_camera->setRotateCount(m_rotateCount);
+
+	LOGRECORDER->info("Spin image");
 }
 
 void DlgAddProductConfig::pbtn_drawRecognitionRange_clicked()
@@ -193,9 +204,11 @@ void DlgAddProductConfig::pbt_saveProductConfig_clicked()
 	if (fileDlg.exec() == QFileDialog::Accepted) {
 		auto fileName = fileDlg.selectedFiles().first();
 
+		LOGRECORDER->info("Add product config at path:" + fileName.toStdString());
+		LOGRECORDER->info("And the save data is next :");
+
 		ProductConfigLoader configLoader;
 		configLoader.setNewFile(fileName.toStdString());
-		qDebug() << fileName;
 
 		ProductConfig config;
 		RecognizeRange recognizeRange;
@@ -212,6 +225,9 @@ void DlgAddProductConfig::pbt_saveProductConfig_clicked()
 		config.lowerRightCorner = m_recognizeRange->lowerRightCorner;
 		recognizeRange.lowerRightCorner = m_recognizeRange->lowerRightCorner;
 
+		LOGRECORDER->info(config);
+		LOGRECORDER->info(recognizeRange);
+
 		m_camera->setRecognizeRange(recognizeRange);
 
 		RejectAttribute rejectAttribute;
@@ -219,6 +235,7 @@ void DlgAddProductConfig::pbt_saveProductConfig_clicked()
 		rejectAttribute.OffsetsNumber = ui->sBox_numberOffsets->value();
 		rejectAttribute.RejectDelay = ui->sBox_delayInRejection->value();
 		m_camera->setRejectAttribute(rejectAttribute);
+		LOGRECORDER->info(rejectAttribute);
 
 		ConfigBeforeRuntimeLoader configBeforeRuntimeLoader;
 		configBeforeRuntimeLoader.loadFile(m_configBeforeRuntime.toStdString());
@@ -231,13 +248,12 @@ void DlgAddProductConfig::pbt_saveProductConfig_clicked()
 
 		if (storeConfigResult&& saveConfigResult&& storeRejectAttributeResult) {
 			QMessageBox::information(this, QString::fromStdString(loader->getString("12")), QString::fromStdString(loader->getString("24")));
-			spdlog::info("Add new product config in "+ fileName.toStdString());
-
+			LOGRECORDER->info("Save successfulls");
 			this->accept();
 		}
 		else {
 			QMessageBox::warning(this, QString::fromStdString(loader->getString("12")), QString::fromStdString(loader->getString("25")));
-			spdlog::info("Failed add new product config in " + fileName.toStdString());
+			LOGRECORDER->error("Save failed!!!!");
 		}
 
 

@@ -8,6 +8,9 @@
 #include"ImageIdentify.h"
 #include"LocalizationStringLoader-XML.h"
 #include"ConfigBeforeRuntimeLoader.h"
+#include"LogRecorder.h"
+
+static LogRecorder* LOGRECORDER = LogRecorder::getInstance();
 
 void DlgChangeProductConfig::setConfigBeforeRuntime(const QString& filePath)
 {
@@ -94,9 +97,13 @@ void DlgChangeProductConfig::ini_configLoader()
 	m_loader = new ProductConfigLoader();
 	m_recognizeRange = new RecognizeRange();
 	auto productConfig = m_loader->loadProductConfig(m_filePath.toStdString());
+	auto RejectAttributeCongif = m_loader->loadRejectAttribute(m_filePath.toStdString());
 	ui->lEdit_productName->setText(QString::fromStdString(productConfig.productName));
 	ui->sBox_exposureTime->setValue(productConfig.ExposureTime);
 	ui->sBox_gain->setValue(productConfig.gain);
+	ui->sBox_delayInRejection->setValue(RejectAttributeCongif.RejectDelay);
+	ui->sBox_disposalTime->setValue(RejectAttributeCongif.DisposalTime);
+	ui->sBox_numberOffsets->setValue(RejectAttributeCongif.OffsetsNumber);
 	m_rotateCount = productConfig.rotateCount;
 }
 
@@ -120,11 +127,16 @@ void DlgChangeProductConfig::setWindowSize(int wide, int height)
 
 void DlgChangeProductConfig::pbt_saveProductConfig_clicked()
 {
+
 	auto loader = LocalizationStringLoaderXML::getInstance();
 	if (ui->lEdit_productName->text().size() == 0) {
 		QMessageBox::warning(this, QString::fromStdString(loader->getString("34")), QString::fromStdString(loader->getString("35")));
 		return;
 	}
+
+
+	LOGRECORDER->info("Add product config at path:" + m_filePath.toStdString());
+	LOGRECORDER->info("And the save data is next :");
 
 	ProductConfigLoader configLoader;
 	configLoader.setNewFile(m_filePath.toStdString());
@@ -144,6 +156,9 @@ void DlgChangeProductConfig::pbt_saveProductConfig_clicked()
 	config.lowerRightCorner = m_recognizeRange->lowerRightCorner;
 	recognizeRange.lowerRightCorner = m_recognizeRange->lowerRightCorner;
 
+	LOGRECORDER->info(config);
+	LOGRECORDER->info(recognizeRange);
+
 	m_camera->setRecognizeRange(recognizeRange);
 
 	RejectAttribute rejectAttribute;
@@ -152,14 +167,18 @@ void DlgChangeProductConfig::pbt_saveProductConfig_clicked()
 	rejectAttribute.RejectDelay = ui->sBox_delayInRejection->value();
 	m_camera->setRejectAttribute(rejectAttribute);
 
+	LOGRECORDER->info(rejectAttribute);
+
 	auto storeRejectAttributeResult = configLoader.storeRejectAttribute(rejectAttribute);
 	auto storeConfigResult = configLoader.storeConfig(config);
 	auto saveConfigResult = configLoader.saveFile(m_filePath.toStdString());
 	if (storeConfigResult && saveConfigResult&& storeRejectAttributeResult) {
 		QMessageBox::information(this, QString::fromStdString(loader->getString("12")), QString::fromStdString(loader->getString("24")));
+		LOGRECORDER->info("Save successfulls");
 	}
 	else {
 		QMessageBox::warning(this, QString::fromStdString(loader->getString("12")), QString::fromStdString(loader->getString("25")));
+		LOGRECORDER->error("Save failed!!!!");
 	}
 
 	this->accept();
@@ -170,6 +189,8 @@ void DlgChangeProductConfig::pbtn_spinImage_clicked()
 	m_rotateCount++;
 	m_rotateCount = m_rotateCount % 4;
 	m_camera->setRotateCount(m_rotateCount);
+
+	LOGRECORDER->info("Spin image");
 }
 
 void DlgChangeProductConfig::pbtn_drawRecognitionRange_clicked()
@@ -208,6 +229,8 @@ void DlgChangeProductConfig::sBox_exposureTime_value_change(int)
 	m_camera->stopAcquisition();
 	m_camera->setExposureTime(ui->sBox_exposureTime->value());
 	m_camera->startAcquisition();
+
+	LOGRECORDER->info("Set exposire time is:" + std::to_string(ui->sBox_exposureTime->value()));
 }
 
 void DlgChangeProductConfig::sBox_gain_value_change(int)
@@ -215,6 +238,8 @@ void DlgChangeProductConfig::sBox_gain_value_change(int)
 	m_camera->stopAcquisition();
 	m_camera->setGain(ui->sBox_gain->value());
 	m_camera->startAcquisition();
+
+	LOGRECORDER->info("Set gain is:" + std::to_string(ui->sBox_gain->value()));
 }
 
 void DlgChangeProductConfig::selectionMade_complete(const QRect& rect)
@@ -270,6 +295,8 @@ void DlgChangeProductConfig::selectionMade_complete(const QRect& rect)
 		m_recognizeRange->upperRightCorner = { x,y };
 	}
 
+	LOGRECORDER->info("Draw recognize range :");
+	LOGRECORDER->info(*m_recognizeRange);
 
 	m_frameSelectLabel->enableSelection(false);
 }

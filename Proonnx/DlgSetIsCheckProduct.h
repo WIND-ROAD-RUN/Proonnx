@@ -31,6 +31,8 @@ public:
 	QVector<bool> getCurrentIsCheckList();
 
 	QVector<bool> getNativeIsCheckList() { return m_isCheckedlist; }
+
+	void setWindowSize(int wide, int height);
 private:
 	Ui::DlgSetIsCheckProductClass *ui;
 

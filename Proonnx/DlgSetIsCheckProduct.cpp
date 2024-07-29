@@ -71,6 +71,11 @@ QVector<bool> DlgSetIsCheckProduct::getCurrentIsCheckList()
 	return result;
 }
 
+void DlgSetIsCheckProduct::setWindowSize(int wide, int height)
+{
+	this->setFixedSize(wide, height);
+}
+
 void DlgSetIsCheckProduct::pbtn_ok_clicked()
 {
 	this->accept();

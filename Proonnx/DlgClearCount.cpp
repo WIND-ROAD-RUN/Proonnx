@@ -69,6 +69,11 @@ QVector<bool> DlgClearCount::getIsCheckList()
 	return result;
 }
 
+void DlgClearCount::setWindowSize(int wide, int height)
+{
+	this->setFixedSize(wide, height);
+}
+
 void DlgClearCount::pbtn_ok_clicked()
 {
 	this->accept();

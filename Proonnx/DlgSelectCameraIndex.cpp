@@ -24,6 +24,11 @@ void DlgSelectCameraIndex::setConfigBeforeRuntime(const QString& filePath)
 	m_configBeforeRuntime = filePath;
 }
 
+void DlgSelectCameraIndex::setWindowSize(int wide, int height)
+{
+	this->setFixedSize(wide, height);
+}
+
 void DlgSelectCameraIndex::ini_ui()
 {
 	qDebug() << m_cameraCount;

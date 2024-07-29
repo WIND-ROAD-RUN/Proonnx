@@ -28,6 +28,8 @@ public:
 
 	QVector<bool> getIsCheckList();
 
+	void setWindowSize(int wide, int height);
+
 private:
 	Ui::DlgClearCountClass *ui;
 	

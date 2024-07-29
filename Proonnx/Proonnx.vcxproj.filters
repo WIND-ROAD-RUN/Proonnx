@@ -114,6 +114,12 @@
     <Filter Include="Source Files\config\ConfigForImageSave">
       <UniqueIdentifier>{76b668ec-280e-43ec-9db7-433213c5ee2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\config\LogSave">
+      <UniqueIdentifier>{109308af-7020-4e2e-bad0-c553c0220ba7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\config\LogSave">
+      <UniqueIdentifier>{45e9061e-a89a-495d-84f5-1214513c1d8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Proonnx.cpp">
@@ -202,6 +208,15 @@
     </ClCompile>
     <ClCompile Include="RollingAverage.cpp">
       <Filter>Source Files\ImageIdentify\ProductDateCheck</Filter>
+    </ClCompile>
+    <ClCompile Include="LogRecorder.cpp">
+      <Filter>Source Files\config\LogSave</Filter>
+    </ClCompile>
+    <ClCompile Include="LogModule.cpp">
+      <Filter>Source Files\config\LogSave</Filter>
+    </ClCompile>
+    <ClCompile Include="LogSystemUtilty.cpp">
+      <Filter>Source Files\config\LogSave</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -351,6 +366,15 @@
     </ClInclude>
     <ClInclude Include="RollingAverage.h">
       <Filter>Header Files\ImageIdentify\ProductDateCheck</Filter>
+    </ClInclude>
+    <ClInclude Include="LogRecorder.h">
+      <Filter>Header Files\config\LogSave</Filter>
+    </ClInclude>
+    <ClInclude Include="LogModule.h">
+      <Filter>Header Files\config\LogSave</Filter>
+    </ClInclude>
+    <ClInclude Include="LogSystemUtilty.h">
+      <Filter>Header Files\config\LogSave</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -73,6 +73,9 @@ class ImageIdentify
 	:public QAction {
 	Q_OBJECT
 private:
+
+
+private:
 	MonitorCamera* m_monitorCamera{nullptr};
 
 	ocrwork* m_indentModel{nullptr};
@@ -81,9 +84,9 @@ private:
 
 	qint64 m_Capture_time_mid{200};
 private:
-	RecognizeRange * m_recognizeRange{};
+	RecognizeRange * m_recognizeRange{ nullptr };
 
-	RejectAttribute* m_rejectAttribute{};
+	RejectAttribute* m_rejectAttribute{ nullptr };
 public:
 	void setRecognizeRange(const RecognizeRange & range);
 
@@ -149,9 +152,9 @@ public:
 	std::string m_productConfigFilePath{};
 
 private:
-	ProductCheck<std::vector<OCRResult>, QString> * m_productCheck;
+	ProductCheck<std::vector<OCRResult>, QString>* m_productCheck{ nullptr };
 
-	RollingAverage<qint64>* m_rollingAverage;
+	RollingAverage<qint64>* m_rollingAverage{ nullptr };
 
 	QString m_standardDate;
 
@@ -172,6 +175,16 @@ private:
 
 private:
 	int m_rotateCount{0};
+
+	int m_exposureTime{0};
+
+	int m_gain{0};
+public:
+	int getExposureTime() { return m_exposureTime; }
+
+	int getGain() { return m_gain; }
+
+	int getRotateCont() { return m_rotateCount; }
 
 public:
 	void setRotateCount(int count);
