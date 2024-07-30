@@ -37,7 +37,7 @@
           <widget class="QPushButton" name="pbtn_setProonnx">
            <property name="text">
             <string>设置</string>
-           </property>
+        </property>
           </widget>
          </item>
         </layout>
@@ -83,9 +83,9 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="text">
+            <property name="text">
             <string>开始识别</string>
-           </property>
+            </property>
           </widget>
          </item>
          <item row="0" column="1">

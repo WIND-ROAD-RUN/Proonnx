@@ -95,6 +95,7 @@ private:
 	void set_allDoNotCheck();
 
 private slots:
+	void cBox_changeLanguage_index_change(int index);
 	void pbt_addProductCongfig_clicked();
 
 	void pbt_modProductConfig_clicked();
