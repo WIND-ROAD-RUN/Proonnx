@@ -163,5 +163,13 @@
 		<language language="USA">Whether to quit</language>
 		<language language="CHN">是否退出</language>
 	</string>
+	<string id="42">
+		<language language="USA">Are you sure</language>
+		<language language="CHN">确认</language>
+	</string>
+	<string id="43">
+		<language language="USA">Are you sure tu quit and save</language>
+		<language language="CHN">是否保存并退出</language>
+	</string>
 	
 </MyLocalizationStringModele_strings>

@@ -24,7 +24,7 @@ struct ImageIdentifyUtilty
 
 	static QImage 
 		convcertImageFromCvMat
-		(cv::Mat& mat);
+		(const cv::Mat & mat);
 
 	static bool 
 		checkProduct
@@ -86,7 +86,6 @@ private:
 	RecognizeRange * m_recognizeRange{ nullptr };
 
 	RejectAttribute* m_rejectAttribute{ nullptr };
-
 public:
 	void setRecognizeRange(const RecognizeRange & range);
 
@@ -128,6 +127,8 @@ public:
 	int m_productOutCount{ 0 };
 
 	QLabel* m_labelForProductName{ nullptr };
+public:
+	QLabel* m_labelForNg{ nullptr };
 
 public:
 	void setProductCount(int total,int pass,int out);
@@ -216,6 +217,8 @@ public:
 private:
 	void display_image(cv::Mat& mat);
 
+	void display_image(const cv::Mat& mat,QLabel * label);
+
 	void display_dlgImage(cv::Mat& mat);
 
 	void update_productInfo_label(bool check);
@@ -230,7 +233,7 @@ private:
 
 	cv::Mat rotate_image(const cv::Mat& image, int rotations);
 
-	void save_image(bool productCheckResult,const QImage & image);
+	void save_image(bool productCheckResult,const QImage & image, bool isCrop);
 
 
 	int set_IO_start(int time);

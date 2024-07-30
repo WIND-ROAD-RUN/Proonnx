@@ -5,8 +5,10 @@
 
 #include"MVS/Includes/MvCameraControl.h"
 #include"ImageIdentify.h"
+#include"ClickableLabel.h"
 #include<QVector>
 #include<QLabel>
+#include"IndexButton.h"
 
 
 namespace cv {
@@ -34,7 +36,7 @@ private:
 	ConfigForImageSave* m_configForImageSave{ nullptr };
 
 private:
-	QVector<QLabel *>* m_disaplayCameraList{ nullptr };
+	QVector<ClickableLabel *>* m_disaplayCameraList{ nullptr };
 
 	QVector<QLabel*>* m_disaplayProductNameList{ nullptr };
 
@@ -47,6 +49,8 @@ private:
 	QVector<QLabel*>* m_productOutCountList{ nullptr };
 
 	QVector<ImageIdentify*> * m_cameraList{nullptr};
+public:
+	QVector<IndexButton*>* m_setIsCheckPbtnList{ nullptr };
 
 private:
 	QString m_configBeforeRuntimeLoaderFilePath{};
@@ -73,6 +77,7 @@ private:
 	void ini_connect();
 
 	void des_com();
+
 private:
 	void set_isCheckProduct(bool is);
 
@@ -95,18 +100,27 @@ private:
 	void set_isCheckProductByList(const QVector<bool> & list);
 
 	void set_allDoNotCheck();
+private:
+	void select_config(int index);
 
 private slots:
 	void pbt_addProductCongfig_clicked();
+	void pbt_addProductCongfig(int index);
 
 	void pbt_modProductConfig_clicked();
+	void pbt_modProductConfig(int index);
 
 	void pbtn_setProonnx_clicked();
 
 	void pbt_setIsCheckProduct_clicked();
+	void pbt_setIsCheckProduct(int index);
+	void setCheckProduct_clicked(bool check);
 
 	void pbtn_clearCount_clicked();
+	void pbtn_clearCount(int index);
 
 	void pbtn_quit_clicked();
+
+	void clicked_label_clicked(int index);
 
 };

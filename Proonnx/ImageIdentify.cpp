@@ -17,6 +17,8 @@
 
 
 
+
+
 void ImageIdentify::setRecognizeRange(const RecognizeRange& range)
 {
 	m_recognizeRange->leftLowerCorner = range.leftLowerCorner;
@@ -28,7 +30,7 @@ void ImageIdentify::setRecognizeRange(const RecognizeRange& range)
 void ImageIdentify::setRejectAttribute(const RejectAttribute& rejectAttribute)
 {
 	m_rejectAttribute = new RejectAttribute;
-	m_rejectAttribute->DisposalTime=rejectAttribute.DisposalTime;
+	m_rejectAttribute->DisposalTime = rejectAttribute.DisposalTime;
 	m_rejectAttribute->OffsetsNumber = rejectAttribute.OffsetsNumber;
 	m_rejectAttribute->RejectDelay = rejectAttribute.RejectDelay;
 }
@@ -74,7 +76,7 @@ void ImageIdentify::setProductCount(int total, int pass, int out)
 
 	m_productLoader->storeProductProductInfo(config);
 	m_productLoader->saveFile(m_productConfigFilePath);
-	
+
 }
 
 void ImageIdentify::iniCamera()
@@ -87,7 +89,7 @@ void ImageIdentify::iniCamera()
 	setGain(cameraConfig.gain);
 	setRotateCount(cameraConfig.rotateCount);
 	m_recognizeRange = new RecognizeRange();
-	m_recognizeRange->topLeftCorner= cameraConfig.topLeftCorner;
+	m_recognizeRange->topLeftCorner = cameraConfig.topLeftCorner;
 	m_recognizeRange->leftLowerCorner = cameraConfig.leftLowerCorner;
 	m_recognizeRange->lowerRightCorner = cameraConfig.lowerRightCorner;
 	m_recognizeRange->upperRightCorner = cameraConfig.upperRightCorner;
@@ -97,28 +99,33 @@ void ImageIdentify::iniCamera()
 		m_labelForProductName->setText(QString::fromStdString(cameraConfig.productName));
 	}
 
-	auto productConfig= m_productLoader->loadProductCountInfo(m_productConfigFilePath);
+	auto productConfig = m_productLoader->loadProductCountInfo(m_productConfigFilePath);
 
 	if (m_labelForProductCount) {
-		m_stringForProductCount=m_labelForProductCount->text();
-		m_labelForProductCount->setText(m_stringForProductCount+ QString::number(productConfig.totalCount));
+		m_stringForProductCount = m_labelForProductCount->text();
+		m_labelForProductCount->setText(m_stringForProductCount + QString::number(productConfig.totalCount));
 		m_productCount = productConfig.totalCount;
 	}
 	if (m_labelForProductOutCount) {
 		m_stringForProductOutCount = m_labelForProductOutCount->text();
-		m_labelForProductOutCount->setText(m_stringForProductOutCount+ QString::number(productConfig.outCount));
+		m_labelForProductOutCount->setText(m_stringForProductOutCount + QString::number(productConfig.outCount));
 		m_productOutCount = productConfig.outCount;
 	}
 	if (m_labelForProductPassCount) {
-		m_stringForProductPassCount= m_labelForProductPassCount->text();
-		m_labelForProductPassCount->setText(m_stringForProductPassCount+ QString::number(productConfig.passCount));
-		m_productPassCount= productConfig.passCount;
+		m_stringForProductPassCount = m_labelForProductPassCount->text();
+		m_labelForProductPassCount->setText(m_stringForProductPassCount + QString::number(productConfig.passCount));
+		m_productPassCount = productConfig.passCount;
 	}
 	m_configForImageSave = ConfigForImageSave::getInstance();
 	m_configForImageSave->createDirectory(QString::fromStdString(cameraConfig.productName));
 	m_saveImageWorkPath = m_configForImageSave->getCurrentFilePath() + '/' + QString::fromStdString(cameraConfig.productName);
-	m_configForImageSave->createDirectory(m_saveImageWorkPath,"Pass");
+	m_configForImageSave->createDirectory(m_saveImageWorkPath, "Pass");
+	m_configForImageSave->createDirectory(m_saveImageWorkPath + "/Pass", "Native");
+	m_configForImageSave->createDirectory(m_saveImageWorkPath + "/Pass", "Crop");
+
 	m_configForImageSave->createDirectory(m_saveImageWorkPath, "NG");
+	m_configForImageSave->createDirectory(m_saveImageWorkPath + "/NG", "Native");
+	m_configForImageSave->createDirectory(m_saveImageWorkPath + "/NG", "Crop");
 }
 
 void ImageIdentify::setStandDate(const QString& standardDate)
@@ -236,6 +243,31 @@ void ImageIdentify::display_image(cv::Mat& mat)
 	}
 }
 
+void ImageIdentify::display_image(const cv::Mat& mat, QLabel* label)
+{
+	if (!label) {
+		return;
+	}
+	QImage im =
+		ImageIdentifyUtilty::convcertImageFromCvMat(mat);
+
+	if (im.isNull()) {
+		qDebug() << "cvMat2QImage failed";
+		return;
+	}
+	// Convert QImage to QPixmap and display it on QLabel
+	QPixmap pixmap = QPixmap::fromImage(im);
+
+	if (pixmap.isNull()) {
+		qDebug() << "QPixmap::fromImage failed";
+		return;
+	}
+
+	pixmap = pixmap.scaled(m_labelForImage->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+	label->setPixmap(pixmap);
+	label->setScaledContents(true); // Fill the image with QLabel
+}
+
 void ImageIdentify::display_dlgImage(cv::Mat& mat)
 {
 	if (m_dlgLabelForImage) {
@@ -277,7 +309,7 @@ void ImageIdentify::update_productInfo_label(bool check)
 	config.totalCount = m_productCount;
 	config.passCount = m_productPassCount;
 	config.outCount = m_productOutCount;
-	
+
 	m_productLoader->storeProductProductInfo(config);
 	m_productLoader->saveFile(m_productConfigFilePath);
 }
@@ -299,14 +331,14 @@ std::vector<OCRResult> ImageIdentify::ocr_image(cv::Mat srcMat)
 
 bool ImageIdentify::check_productDate(const std::vector<OCRResult>& date)
 {
-	
+
 }
 
 void ImageIdentify::change_check_state(bool check)
 {
 	auto palette = m_disaplayCheckInfo->palette();
 	if (check) {
-		palette.setColor(QPalette::WindowText, Qt::green); 
+		palette.setColor(QPalette::WindowText, Qt::green);
 		m_disaplayCheckInfo->setPalette(palette);
 		m_disaplayCheckInfo->setText("OK");
 	}
@@ -328,23 +360,44 @@ cv::Mat ImageIdentify::rotate_image(const cv::Mat& image, int rotations)
 	return rotatedImage;
 }
 
-void ImageIdentify::save_image(bool productCheckResult, const QImage& image)
+void ImageIdentify::save_image(bool productCheckResult, const QImage& image, bool isCrop)
 {
 	if (productCheckResult) {
-		auto filePath = m_saveImageWorkPath + QString("/Pass");
-		m_configForImageSave->saveImage
-		(image, 
-			filePath,
-			DateTransFormUtilty::removeSymbolsAndSpaces
-			(ImageIdentifyUtilty::getCurrentTimeWithMilliseconds())+QString(".jpg"));
+		if (isCrop) {
+			auto filePath = m_saveImageWorkPath + QString("/Pass/Crop");
+			m_configForImageSave->saveImage
+			(image,
+				filePath,
+				DateTransFormUtilty::removeSymbolsAndSpaces
+				(ImageIdentifyUtilty::getCurrentTimeWithMilliseconds()) + QString(".jpg"));
+		}
+		else {
+			auto filePath = m_saveImageWorkPath + QString("/Pass/Native");
+			m_configForImageSave->saveImage
+			(image,
+				filePath,
+				DateTransFormUtilty::removeSymbolsAndSpaces
+				(ImageIdentifyUtilty::getCurrentTimeWithMilliseconds()) + QString(".jpg"));
+		}
+
 	}
 	else {
-		auto filePath = m_saveImageWorkPath + QString("/NG");
-		m_configForImageSave->saveImage
-		(image, 
-			filePath, 
-			DateTransFormUtilty::removeSymbolsAndSpaces
-			(ImageIdentifyUtilty::getCurrentTimeWithMilliseconds())+QString(".jpg"));
+		if (isCrop) {
+			auto filePath = m_saveImageWorkPath + QString("/NG/Crop");
+			m_configForImageSave->saveImage
+			(image,
+				filePath,
+				DateTransFormUtilty::removeSymbolsAndSpaces
+				(ImageIdentifyUtilty::getCurrentTimeWithMilliseconds()) + QString(".jpg"));
+		}
+		else {
+			auto filePath = m_saveImageWorkPath + QString("/NG/Native");
+			m_configForImageSave->saveImage
+			(image,
+				filePath,
+				DateTransFormUtilty::removeSymbolsAndSpaces
+				(ImageIdentifyUtilty::getCurrentTimeWithMilliseconds()) + QString(".jpg"));
+		}
 	}
 }
 
@@ -356,14 +409,11 @@ int ImageIdentify::set_IO_start(int time)
 void ImageIdentify::send_checkErrorSignal()
 {
 	QtConcurrent::run([this]() {
-		/*int sleepTime =( m_Capture_time_mid * ((double)m_rejectAttribute->RejectDelay / (double)m_rejectAttribute->DisposalTime))* m_rejectAttribute->DisposalTime;
-		QThread::msleep(sleepTime);
-		set_IO_start(m_rejectAttribute->RejectDelay);*/
-		int sleepTime = (m_Capture_time_mid * m_rejectAttribute->OffsetsNumber)+m_rejectAttribute->RejectDelay;
+		int sleepTime = (m_Capture_time_mid * m_rejectAttribute->RejectDelay*0.01)*m_rejectAttribute->OffsetsNumber;
 		QThread::msleep(sleepTime);
 		set_IO_start((double)m_rejectAttribute->DisposalTime);
 		});
-	
+
 }
 
 void ImageIdentify::set_recognizeRange()
@@ -373,44 +423,47 @@ void ImageIdentify::set_recognizeRange()
 
 void ImageIdentify::DisplayImage(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInfo)
 {
-	// Convert image data to cv:: Mat format
+	save_caputure_time();
 	cv::Mat nativeMat;
-	nativeMat= ImageIdentifyUtilty::ConvertMat(pFrameInfo, pData);
+	nativeMat = ImageIdentifyUtilty::ConvertMat(pFrameInfo, pData);
 
 	if (nativeMat.empty()) {
 		qDebug() << "mat is empty";
 		return;
 	}
 
-	nativeMat = rotate_image(nativeMat,m_rotateCount);
+	nativeMat = rotate_image(nativeMat, m_rotateCount);
 	cv::Mat matToSave;
 	nativeMat.copyTo(matToSave);
-	matToSave =
+	/*matToSave =
 		ImageIdentifyUtilty::cropImage(matToSave,
 			m_recognizeRange->topLeftCorner,
 			m_recognizeRange->upperRightCorner,
 			m_recognizeRange->lowerRightCorner,
-			m_recognizeRange->leftLowerCorner);
+			m_recognizeRange->leftLowerCorner);*/
 	cv::Mat matToRecognize;
 	matToSave.copyTo(matToRecognize);
 	set_recognizeRange();
-	auto recognizeResult = ocr_image(matToRecognize);
-
-	
+	//auto recognizeResult = ocr_image(matToRecognize);
 	if (is_check) {
-		auto checkResult = m_productCheck->check(recognizeResult, m_standardDate);
-		save_caputure_time();
-		if (checkResult == ProductCheckUtilty::ProductCheckInfo::WITHIN_THRESHOLD) {
-			change_check_state(true);
-			update_productInfo_label(true);
-			save_image(true, ImageIdentifyUtilty::convcertImageFromCvMat(matToSave));
-		}
-		else {
-			change_check_state(false);
-			update_productInfo_label(false);
-			save_image(false, ImageIdentifyUtilty::convcertImageFromCvMat(matToSave));
-			send_checkErrorSignal();
-		}
+			QtConcurrent::run([=]() {
+				auto recognizeResult = ocr_image(matToRecognize);
+				auto checkResult = m_productCheck->check(recognizeResult, m_standardDate);
+				if (checkResult == ProductCheckUtilty::ProductCheckInfo::WITHIN_THRESHOLD) {
+					change_check_state(true);
+					update_productInfo_label(true);
+					save_image(true, ImageIdentifyUtilty::convcertImageFromCvMat(nativeMat), false);
+					save_image(true, ImageIdentifyUtilty::convcertImageFromCvMat(matToSave), true);
+				}
+				else {
+					change_check_state(false);
+					update_productInfo_label(false);
+					save_image(false, ImageIdentifyUtilty::convcertImageFromCvMat(nativeMat), false);
+					save_image(true, ImageIdentifyUtilty::convcertImageFromCvMat(matToSave), true);
+					send_checkErrorSignal();
+					display_image(matToRecognize,m_labelForNg);
+				}
+		});
 	}
 	else {
 		is_saveCaputureTime = false;
@@ -418,7 +471,7 @@ void ImageIdentify::DisplayImage(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFr
 	render_image(matToRecognize, nativeMat);
 }
 
-int 
+int
 ImageIdentifyUtilty::RGB2BGR
 (unsigned char* pRgbData, unsigned int nWidth, unsigned int nHeight)
 {
@@ -463,13 +516,13 @@ cv::Mat ImageIdentifyUtilty::ConvertMat(MV_FRAME_OUT_INFO_EX* pFrameInfo, unsign
 		mat = cv::Mat(pFrameInfo->nHeight, pFrameInfo->nWidth, CV_8UC1, pData);
 		cv::cvtColor(mat, mat, cv::COLOR_BayerGB2RGB);
 		break;
-	case PixelType_Gvsp_BayerGR8: 
+	case PixelType_Gvsp_BayerGR8:
 		mat = cv::Mat(pFrameInfo->nHeight, pFrameInfo->nWidth, CV_8UC1, pData);
 		cv::cvtColor(mat, mat, cv::COLOR_BayerGR2RGB);
 		break;
 	case PixelType_Gvsp_BayerRG8:
 		mat = cv::Mat(pFrameInfo->nHeight, pFrameInfo->nWidth, CV_8UC1, pData);
-		cv::cvtColor(mat, mat, cv::COLOR_BayerBG2RGB); 
+		cv::cvtColor(mat, mat, cv::COLOR_BayerBG2RGB);
 		break;
 	default:
 		qDebug() << "Unsupported pixel type";
@@ -479,7 +532,7 @@ cv::Mat ImageIdentifyUtilty::ConvertMat(MV_FRAME_OUT_INFO_EX* pFrameInfo, unsign
 	return mat;
 }
 
-QImage ImageIdentifyUtilty::convcertImageFromCvMat(cv::Mat& mat)
+QImage ImageIdentifyUtilty::convcertImageFromCvMat(const cv::Mat & mat)
 {
 	QImage im;
 	if (mat.type() == CV_8UC3) {
@@ -497,14 +550,14 @@ QImage ImageIdentifyUtilty::convcertImageFromCvMat(cv::Mat& mat)
 
 bool ImageIdentifyUtilty::checkProduct(std::vector<OCRResult>& data, QString& standardDate)
 {
-	bool result{false};
-	for (const auto &item: data) {
+	bool result{ false };
+	for (const auto& item : data) {
 		if (!ImageIdentifyUtilty::isAlphanumericOrPunct(item.text)) {
 			continue;
 		}
-		auto replaceDate= ImageIdentifyUtilty::replaceChar(item.text,'Q','0');
-		replaceDate = trimToSubstring(replaceDate, ImageIdentifyUtilty::getFirstNCharacters(standardDate.toStdString(),3));
-		result= ImageIdentifyUtilty::hashSimilarity(replaceDate, standardDate.toStdString())>=90;
+		auto replaceDate = ImageIdentifyUtilty::replaceChar(item.text, 'Q', '0');
+		replaceDate = trimToSubstring(replaceDate, ImageIdentifyUtilty::getFirstNCharacters(standardDate.toStdString(), 3));
+		result = ImageIdentifyUtilty::hashSimilarity(replaceDate, standardDate.toStdString()) >= 90;
 	}
 	return result;
 }
@@ -512,44 +565,44 @@ bool ImageIdentifyUtilty::checkProduct(std::vector<OCRResult>& data, QString& st
 bool ImageIdentifyUtilty::isAlphanumericOrPunct(const char* str)
 {
 	if (str == nullptr) {
-		return false; 
+		return false;
 	}
 
 	for (size_t i = 0; i < strlen(str); ++i) {
 		char ch = str[i];
 		if (!std::isalnum(ch) && !std::ispunct(ch)) {
-			return false; 
+			return false;
 		}
 	}
-	return true; 
+	return true;
 }
 
 std::string ImageIdentifyUtilty::replaceChar(const char* str, char oldChar, char newChar)
 {
 	if (str == nullptr) {
-		return ""; 
+		return "";
 	}
 
-	std::string result = str; 
+	std::string result = str;
 
-	
+
 	for (size_t i = 0; i < result.length(); ++i) {
 		if (result[i] == oldChar) {
-			result[i] = newChar; 
+			result[i] = newChar;
 		}
 	}
 
-	return result; 
+	return result;
 }
 
 std::string ImageIdentifyUtilty::trimToSubstring(std::string str1, const std::string& str2)
 {
-	
+
 	size_t pos = str1.find(str2);
 
 
 	if (pos != std::string::npos) {
-		return str1.substr(pos); 
+		return str1.substr(pos);
 	}
 
 	return str1;
@@ -558,7 +611,7 @@ std::string ImageIdentifyUtilty::trimToSubstring(std::string str1, const std::st
 std::string ImageIdentifyUtilty::getFirstNCharacters(const std::string& str, int n)
 {
 	if (n < 0) {
-		return ""; 
+		return "";
 	}
 	return str.substr(0, std::min(n, static_cast<int>(str.length())));
 }
@@ -594,8 +647,8 @@ int ImageIdentifyUtilty::hashSimilarity(const std::string& str1, const std::stri
 
 QString ImageIdentifyUtilty::getCurrentTimeWithMilliseconds()
 {
-	QDateTime current = QDateTime::currentDateTime(); 
-	return current.toString("yyyy-MM-dd HH:mm:ss.zzz"); 
+	QDateTime current = QDateTime::currentDateTime();
+	return current.toString("yyyy-MM-dd HH:mm:ss.zzz");
 }
 
 cv::Mat ImageIdentifyUtilty::cropImage(const cv::Mat& image, const std::pair<double, double>& topLeft, const std::pair<double, double>& topRight, const std::pair<double, double>& bottomRight, const std::pair<double, double>& bottomLeft)

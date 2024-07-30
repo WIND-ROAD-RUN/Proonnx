@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DlgSetCamera.cpp" />
     <ClCompile Include="LogModule.cpp" />
     <ClCompile Include="LogRecorder.cpp" />
     <ClCompile Include="LogSystemUtilty.cpp" />
@@ -120,6 +121,7 @@
     <QtUic Include="DlgChangeProductConfig.ui" />
     <QtUic Include="DlgClearCount.ui" />
     <QtUic Include="DlgSelectCameraIndex.ui" />
+    <QtUic Include="DlgSetCamera.ui" />
     <QtUic Include="DlgSetIsCheckProduct.ui" />
     <QtUic Include="DlgSetProonnx.ui" />
     <QtUic Include="Proonnx.ui" />
@@ -159,6 +161,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="ClickableLabel.h" />
+    <QtMoc Include="DlgSetCamera.h" />
+    <QtMoc Include="IndexButton.h" />
     <ClInclude Include="LogRecorder.h" />
     <ClInclude Include="LogModule.h" />
     <ClInclude Include="LogSystemUtilty.h" />

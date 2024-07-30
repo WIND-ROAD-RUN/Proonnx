@@ -218,6 +218,9 @@
     <ClCompile Include="LogSystemUtilty.cpp">
       <Filter>Source Files\config\LogSave</Filter>
     </ClCompile>
+    <ClCompile Include="DlgSetCamera.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Proonnx.ui">
@@ -239,6 +242,9 @@
       <Filter>Form Files\ui</Filter>
     </QtUic>
     <QtUic Include="DlgClearCount.ui">
+      <Filter>Form Files\ui</Filter>
+    </QtUic>
+    <QtUic Include="DlgSetCamera.ui">
       <Filter>Form Files\ui</Filter>
     </QtUic>
   </ItemGroup>
@@ -291,6 +297,15 @@
       <Filter>Form Files\ui</Filter>
     </QtMoc>
     <QtMoc Include="DlgClearCount.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="ClickableLabel.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgSetCamera.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="IndexButton.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
   </ItemGroup>
