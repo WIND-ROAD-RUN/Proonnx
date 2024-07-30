@@ -81,7 +81,7 @@ public:
 	Proonnx(QWidget* parent = nullptr);
 
 	~Proonnx();
-
+	
 
 private:
 	Ui::ProonnxClass* ui;
