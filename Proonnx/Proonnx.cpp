@@ -34,8 +34,8 @@ void Proonnx::ini_ui()
 	this->setWindowFlags(this->windowFlags() & ~Qt::WindowMinMaxButtonsHint);
 
 	ini_configBeforeRuntimeLoader();
-	ini_localizationStringLoader();
-	ini_localizationStringLoaderUI();
+    ini_localizationStringLoader();
+    ini_localizationStringLoaderUI();
 	ini_gBox_monitoringDisplay();
 
 	ui->ledit_currentDate->setText(QDate::currentDate().toString("yyyy/MM/dd"));
@@ -50,7 +50,7 @@ void Proonnx::ini_ui()
 
 void Proonnx::ini_localizationStringLoader()
 {
-	m_locStrLoader = LocalizationStringLoaderXML::getInstance();
+    m_locStrLoader = LocalizationStringLoaderXML::getInstance();
 
 	QString filePath = "/languageString.xml";
 	auto  currentFilePath = QDir::currentPath();
@@ -60,19 +60,20 @@ void Proonnx::ini_localizationStringLoader()
 
 	LOGRECORDER->info("Loading localization string config file at" + filePath.toStdString()+" with language :"+ m_configBeforeRuntimeLoader->readLanguage());
 
-	auto loadStrDataResult = m_locStrLoader->loadData();
-	if (!loadStrDataResult) {
+    auto loadStrDataResult = m_locStrLoader->loadData();
+    if (!loadStrDataResult) {
 		LOGRECORDER->error("Cannot find localization string config file!");
-	}
+    }
 	
 }
 
 void Proonnx::ini_localizationStringLoaderUI()
 {
-	ui->gBox_monitoringDisplay->setTitle(QString::fromStdString(m_locStrLoader->getString("1")));
-	ui->gBox_setPutton->setTitle(QString::fromStdString(m_locStrLoader->getString("2")));
-	ui->pbt_modProductConfig->setText(QString::fromStdString(m_locStrLoader->getString("3")));
-	ui->pbt_addProductCongfig->setText(QString::fromStdString(m_locStrLoader->getString("5")));
+    ui->gBox_monitoringDisplay->setTitle(QString::fromStdString(m_locStrLoader->getString("1")));
+    ui->gBox_setPutton->setTitle(QString::fromStdString(m_locStrLoader->getString("2")));
+    ui->pbt_modProductConfig->setText(QString::fromStdString(m_locStrLoader->getString("3")));
+    ui->pbt_addCamera->setText(QString::fromStdString(m_locStrLoader->getString("4")));
+    ui->pbt_addProductCongfig->setText(QString::fromStdString(m_locStrLoader->getString("5")));
 	ui->pbtn_setProonnx->setText(QString::fromStdString(m_locStrLoader->getString("20")));
 	ui->gBox_currenctDate->setTitle(QString::fromStdString(m_locStrLoader->getString("19")));
 
@@ -273,7 +274,7 @@ void Proonnx::ini_cameraList()
 void Proonnx::ini_connect()
 {
 	QObject::connect(ui->pbt_addProductCongfig, SIGNAL(clicked()),
-		this, SLOT(pbt_addProductCongfig_clicked()));
+        this, SLOT(pbt_addProductCongfig_clicked()));
 	QObject::connect(ui->pbt_modProductConfig, SIGNAL(clicked()),
 		this, SLOT(pbt_modProductConfig_clicked()));
 	QObject::connect(ui->pbtn_setProonnx, SIGNAL(clicked()),
@@ -340,21 +341,21 @@ bool Proonnx::checkCurrentIsAllFalse(const QVector<bool>& list)
 	for (const auto& item : list) {
 		if (item) {
 			result = false;
-		}
+}
 	}
 	return result;
 }
 
 Proonnx::Proonnx(QWidget* parent)
-	: QMainWindow(parent)
-	, ui(new Ui::ProonnxClass())
+    : QMainWindow(parent)
+    , ui(new Ui::ProonnxClass())
 {
-	ui->setupUi(this);
+    ui->setupUi(this);
 	LOGRECORDER->info("###############################");
 	LOGRECORDER->info("           Inilize             ");
 	LOGRECORDER->info("###############################");
-	ini_ui();
-	ini_connect();
+    ini_ui();
+    ini_connect();
 
 	LOGRECORDER->info("###############################");
 	LOGRECORDER->info("    Inilize     Complete            ");
@@ -364,7 +365,7 @@ Proonnx::Proonnx(QWidget* parent)
 
 Proonnx::~Proonnx()
 {
-	delete ui;
+    delete ui;
 }
 
 QVector<bool> Proonnx::get_isCheckProductList()
@@ -499,7 +500,7 @@ void Proonnx::pbtn_setProonnx_clicked()
 	dlg.setWindowSize(this->width() * 0.75, this->height() * 0.75);
 	dlg.setFilePath(m_configBeforeRuntimeLoaderFilePath);
 	dlg.iniComponet();
-	dlg.exec();
+    dlg.exec();
 	LOGRECORDER->info("----------------------------------------------");
 }
 
@@ -644,8 +645,11 @@ void Proonnx::pbt_addProductCongfig_clicked()
 				auto productName = dlgAddProductConfig.getProductName();
 				(*m_disaplayProductNameList)[cameraIndex - 1]->setText(productName);
 			}
-		}
-	}
+    }
+    else if(index == 1){
+        m_locStrLoader->setLanguage("USA");
+        auto loadStrDataResult = m_locStrLoader->loadData();
+    }
 	set_isCheckProductByList(isCheckList);
 	LOGRECORDER->info("----------------------------------------------");
 }
