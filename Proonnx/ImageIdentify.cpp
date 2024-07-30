@@ -39,7 +39,7 @@ void ImageIdentify::save_caputure_time()
 	if (!is_saveCaputureTime) {
 		m_lastCapture_time = currentTimeInMs;
 		is_saveCaputureTime = true;
-		return;		//第一次不记录
+		return;		//Not recording for the first time
 	}
 	else {
 		m_Capture_time_mid = m_rollingAverage->addData(currentTimeInMs - m_lastCapture_time);
@@ -469,7 +469,7 @@ cv::Mat ImageIdentifyUtilty::ConvertMat(MV_FRAME_OUT_INFO_EX* pFrameInfo, unsign
 		break;
 	case PixelType_Gvsp_BayerRG8:
 		mat = cv::Mat(pFrameInfo->nHeight, pFrameInfo->nWidth, CV_8UC1, pData);
-		cv::cvtColor(mat, mat, cv::COLOR_BayerBG2RGB); // 修改为 BayerBG2RGB
+		cv::cvtColor(mat, mat, cv::COLOR_BayerBG2RGB); 
 		break;
 	default:
 		qDebug() << "Unsupported pixel type";
@@ -527,40 +527,38 @@ bool ImageIdentifyUtilty::isAlphanumericOrPunct(const char* str)
 std::string ImageIdentifyUtilty::replaceChar(const char* str, char oldChar, char newChar)
 {
 	if (str == nullptr) {
-		return ""; // 检查空指针，返回空字符串
+		return ""; 
 	}
 
-	std::string result = str; // 将 const char* 转换为 std::string
+	std::string result = str; 
 
-	// 遍历字符串并替换字符
+	
 	for (size_t i = 0; i < result.length(); ++i) {
 		if (result[i] == oldChar) {
-			result[i] = newChar; // 替换字符
+			result[i] = newChar; 
 		}
 	}
 
-	return result; // 返回更改后的字符串
+	return result; 
 }
 
 std::string ImageIdentifyUtilty::trimToSubstring(std::string str1, const std::string& str2)
 {
-	// 查找 str2 在 str1 中的位置
+	
 	size_t pos = str1.find(str2);
 
-	// 如果找到 str2，返回从该位置开始的子字符串
+
 	if (pos != std::string::npos) {
-		return str1.substr(pos); // 返回从 pos 开始的子字符串
+		return str1.substr(pos); 
 	}
 
-	// 如果未找到，返回原始 str1
 	return str1;
 }
 
 std::string ImageIdentifyUtilty::getFirstNCharacters(const std::string& str, int n)
 {
-	// 确保 n 不超过字符串长度
 	if (n < 0) {
-		return ""; // 如果 n 为负，返回空字符串
+		return ""; 
 	}
 	return str.substr(0, std::min(n, static_cast<int>(str.length())));
 }
@@ -570,17 +568,15 @@ int ImageIdentifyUtilty::hashSimilarity(const std::string& str1, const std::stri
 	std::unordered_set<char> set1;
 	std::unordered_set<char> set2;
 
-	// 将 str1 中的字符添加到 set1
+
 	for (char ch : str1) {
 		set1.insert(ch);
 	}
 
-	// 将 str2 中的字符添加到 set2
 	for (char ch : str2) {
 		set2.insert(ch);
 	}
 
-	// 计算交集大小
 	std::unordered_set<char> intersection;
 	for (char ch : set1) {
 		if (set2.find(ch) != set2.end()) {
@@ -588,42 +584,34 @@ int ImageIdentifyUtilty::hashSimilarity(const std::string& str1, const std::stri
 		}
 	}
 
-	// 计算并集大小
 	std::unordered_set<char> unionSet = set1;
 	unionSet.insert(set2.begin(), set2.end());
 
-	// 计算 Jaccard 相似度
 	double jaccardIndex = static_cast<double>(intersection.size()) / unionSet.size();
 
-	// 返回相似度的百分比（0-100）
 	return static_cast<int>(jaccardIndex * 100);
 }
 
 QString ImageIdentifyUtilty::getCurrentTimeWithMilliseconds()
 {
-	QDateTime current = QDateTime::currentDateTime(); // 获取当前时间
-	return current.toString("yyyy-MM-dd HH:mm:ss.zzz"); // 格式化为字符串，包含毫秒
+	QDateTime current = QDateTime::currentDateTime(); 
+	return current.toString("yyyy-MM-dd HH:mm:ss.zzz"); 
 }
 
 cv::Mat ImageIdentifyUtilty::cropImage(const cv::Mat& image, const std::pair<double, double>& topLeft, const std::pair<double, double>& topRight, const std::pair<double, double>& bottomRight, const std::pair<double, double>& bottomLeft)
 {
-	// 获取图像的尺寸
 	int width = image.cols;
 	int height = image.rows;
 
-	// 计算裁剪区域的绝对坐标
 	cv::Point2f tl(topLeft.first * width, topLeft.second * height);
 	cv::Point2f tr(topRight.first * width, topRight.second * height);
 	cv::Point2f br(bottomRight.first * width, bottomRight.second * height);
 	cv::Point2f bl(bottomLeft.first * width, bottomLeft.second * height);
 
-	// 创建裁剪区域的四个点
 	std::vector<cv::Point2f> points = { tl, tr, br, bl };
 
-	// 计算裁剪区域的矩形
 	cv::Rect boundingRect = cv::boundingRect(points);
 
-	// 裁剪图像
 	cv::Mat croppedImage = image(boundingRect);
 
 	return croppedImage;

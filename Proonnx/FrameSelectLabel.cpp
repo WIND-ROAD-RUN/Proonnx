@@ -44,7 +44,7 @@ void FrameSelectLabel::mouseReleaseEvent(QMouseEvent* event)
         isSelecting = false;
         endPoint = event->pos();
         currentSelectionRect = QRect(startPoint, endPoint).normalized();
-        lastSelectionRect = currentSelectionRect; // 保存上一次的框选矩形
+        lastSelectionRect = currentSelectionRect;//Save the previous selected rectangle
         emit selectionMade(currentSelectionRect);
         update();
     }
@@ -59,12 +59,12 @@ void FrameSelectLabel::paintEvent(QPaintEvent* event)
     pen.setStyle(Qt::DashLine);
     painter.setPen(pen);
 
-    // 绘制上一次的框选矩形
+    //Draw the previous selection rectangle
     if (!lastSelectionRect.isNull()) {
         painter.drawRect(lastSelectionRect);
     }
 
-    // 绘制当前的框选矩形
+        //Draw the current bounding rectangle
     if (isSelecting) {
         painter.drawRect(currentSelectionRect);
     }
@@ -78,7 +78,7 @@ void FrameSelectLabel::paintLastRange()
     pen.setStyle(Qt::DashLine);
     painter.setPen(pen);
 
-    // 绘制上一次的框选矩形
+    //Draw the previous selection rectangle
     if (!lastSelectionRect.isNull()) {
         painter.drawRect(lastSelectionRect);
     }

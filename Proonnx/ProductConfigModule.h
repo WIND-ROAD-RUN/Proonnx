@@ -72,6 +72,7 @@ public:
 	int readOffsetsNumber();
 
 	int readDisposalTime();
+
 public:
 	std::pair<double, double> readTopLeftCorner();
 

@@ -27,16 +27,21 @@ public:
 	DlgSetProonnx(QWidget *parent = nullptr);
 
 	~DlgSetProonnx();
+
 public:
 	void setFilePath(const QString& filePath) { m_filePath = filePath; }
 
 	void iniComponet();
 
 	void setWindowSize(int wide, int height);
+
 private:
 	void ini_ui();
+
 	void ini_localizationStringLoaderUI();
+
 	void ini_configBeforeRuntimeLoader(const std::string& filePath);
+
 
 	void ini_uiFromConfigBeforeRuntime();
 

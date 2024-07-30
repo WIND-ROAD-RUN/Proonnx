@@ -15,13 +15,16 @@ class DlgSetIsCheckProduct : public QDialog
 
 public:
 	DlgSetIsCheckProduct(QWidget *parent = nullptr);
+
 	~DlgSetIsCheckProduct();
+
 private:
 	void ini_ui();
 
 	void ini_localizationStringLoaderUI();
 
 	void ini_connect();
+
 private:
 	QVector<bool> m_isCheckedlist;
 
@@ -33,6 +36,7 @@ public:
 	QVector<bool> getNativeIsCheckList() { return m_isCheckedlist; }
 
 	void setWindowSize(int wide, int height);
+
 private:
 	Ui::DlgSetIsCheckProductClass *ui;
 
@@ -40,4 +44,5 @@ private slots:
 	void pbtn_ok_clicked();
 
 	void pbtn_cancel_clicked();
+
 };

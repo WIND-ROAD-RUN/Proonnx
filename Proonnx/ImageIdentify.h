@@ -73,28 +73,30 @@ class ImageIdentify
 	:public QAction {
 	Q_OBJECT
 private:
-
-
-private:
 	MonitorCamera* m_monitorCamera{nullptr};
 
 	ocrwork* m_indentModel{nullptr};
+
 private:
 	qint64  m_lastCapture_time{0};
 
 	qint64 m_Capture_time_mid{200};
+
 private:
 	RecognizeRange * m_recognizeRange{ nullptr };
 
 	RejectAttribute* m_rejectAttribute{ nullptr };
+
 public:
 	void setRecognizeRange(const RecognizeRange & range);
 
 	void setRejectAttribute(const RejectAttribute & rejectAttribute);
+
 private:
 	void save_caputure_time();
 private:
 	bool is_saveCaputureTime{ false };
+
 public:
 	bool m_setIsCheck{false};
 
@@ -126,6 +128,7 @@ public:
 	int m_productOutCount{ 0 };
 
 	QLabel* m_labelForProductName{ nullptr };
+
 public:
 	void setProductCount(int total,int pass,int out);
 
@@ -170,6 +173,7 @@ public:
 	explicit ImageIdentify(QLabel * label,const std::string & ip);
 
 	~ImageIdentify();
+
 private:
 	void ini_connect();
 
@@ -179,6 +183,7 @@ private:
 	int m_exposureTime{0};
 
 	int m_gain{0};
+
 public:
 	int getExposureTime() { return m_exposureTime; }
 

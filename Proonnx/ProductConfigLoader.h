@@ -7,13 +7,16 @@ class ProductConfigModule;
 
 struct ProductConfig {
 	std::string productName{"XXXX"};
+
 	long ExposureTime{10000};
 	int gain{1};
 	int rotateCount{0};
+
 	std::pair<double, double> topLeftCorner{0,0};
 	std::pair<double, double> upperRightCorner{ 0,0 };
 	std::pair<double, double> leftLowerCorner{ 0,0 };
 	std::pair<double, double> lowerRightCorner{ 0,0 };
+
 };
 
 struct RecognizeRange {
@@ -38,22 +41,32 @@ struct RejectAttribute {
 class ProductConfigLoader {
 private:
 	ProductConfigModule* m_productConfigModule{nullptr};
+
 public:
 	ProductConfigLoader();
+
 	~ProductConfigLoader();
+
 private:
 	bool loadFile(const std::string& filePath);
+
 public:
 	void setNewFile(const std::string& filePath);
+
 	bool saveFile(const std::string& filePath);
+
 public:
 	ProductConfig loadProductConfig(const std::string& filePath);
+
 	ProductCountInfo loadProductCountInfo(const std::string& filePath);
+
 	RejectAttribute loadRejectAttribute(const std::string& filePath);
 
 public:
 	bool storeConfig(const ProductConfig& productConfig);
+
 	bool storeProductProductInfo(const ProductCountInfo & productProductInfo);
+
 	bool storeRejectAttribute(const RejectAttribute& productConfig);
 
 };

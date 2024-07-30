@@ -3,7 +3,7 @@
 #include"ocrPutText.h"
 
 
-// 使用一个结构体来表示单词和其对应的列信息
+//Using a structure to represent words and their corresponding column information
 struct WordInfo {
     std::vector<std::string> words;
     std::vector<std::vector<int>> columns;

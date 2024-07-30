@@ -18,17 +18,21 @@ public:
 
 private:
 	int m_cameraCount{0};
+
 private:
 	QString m_configBeforeRuntime{};
+
 public:
 	void setConfigBeforeRuntime(const QString & filePath);
 
 	void setWindowSize(int wide, int height);
+
 private:
 	void ini_ui();
-	void ini_localizationStringLoaderUI();
-	void ini_connect();
 
+	void ini_localizationStringLoaderUI();
+
+	void ini_connect();
 
 private:
 	Ui::DlgSelectCameraIndexClass *ui;

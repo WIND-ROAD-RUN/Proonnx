@@ -15,25 +15,25 @@ void putText::putTextZH(Mat& dst, const char* str, Point org, Scalar color, int 
     CV_Assert(dst.data != 0 && (dst.channels() == 1 || dst.channels() == 3));
 
     int x, y, r, b;
-    //坐标点大于图像宽和高直接返回
+    //If the coordinate point is greater than the width and height of the image, return directly
     if (org.x > dst.cols || org.y > dst.rows) return;
     x = org.x < 0 ? -org.x : 0;
     y = org.y < 0 ? -org.y : 0;
 
     LOGFONTA lf;
-    lf.lfHeight = -fontsize; //字体高度
-    lf.lfWidth = 0;          //平均宽度
-    lf.lfEscapement = 0;   //字符排列角度
-    lf.lfOrientation = 0;   //字符本身旋转的角度
-    lf.lfWeight = 5;        //设置字体线条的宽度
-    lf.lfItalic = italic; //斜体
-    lf.lfUnderline = underline; //下划线
-    lf.lfStrikeOut = 0;     //是否字符中央加横线
-    lf.lfCharSet = DEFAULT_CHARSET;   //字符集
-    lf.lfOutPrecision = 0;  //字体的精确度
-    lf.lfQuality = PROOF_QUALITY;  //字体质量
-    lf.lfPitchAndFamily = 0; //选择字体的间距和字体家族
-    strcpy_s(lf.lfFaceName, fn); //字体的名称
+    lf.lfHeight = -fontsize;                    //Font height
+    lf.lfWidth = 0;                                     //Average width
+    lf.lfEscapement = 0;                        //Character arrangement angle
+    lf.lfOrientation = 0;                       //The angle of rotation of the character itself
+    lf.lfWeight = 5;                            //Set the width of font lines
+    lf.lfItalic = italic;                       //italic
+    lf.lfUnderline = underline;                 //Underline
+    lf.lfStrikeOut = 0;                          //Is there a horizontal line in the center of the character
+    lf.lfCharSet = DEFAULT_CHARSET;             //Character set
+    lf.lfOutPrecision = 0;                      //Accuracy of fonts
+    lf.lfQuality = PROOF_QUALITY;               //Font quality
+    lf.lfPitchAndFamily = 0;                //Choose font spacing and font family
+    strcpy_s(lf.lfFaceName, fn);                //Font name
 
     HFONT hf = CreateFontIndirectA(&lf);
     HDC hdc = CreateCompatibleDC(0);
@@ -43,9 +43,9 @@ void putText::putTextZH(Mat& dst, const char* str, Point org, Scalar color, int 
     int singleRow = 0;
     char buf[1 << 12];
     strcpy_s(buf, str);
-    char* bufT[1 << 12];   //这个用于分隔字符串后剩余的字符，可能会超出。
+    char* bufT[1 << 12];   //This is used to separate the remaining characters after the string, which may exceed.
 
-    //处理多行
+   //Processing multiple lines
     {
         int nnh = 0;
         int cw, ch;

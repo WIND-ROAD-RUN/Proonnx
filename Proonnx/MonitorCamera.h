@@ -5,19 +5,19 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <QObject> // 添加此行以使用 Qt 信号和槽
+#include <QObject> 
 
 struct MonitorCameraUtility
 {
     static std::vector<std::string> checkAllConnectCamera();
 };
 
-class MonitorCamera : public QObject { // 继承自 QObject 以使用信号和槽
-    Q_OBJECT // 添加此宏以启用信号和槽机制
+class MonitorCamera : public QObject { 
+    Q_OBJECT 
 
 private:
     std::string m_ip{};
-    void* m_handle{ nullptr }; // 相机句柄
+    void* m_handle{ nullptr }; // Camera handle
 
 public:
     MonitorCamera();

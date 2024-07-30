@@ -10,6 +10,7 @@ class LocalizationStringXML;
 
 class LocalizationStringLoaderXML
     :public LocalizationStringLoaderAbstract {
+
 private:
     static LocalizationStringLoaderXML* m_instance;
 

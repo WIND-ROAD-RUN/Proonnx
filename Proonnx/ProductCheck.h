@@ -58,6 +58,7 @@ public:
     const RWqueue<productClass> &
         getHistoryProductList() const
     { return m_productHitoryQueue; }
+
 };
 
 template <typename productClass, typename standardValue>

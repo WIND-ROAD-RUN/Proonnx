@@ -75,8 +75,10 @@ private:
 	void des_com();
 private:
 	void set_isCheckProduct(bool is);
+
 private:
 	bool checkCurrentIsAllFalse(const QVector<bool>& list);
+
 public:
 	Proonnx(QWidget* parent = nullptr);
 
@@ -86,6 +88,7 @@ private:
 	Ui::ProonnxClass* ui;
 private:
 	bool m_isSingleCheckProduct{false};
+
 private:
 	QVector<bool> get_isCheckProductList();
 
@@ -105,4 +108,5 @@ private slots:
 	void pbtn_clearCount_clicked();
 
 	void pbtn_quit_clicked();
+
 };

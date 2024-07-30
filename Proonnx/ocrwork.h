@@ -3,7 +3,7 @@
 
 #include"OCRApi_GPU/include/OcrApi.h"
 #include "opencv/include/opencv2/opencv.hpp"
-#include <cmath>  // 用于基本数学计算
+#include <cmath>  
 #include <algorithm>
 #include <numeric>
 #include"qdebug.h"

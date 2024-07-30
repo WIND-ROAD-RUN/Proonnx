@@ -8,18 +8,18 @@ std::vector<std::string> MonitorCameraUtility::checkAllConnectCamera()
 	MV_CC_DEVICE_INFO_LIST stDeviceList;
 	memset(&stDeviceList, 0, sizeof(MV_CC_DEVICE_INFO_LIST));
 
-	// 枚举设备
+	// List devices
 	int nRet = MV_CC_EnumDevices(MV_GIGE_DEVICE | MV_USB_DEVICE, &stDeviceList);
 	if (MV_OK != nRet) {
 		return cameraIPs;
 	}
 
-	// 检查是否有设备
+	// Check if there is any equipment
 	if (stDeviceList.nDeviceNum == 0) {
 		return cameraIPs;
 	}
 
-	// 遍历设备列表并获取 IP 地址
+	// Traverse the device list and obtain IP addresses
 	for (unsigned int i = 0; i < stDeviceList.nDeviceNum; ++i) {
 		MV_CC_DEVICE_INFO* pDeviceInfo = stDeviceList.pDeviceInfo[i];
 		if (nullptr == pDeviceInfo) {
@@ -40,11 +40,9 @@ std::vector<std::string> MonitorCameraUtility::checkAllConnectCamera()
 }
 
 MonitorCamera::MonitorCamera() {
-	// 构造函数
 }
 
 MonitorCamera::~MonitorCamera() {
-	// 析构函数，确保释放相机资源
 	if (m_handle) {
 		MV_CC_CloseDevice(m_handle);
 		MV_CC_DestroyHandle(m_handle);
@@ -55,14 +53,14 @@ bool MonitorCamera::connectCamera() {
 	MV_CC_DEVICE_INFO_LIST stDeviceList;
 	memset(&stDeviceList, 0, sizeof(MV_CC_DEVICE_INFO_LIST));
 
-	// 枚举设备
+	//List devices
 	int nRet = MV_CC_EnumDevices(MV_GIGE_DEVICE, &stDeviceList);
 	if (MV_OK != nRet) {
 		std::cerr << "Enum Devices failed! nRet = " << nRet << std::endl;
 		return false;
 	}
 
-	// 遍历设备列表并连接到指定 IP 的相机
+	//Traverse the device list and connect to the camera with the specified IP address
 	for (unsigned int i = 0; i < stDeviceList.nDeviceNum; ++i) {
 		MV_CC_DEVICE_INFO* pDeviceInfo = stDeviceList.pDeviceInfo[i];
 		if (nullptr == pDeviceInfo) {
@@ -77,14 +75,14 @@ bool MonitorCamera::connectCamera() {
 				std::to_string(ip & 0xFF);
 
 			if (currentIpAddress == m_ip) {
-				// 创建相机句柄
+				//Create camera handle
 				nRet = MV_CC_CreateHandle(&m_handle, pDeviceInfo);
 				if (MV_OK != nRet) {
 					std::cerr << "Create Handle failed! nRet = " << nRet << std::endl;
 					return false;
 				}
 
-				// 打开设备
+				//Open the device
 				nRet = MV_CC_OpenDevice(m_handle);
 				if (MV_OK != nRet) {
 					std::cerr << "Open Device failed! nRet = " << nRet << std::endl;
@@ -93,7 +91,7 @@ bool MonitorCamera::connectCamera() {
 					return false;
 				}
 
-				// 注册图像回调函数
+				//Register image callback function
 				nRet = MV_CC_RegisterImageCallBackEx(m_handle, ImageCallback, this);
 				if (MV_OK != nRet) {
 					std::cerr << "Register Image Callback failed! nRet = " << nRet << std::endl;
@@ -134,53 +132,53 @@ bool MonitorCamera::setExposureTime(int exposureTime)
 {
 	if (m_handle == nullptr) {
 		std::cerr << "Camera is not connected." << std::endl;
-		return false; // 相机未连接
+		return false; //Camera not connected
 	}
 
-	// 设置曝光时间
+	//Set exposure time
 	MVCC_FLOATVALUE exposureValue;
-	exposureValue.fCurValue = exposureTime; // 设置曝光时间
-	exposureValue.fMax = 100000; // 最大曝光时间（根据相机规格调整）
-	exposureValue.fMin = 1; // 最小曝光时间（根据相机规格调整）
+	exposureValue.fCurValue = exposureTime; //Set exposure time
+	exposureValue.fMax = 100000; //Maximum exposure time (adjusted according to camera specifications)
+	exposureValue.fMin = 1; //Minimum exposure time (adjusted according to camera specifications)
 
-	// 调用 SDK 函数设置曝光时间
+	//Call SDK function to set exposure time
 	int ret = MV_CC_SetFloatValue(m_handle, "ExposureTime", exposureValue.fCurValue);
 	if (ret != MV_OK) {
 		qDebug() << "Failed to set exposure time. Error code: " << ret;
-		return false; // 设置失败
+		return false;//Setting failed
 	}
 
-	return true; // 设置成功
+	return true; //Setting successful
 }
 
 bool MonitorCamera::setGain(int gain)
 {
 	if (m_handle == nullptr) {
 		std::cerr << "Camera is not connected." << std::endl;
-		return false; // 相机未连接
+		return false; 
 	}
 
-	// 设置增益
-	MVCC_FLOATVALUE gainValue;
-	gainValue.fCurValue = gain; // 设置增益值
-	gainValue.fMax = 30; // 最大增益（根据相机规格调整）
-	gainValue.fMin = 0; // 最小增益（根据相机规格调整）
 
-	// 调用 SDK 函数设置增益
+	MVCC_FLOATVALUE gainValue;
+	gainValue.fCurValue = gain;
+	gainValue.fMax = 30; 
+	gainValue.fMin = 0; 
+
+	
 	int ret = MV_CC_SetFloatValue(m_handle, "Gain", gainValue.fCurValue);
 	if (ret != MV_OK) {
 		std::cerr << "Failed to set gain. Error code: " << ret << std::endl;
-		return false; // 设置失败
+		return false; 
 	}
 
-	return true; // 设置成功
+	return true; 
 }
 
 bool MonitorCamera::setHardwareTriggeredAcquisition()
 {
 	int nRet = MV_CC_SetEnumValue(m_handle, "LineSelector", 2);
 	//0:Line0 1:Line1 2:Line2
-	nRet = MV_CC_SetEnumValue(m_handle, "LineMode", 8);//仅line2需要设置
+	nRet = MV_CC_SetEnumValue(m_handle, "LineMode", 8);//Only line2 needs to be set
 
 
 
