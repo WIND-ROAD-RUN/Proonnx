@@ -108,6 +108,18 @@
     <Filter Include="Source Files\config\ConfigBeforeRuntime">
       <UniqueIdentifier>{7217464b-97f9-4bf9-ab45-ec88ac8d5bf0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\config\ConfigForImageSave">
+      <UniqueIdentifier>{5d229c63-76b0-412d-9f81-662cd9a5bb47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\config\ConfigForImageSave">
+      <UniqueIdentifier>{76b668ec-280e-43ec-9db7-433213c5ee2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\config\LogSave">
+      <UniqueIdentifier>{109308af-7020-4e2e-bad0-c553c0220ba7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\config\LogSave">
+      <UniqueIdentifier>{45e9061e-a89a-495d-84f5-1214513c1d8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -158,13 +170,7 @@
     <ClCompile Include="ocrPutText.cpp">
       <Filter>Source Files\ImageIdentify\OCR</Filter>
     </ClCompile>
-    <ClCompile Include="ImageIdentify.cpp">
-      <Filter>Source Files\ProonnxUI</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ProductConfigLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FrameSelectLabel.cpp">
@@ -179,6 +185,42 @@
     <ClCompile Include="ConfigBeforeRuntimeModule.cpp">
       <Filter>Source Files\config\ConfigBeforeRuntime</Filter>
     </ClCompile>
+    <ClCompile Include="ImageIdentify.cpp">
+      <Filter>Source Files\ImageIdentify\ImageIdentify</Filter>
+    </ClCompile>
+    <ClCompile Include="MonitorCamera.cpp">
+      <Filter>Source Files\ImageIdentify\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSelectCameraIndex.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSetIsCheckProduct.cpp">
+      <Filter>Form Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSetIsCheckProduct.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigForImageSave.cpp">
+      <Filter>Source Files\config\ConfigForImageSave</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgClearCount.cpp">
+      <Filter>Form Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgClearCount.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
+    <ClCompile Include="RollingAverage.cpp">
+      <Filter>Source Files\ImageIdentify\ProductDateCheck</Filter>
+    </ClCompile>
+    <ClCompile Include="LogRecorder.cpp">
+      <Filter>Source Files\config\LogSave</Filter>
+    </ClCompile>
+    <ClCompile Include="LogModule.cpp">
+      <Filter>Source Files\config\LogSave</Filter>
+    </ClCompile>
+    <ClCompile Include="LogSystemUtilty.cpp">
+      <Filter>Source Files\config\LogSave</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Proonnx.ui">
@@ -191,6 +233,15 @@
       <Filter>Form Files\ui</Filter>
     </QtUic>
     <QtUic Include="DlgSetProonnx.ui">
+      <Filter>Form Files\ui</Filter>
+    </QtUic>
+    <QtUic Include="DlgSelectCameraIndex.ui">
+      <Filter>Form Files\ui</Filter>
+    </QtUic>
+    <QtUic Include="DlgSetIsCheckProduct.ui">
+      <Filter>Form Files\ui</Filter>
+    </QtUic>
+    <QtUic Include="DlgClearCount.ui">
       <Filter>Form Files\ui</Filter>
     </QtUic>
   </ItemGroup>
@@ -224,6 +275,27 @@
     <QtMoc Include="DlgSetProonnx.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
+    <QtMoc Include="MonitorCamera.h">
+      <Filter>Header Files\ImageIdentify\Camera</Filter>
+    </QtMoc>
+    <QtMoc Include="ImageIdentify.h">
+      <Filter>Header Files\ImageIdentify\ImageIdentify</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgSelectCameraIndex.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgSetIsCheckProduct.h">
+      <Filter>Form Files\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgSetIsCheckProduct.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgClearCount.h">
+      <Filter>Form Files\ui</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgClearCount.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LocalizationStringModuleAbstact.h">
@@ -242,9 +314,6 @@
       <Filter>Header Files\ImageIdentify\ProductDateCheck</Filter>
     </ClInclude>
     <ClInclude Include="ProductCheck.h">
-      <Filter>Header Files\ImageIdentify\ProductDateCheck</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilty.h">
       <Filter>Header Files\ImageIdentify\ProductDateCheck</Filter>
     </ClInclude>
     <ClInclude Include="ProductConfigModule.h">
@@ -289,14 +358,26 @@
     <ClInclude Include="ocrPutText.h">
       <Filter>Header Files\ImageIdentify\OCR</Filter>
     </ClInclude>
-    <ClInclude Include="ImageIdentify.h">
-      <Filter>Header Files\ImageIdentify\ImageIdentify</Filter>
-    </ClInclude>
     <ClInclude Include="ConfigBeforeRuntimeLoader.h">
       <Filter>Header Files\config\ConfigBeforeRuntime</Filter>
     </ClInclude>
     <ClInclude Include="ConfigBeforeRuntimeModule.h">
       <Filter>Header Files\config\ConfigBeforeRuntime</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigForImageSave.h">
+      <Filter>Header Files\config\ConfigForImageSave</Filter>
+    </ClInclude>
+    <ClInclude Include="RollingAverage.h">
+      <Filter>Header Files\ImageIdentify\ProductDateCheck</Filter>
+    </ClInclude>
+    <ClInclude Include="LogRecorder.h">
+      <Filter>Header Files\config\LogSave</Filter>
+    </ClInclude>
+    <ClInclude Include="LogModule.h">
+      <Filter>Header Files\config\LogSave</Filter>
+    </ClInclude>
+    <ClInclude Include="LogSystemUtilty.h">
+      <Filter>Header Files\config\LogSave</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

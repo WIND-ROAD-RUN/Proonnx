@@ -6,7 +6,7 @@
 
 struct ProductCheckUtilty
 {
-    enum ProductCheckInfo
+    enum  class ProductCheckInfo
     {
         PASS = 0,
         EXCEEDING_THRESHOLD = 1,
@@ -28,7 +28,7 @@ public:
     template<typename T>
     using RWqueue = ProductCheckUtilty::RWqueue<T>;
 
-    using Compare = std::function<bool(productClass, standardValue)>;
+    using Compare = std::function<bool(productClass&, standardValue&)>;
 
 private:
     unsigned int m_kConsecutiveErrorThreshold;

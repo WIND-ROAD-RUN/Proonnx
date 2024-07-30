@@ -4,14 +4,20 @@
 #include "ui_Proonnx.h"
 
 #include"MVS/Includes/MvCameraControl.h"
+#include"ImageIdentify.h"
+#include<QVector>
+#include<QLabel>
 
-#include"LocalizationStringLoader-XML.h"
 
 namespace cv {
 	class Mat;
 }
-class MyCamera;
+
+class ImageIdentify;
 class ocrwork;
+class LocalizationStringLoaderXML;
+class ConfigBeforeRuntimeLoader;
+class ConfigForImageSave;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ProonnxClass; };
@@ -22,6 +28,29 @@ class Proonnx : public QMainWindow
 	Q_OBJECT
 private:
 	LocalizationStringLoaderXML* m_locStrLoader{ nullptr };
+
+	ConfigBeforeRuntimeLoader* m_configBeforeRuntimeLoader{nullptr};
+
+	ConfigForImageSave* m_configForImageSave{ nullptr };
+
+private:
+	QVector<QLabel *>* m_disaplayCameraList{ nullptr };
+
+	QVector<QLabel*>* m_disaplayProductNameList{ nullptr };
+
+	QVector<QLabel*>* m_disaplayCheckInfoList{ nullptr };
+
+	QVector<QLabel*>* m_productCountList{ nullptr };
+
+	QVector<QLabel*>* m_productPassCountList{ nullptr };
+
+	QVector<QLabel*>* m_productOutCountList{ nullptr };
+
+	QVector<ImageIdentify*> * m_cameraList{nullptr};
+
+private:
+	QString m_configBeforeRuntimeLoaderFilePath{};
+
 private:
 	void ini_ui();
 
@@ -29,17 +58,25 @@ private:
 
 	void ini_localizationStringLoaderUI();
 
+private:
+	void ini_configBeforeRuntimeLoader();
+
+	void ini_configBeforeRuntime();
+
+	void ini_configForImageSave();
+private:
+	void ini_gBox_monitoringDisplay();
+
+	void ini_cameraList();
+
+private:
 	void ini_connect();
 
 	void des_com();
-
-	//实例化一台相机
-	MyCamera * myCamera1;
-	//实例化一个推理模型
-	ocrwork *o;
-
-
-
+private:
+	void set_isCheckProduct(bool is);
+private:
+	bool checkCurrentIsAllFalse(const QVector<bool>& list);
 public:
 	Proonnx(QWidget* parent = nullptr);
 
@@ -48,27 +85,25 @@ public:
 
 private:
 	Ui::ProonnxClass* ui;
+private:
+	bool m_isSingleCheckProduct{false};
+private:
+	QVector<bool> get_isCheckProductList();
+
+	void set_isCheckProductByList(const QVector<bool> & list);
+
+	void set_allDoNotCheck();
 
 private slots:
-	void cBox_changeLanguage_index_change_on(int index);
-
 	void pbt_addProductCongfig_clicked();
 
 	void pbt_modProductConfig_clicked();
 
 	void pbtn_setProonnx_clicked();
 
-//	//相机回调函数
-//	void DispImgBuff1(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInf);
-//
-//
-//private:
-//	//初始化相机
-//	bool InitCamera(int index);
-//
-//	int RGB2BGR(unsigned char* pRgbData, unsigned int nWidth, unsigned int nHeight);//RGB转BGR
-//
-//	cv::Mat  Convert2Mat(MV_FRAME_OUT_INFO_EX* pstImageInfo, unsigned char* pData, bool& isok);//转Mat格式
-//	QImage cvMat2QImage(cv::Mat& mat);
+	void pbt_setIsCheckProduct_clicked();
 
+	void pbtn_clearCount_clicked();
+
+	void pbtn_quit_clicked();
 };

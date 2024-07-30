@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ProductConfig>
+	<ProductName>UNDEFINED192.168.1.11</ProductName>
+	<ExposureTime>10000</ExposureTime>
+	<Gain>1</Gain>
+	<RotateCount>0</RotateCount>
+	<ProductCountInfo>
+		<TotalCount>1</TotalCount>
+		<PassCount>1</PassCount>
+		<OutCount>0</OutCount>
+	</ProductCountInfo>
+	<RejectAttribute>
+		<RejectDelay>0</RejectDelay>
+		<OffsetsNumber>0</OffsetsNumber>
+		<DisposalTime>0</DisposalTime>
+	</RejectAttribute>
+	<RecognizeRange>
+		<TopLeftCorner>
+			<X>0</X>
+			<Y>0</Y>
+		</TopLeftCorner>
+		<UpperRightCorner>
+			<X>0</X>
+			<Y>0</Y>
+		</UpperRightCorner>
+		<LeftLowerCorner>
+			<X>0</X>
+			<Y>0</Y>
+		</LeftLowerCorner>
+		<LowerRightCorner>
+			<X>0</X>
+			<Y>0</Y>
+		</LowerRightCorner>
+	</RecognizeRange>
+</ProductConfig>

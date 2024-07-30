@@ -139,10 +139,10 @@ int  MyCamera::connectCamera(string id)
 
     int temp= EnumDevices(&m_stDevList);
     if(temp!=0)
-        //设备更新成功接收命令的返回值为0，返回值不为0则为异常
+        /*设备更新成功接收命令的返回值为0，返回值不为0则为异常*/
         return -1;
     if(m_stDevList.nDeviceNum==0)
-        //未找到任何相机
+        /*未找到任何相机*/
         return 2;
     for (unsigned int i = 0; i < m_stDevList.nDeviceNum; i++)
     {
@@ -169,7 +169,7 @@ int  MyCamera::connectCamera(string id)
     }
     if(m_Device==NULL)
     {
-        //未找到指定名称的相机
+        /*未找到指定名称的相机*/
         return 3;
     }
     unsigned int nAccessMode{};
@@ -183,7 +183,7 @@ int  MyCamera::connectCamera(string id)
         return -1;
 
     temp  = MV_CC_OpenDevice(m_hDevHandle);
-    // 探测网络最佳包大小（只对GigE相机有效）
+   /*  探测网络最佳包大小（只对GigE相机有效）*/
     if ( m_Device->nTLayerType == MV_GIGE_DEVICE )
     {
         int nPacketSize = MV_CC_GetOptimalPacketSize(m_hDevHandle);
@@ -201,7 +201,7 @@ int  MyCamera::connectCamera(string id)
     }
     else
     {
-        //注册回调函数
+        /*注册回调函数*/
         int nRet = MyCamera::RegisterImageCallBack(MyCamera::ImageCallBack,this);
 
      qDebug()<<"RegisterImageCallBack";
@@ -210,10 +210,10 @@ int  MyCamera::connectCamera(string id)
     }
     if (m_Device->nTLayerType == MV_GIGE_DEVICE)
     {
-       //std::cout<<"Gige Camera"<<std::endl;
+       std::cout<<"Gige Camera"<<std::endl;
     }
 
-
+    return 0;
 
 }
 //启动相机采集

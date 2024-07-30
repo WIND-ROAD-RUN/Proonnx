@@ -42,7 +42,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>5.12.10_msvc2017_64</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core;gui;widgets;concurrent</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
@@ -111,29 +111,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LogModule.cpp" />
+    <ClCompile Include="LogRecorder.cpp" />
+    <ClCompile Include="LogSystemUtilty.cpp" />
+    <ClCompile Include="RollingAverage.cpp" />
     <QtRcc Include="Proonnx.qrc" />
     <QtUic Include="DlgAddProductConfig.ui" />
     <QtUic Include="DlgChangeProductConfig.ui" />
+    <QtUic Include="DlgClearCount.ui" />
+    <QtUic Include="DlgSelectCameraIndex.ui" />
+    <QtUic Include="DlgSetIsCheckProduct.ui" />
     <QtUic Include="DlgSetProonnx.ui" />
     <QtUic Include="Proonnx.ui" />
     <QtMoc Include="Proonnx.h" />
     <ClCompile Include="ConfigBeforeRuntimeLoader.cpp" />
     <ClCompile Include="ConfigBeforeRuntimeModule.cpp" />
+    <ClCompile Include="ConfigForImageSave.cpp" />
     <ClCompile Include="DateTransform.cpp" />
     <ClCompile Include="DlgAddProductConfig.cpp" />
     <ClCompile Include="DlgChangeProductConfig.cpp" />
+    <ClCompile Include="DlgClearCount.cpp" />
+    <ClCompile Include="DlgSelectCameraIndex.cpp" />
+    <ClCompile Include="DlgSetIsCheckProduct.cpp" />
     <ClCompile Include="DlgSetProonnx.cpp" />
     <ClCompile Include="FrameSelectLabel.cpp" />
     <ClCompile Include="ImageIdentify.cpp" />
     <ClCompile Include="LocalizationStringLoader-XML.cpp" />
     <ClCompile Include="LocalizationStringModule-XML.cpp" />
     <ClCompile Include="LocalizationStringModuleAbstact.cpp" />
+    <ClCompile Include="MonitorCamera.cpp" />
     <ClCompile Include="mycamera.cpp" />
     <ClCompile Include="OcrApi.cpp" />
     <ClCompile Include="ocrPutText.cpp" />
     <ClCompile Include="ocrwork.cpp" />
     <ClCompile Include="ProductCheck.cpp" />
-    <ClCompile Include="ProductConfigLoader.cpp" />
     <ClCompile Include="ProductConfigModule.cpp" />
     <ClCompile Include="ProductCongfigLoader.cpp" />
     <ClCompile Include="Proonnx.cpp" />
@@ -148,13 +159,22 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LogRecorder.h" />
+    <ClInclude Include="LogModule.h" />
+    <ClInclude Include="LogSystemUtilty.h" />
+    <ClInclude Include="RollingAverage.h" />
     <QtMoc Include="DlgChangeProductConfig.h" />
     <QtMoc Include="mycamera.h" />
     <QtMoc Include="FrameSelectLabel.h" />
     <QtMoc Include="DlgSetProonnx.h" />
     <ClInclude Include="ConfigBeforeRuntimeLoader.h" />
     <ClInclude Include="ConfigBeforeRuntimeModule.h" />
-    <ClInclude Include="ImageIdentify.h" />
+    <QtMoc Include="ImageIdentify.h" />
+    <QtMoc Include="MonitorCamera.h" />
+    <QtMoc Include="DlgSelectCameraIndex.h" />
+    <QtMoc Include="DlgSetIsCheckProduct.h" />
+    <ClInclude Include="ConfigForImageSave.h" />
+    <QtMoc Include="DlgClearCount.h" />
     <ClInclude Include="MVS\Includes\CameraParams.h" />
     <ClInclude Include="MVS\Includes\MvCameraControl.h" />
     <ClInclude Include="MVS\Includes\MvErrorDefine.h" />
@@ -169,7 +189,6 @@
     <ClInclude Include="ProductCheck.h" />
     <ClInclude Include="ProductConfigLoader.h" />
     <ClInclude Include="ProductConfigModule.h" />
-    <ClInclude Include="Utilty.h" />
     <QtMoc Include="DlgAddProductConfig.h" />
     <ClInclude Include="DateTransform.h" />
     <ClInclude Include="LocalizationStringLoader-XML.h" />

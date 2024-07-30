@@ -16,6 +16,7 @@ public:
    void  drawView(cv::Mat &m_matSrc, std::vector<OCRResult>) ;
 
     void testOcr(cv::Mat srcMat,std::vector<OCRResult> &ocrResult );
+
     void initial();
 
 

@@ -4,7 +4,7 @@
 		<language language="CHN">监控展示</language>
 	</string>
 	<string id="2">
-		<language language="USA">software configuration</language>
+		<language language="USA">Software configuration</language>
 		<language language="CHN">软件配置</language>
 	</string>
 	<string id="3">
@@ -23,4 +23,145 @@
 		<language language="USA">Modify camera configuration</language>
 		<language language="CHN">修改摄像机配置</language>
 	</string>
+	<string id="7">
+		<language language="USA">Product name</language>
+		<language language="CHN">产品名称：</language>
+	</string>
+	<string id="8">
+		<language language="USA">Exposure time(10000-50000)</language>
+		<language language="CHN">曝光时间（10000-50000）</language>
+	</string>
+	<string id="9">
+		<language language="USA">Gain（0-10）</language>
+		<language language="CHN">增益（0-10）</language>
+	</string>
+	<string id="10">
+		<language language="USA">Rotate</language>
+		<language language="CHN">旋转</language>
+	</string>
+	<string id="11">
+		<language language="USA">Draw recognition range</language>
+		<language language="CHN">绘制识别范围</language>
+	</string>
+	<string id="12">
+		<language language="USA">Save</language>
+		<language language="CHN">保存</language>
+	</string>
+	<string id="13">
+		<language language="USA">Data file path:</language>
+		<language language="CHN">数据文件路径：</language>
+	</string>
+	<string id="14">
+		<language language="USA">Select the camera to be set up</language>
+		<language language="CHN">选择要设置的相机：</language>
+	</string>
+	<string id="15">
+		<language language="USA">Ok</language>
+		<language language="CHN">确定</language>
+	</string>
+	<string id="16">
+		<language language="USA">Cancel</language>
+		<language language="CHN">取消</language>
+	</string>
+	<string id="17">
+		<language language="USA">Language：</language>
+		<language language="CHN">语言：</language>
+	</string>
+	<string id="18">
+		<language language="USA">Cameras'count：</language>
+		<language language="CHN">相机数目:</language>
+	</string>
+	<string id="19">
+		<language language="USA">Date</language>
+		<language language="CHN">日期</language>
+	</string>
+	<string id="20">
+		<language language="USA">Set</language>
+		<language language="CHN">设置</language>
+	</string>
+	<string id="21">
+		<language language="USA">Disconnected</language>
+		<language language="CHN">未连接</language>
+	</string>
+	<string id="22">
+		<language language="USA">Open file</language>
+		<language language="CHN">打开文件</language>
+	</string>
+	<string id="23">
+		<language language="USA">Data files(*.xml);;All files(*)</language>
+		<language language="CHN">数据文件(*.xml);;所有文件 (*)</language>
+	</string>
+	<string id="24">
+		<language language="USA">Save successfully</language>
+		<language language="CHN">保存成功</language>
+	</string>
+	<string id="25">
+		<language language="USA">Save failed</language>
+		<language language="CHN">保存失败</language>
+	</string>
+	<string id="26">
+		<language language="USA">Camera disconnect by index:</language>
+		<language language="CHN">未连接的相机序号</language>
+	</string>
+	<string id="27">
+		<language language="USA">Total:</language>
+		<language language="CHN">总数：</language>
+	</string>
+	<string id="28">
+		<language language="USA">Pass:</language>
+		<language language="CHN">合格：</language>
+	</string>
+	<string id="29">
+		<language language="USA">Out:</language>
+		<language language="CHN">不合格：</language>
+	</string>
+	<string id="30">
+		<language language="USA">Start recognizing images</language>
+		<language language="CHN">开始识别图像</language>
+	</string>
+	<string id="31">
+		<language language="USA">Stop recognizing images</language>
+		<language language="CHN">停止识别图像</language>
+	</string>
+	<string id="32">
+		<language language="USA">Set whether the camera recognizes images</language>
+		<language language="CHN">设置摄像机是否识别图像</language>
+	</string>
+	<string id="33">
+		<language language="USA">Set the recognition status of the corresponding camera</language>
+		<language language="CHN">设置对应摄像机的识别状态</language>
+	</string>
+	<string id="34">
+		<language language="USA">Error</language>
+		<language language="CHN">错误</language>
+	</string>
+	<string id="35">
+		<language language="USA">The product name cannot be empty</language>
+		<language language="CHN">产品名不能为空</language>
+	</string>
+	<string id="36">
+		<language language="USA">Select the camera that needs to reset the count to zero</language>
+		<language language="CHN">选择需要清零计数的摄像机</language>
+	</string>
+	<string id="37">
+		<language language="USA">Number of offsets (0-10):</language>
+		<language language="CHN">偏移个数(0-10)：</language>
+	</string>
+	<string id="38">
+		<language language="USA">Rejecting delay (0-10000):</language>
+		<language language="CHN">剔废延迟(0-10000):</language>
+	</string>
+	<string id="39">
+		<language language="USA">Disposal time (0-50000):</language>
+		<language language="CHN">剔废时间(0-50000):</language>
+	</string>
+	<string id="40">
+		<language language="USA">Exit</language>
+		<language language="CHN">退出</language>
+	</string>
+	<string id="41">
+		<language language="USA">Whether to quit</language>
+		<language language="CHN">是否退出</language>
+	</string>
+	
 </MyLocalizationStringModele_strings>

@@ -15,7 +15,7 @@ LocalizationStringLoaderXML
     :m_XMLFilePath(filePath), m_language(language), m_LocalStringComponet(new LocalizationStringXML(filePath)) {}
 
 LocalizationStringLoaderXML::
-~LocalizationStringLoaderXML() { delete m_LocalStringComponet; delete m_instance; }
+~LocalizationStringLoaderXML() { delete m_LocalStringComponet; }
 
 
 bool LocalizationStringLoaderXML::loadData()

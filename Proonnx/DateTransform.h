@@ -2,6 +2,7 @@
 #define DATETRANSFORM_H_
 
 #include<string>
+#include<QString>
 
 struct DateTransFormUtilty
 {
@@ -20,6 +21,8 @@ struct DateTransFormUtilty
     static RWstring replaceSlashWithDash(const RWstring& date);
 
     static double dateHashSimilarity(const RWstring& input, const RWstring& target);
+
+    static QString removeSymbolsAndSpaces(const QString& input);
 };
 
 

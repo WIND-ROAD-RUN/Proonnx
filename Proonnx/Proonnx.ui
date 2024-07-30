@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1016</width>
+    <width>964</width>
     <height>763</height>
    </rect>
   </property>
@@ -49,19 +49,6 @@
          <string>软件配置</string>
         </property>
         <layout class="QGridLayout" name="gridLayout">
-         <item row="0" column="2">
-          <widget class="QPushButton" name="pbt_modProductConfig">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>修改产品配置</string>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="1">
           <widget class="QPushButton" name="pbt_addProductCongfig">
            <property name="sizePolicy">
@@ -75,24 +62,56 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="3">
-          <widget class="QComboBox" name="cBox_changeLanguage">
+         <item row="0" column="2">
+          <widget class="QPushButton" name="pbt_modProductConfig">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <item>
-            <property name="text">
-             <string>简体中文</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Enlish</string>
-            </property>
-           </item>
+           <property name="text">
+            <string>修改产品配置</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QPushButton" name="pbt_setIsCheckProduct">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>开始识别</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QPushButton" name="pbtn_clearCount">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>清零</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="5">
+          <widget class="QPushButton" name="pbtn_quit">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>退出</string>
+           </property>
           </widget>
          </item>
          <item row="0" column="2">
