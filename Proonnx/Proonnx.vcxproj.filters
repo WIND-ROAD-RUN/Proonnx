@@ -254,9 +254,6 @@
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <QtMoc Include="Proonnx.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>

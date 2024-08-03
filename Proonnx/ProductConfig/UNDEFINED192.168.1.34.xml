@@ -5,9 +5,9 @@
 	<Gain>15</Gain>
 	<RotateCount>2</RotateCount>
 	<ProductCountInfo>
-		<TotalCount>0</TotalCount>
-		<PassCount>0</PassCount>
-		<OutCount>0</OutCount>
+		<TotalCount>484</TotalCount>
+		<PassCount>83</PassCount>
+		<OutCount>401</OutCount>
 	</ProductCountInfo>
 	<RejectAttribute>
 		<RejectDelay>0</RejectDelay>

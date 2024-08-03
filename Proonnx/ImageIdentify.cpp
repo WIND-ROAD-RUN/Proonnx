@@ -216,7 +216,7 @@ bool ImageIdentify::setSoftwareTriggeredAcquisition()
 }
 
 
-void ImageIdentify::display_image(cv::Mat& mat)
+void ImageIdentify::display_image(const cv::Mat& mat)
 {
 	QImage im =
 		ImageIdentifyUtilty::convcertImageFromCvMat(mat);
@@ -233,7 +233,7 @@ void ImageIdentify::display_image(cv::Mat& mat)
 		return;
 	}
 
-	pixmap = pixmap.scaled(m_labelForImage->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+	pixmap = pixmap.scaled(m_labelForImage->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 	m_labelForImage->setPixmap(pixmap);
 	m_labelForImage->setScaledContents(true); // Fill the image with QLabel
 
@@ -268,7 +268,7 @@ void ImageIdentify::display_image(const cv::Mat& mat, QLabel* label)
 	label->setScaledContents(true); // Fill the image with QLabel
 }
 
-void ImageIdentify::display_dlgImage(cv::Mat& mat)
+void ImageIdentify::display_dlgImage(const cv::Mat& mat)
 {
 	if (m_dlgLabelForImage) {
 		//auto recognizeResult = ocr_image(mat);
@@ -314,7 +314,7 @@ void ImageIdentify::update_productInfo_label(bool check)
 	m_productLoader->saveFile(m_productConfigFilePath);
 }
 
-void ImageIdentify::render_image(cv::Mat& matForImage, cv::Mat& matForDlg)
+void ImageIdentify::render_image(const cv::Mat & matForImage, const cv::Mat & matForDlg)
 {
 	display_image(matForImage);
 	display_dlgImage(matForDlg);
@@ -364,12 +364,13 @@ void ImageIdentify::save_image(bool productCheckResult, const QImage& image, boo
 {
 	if (productCheckResult) {
 		if (isCrop) {
-			auto filePath = m_saveImageWorkPath + QString("/Pass/Crop");
+			//ÇÐ¸îÂß¼­
+			/*auto filePath = m_saveImageWorkPath + QString("/Pass/Crop");
 			m_configForImageSave->saveImage
 			(image,
 				filePath,
 				DateTransFormUtilty::removeSymbolsAndSpaces
-				(ImageIdentifyUtilty::getCurrentTimeWithMilliseconds()) + QString(".jpg"));
+				(ImageIdentifyUtilty::getCurrentTimeWithMilliseconds()) + QString(".jpg"));*/
 		}
 		else {
 			auto filePath = m_saveImageWorkPath + QString("/Pass/Native");
@@ -423,6 +424,7 @@ void ImageIdentify::set_recognizeRange()
 
 void ImageIdentify::DisplayImage(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInfo)
 {
+	QtConcurrent::run([=]() {
 	save_caputure_time();
 	cv::Mat nativeMat;
 	nativeMat = ImageIdentifyUtilty::ConvertMat(pFrameInfo, pData);
@@ -446,8 +448,8 @@ void ImageIdentify::DisplayImage(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFr
 	set_recognizeRange();
 	//auto recognizeResult = ocr_image(matToRecognize);
 	if (is_check) {
-			QtConcurrent::run([=]() {
-				auto recognizeResult = ocr_image(matToRecognize);
+			//ÅÐ¶ÏÊ¶±ðÂß¼­
+				auto recognizeResult = ocr_image(matToRecognize);/////////
 				auto checkResult = m_productCheck->check(recognizeResult, m_standardDate);
 				if (checkResult == ProductCheckUtilty::ProductCheckInfo::WITHIN_THRESHOLD) {
 					change_check_state(true);
@@ -460,15 +462,48 @@ void ImageIdentify::DisplayImage(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFr
 					update_productInfo_label(false);
 					save_image(false, ImageIdentifyUtilty::convcertImageFromCvMat(nativeMat), false);
 					save_image(true, ImageIdentifyUtilty::convcertImageFromCvMat(matToSave), true);
-					send_checkErrorSignal();
+					//ÉèÖÃio´¥·¢
+					//send_checkErrorSignal();
 					display_image(matToRecognize,m_labelForNg);
 				}
-		});
+
+				QMetaObject::invokeMethod(qApp, [this, matToRecognize, nativeMat]
+					{
+
+						render_image(matToRecognize, nativeMat);
+
+
+
+
+
+					});
+		
 	}
 	else {
 		is_saveCaputureTime = false;
+		QMetaObject::invokeMethod(qApp, [this, matToRecognize, nativeMat]
+			{
+
+				render_image(matToRecognize, nativeMat);
+
+
+
+
+
+			});
+
+
 	}
-	render_image(matToRecognize, nativeMat);
+
+
+	//debug
+	static int exposureTime= 50000;
+	exposureTime += 5000;
+	if (exposureTime>85000) {
+		exposureTime = 50000;
+	}
+	m_monitorCamera->setExposureTime(exposureTime);
+		});
 }
 
 int

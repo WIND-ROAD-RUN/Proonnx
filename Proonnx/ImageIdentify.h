@@ -215,15 +215,15 @@ public:
 	bool setSoftwareTriggeredAcquisition();
 
 private:
-	void display_image(cv::Mat& mat);
+	void display_image(const cv::Mat& mat);
 
 	void display_image(const cv::Mat& mat,QLabel * label);
 
-	void display_dlgImage(cv::Mat& mat);
+	void display_dlgImage(const cv::Mat& mat);
 
 	void update_productInfo_label(bool check);
 
-	void render_image(cv::Mat& matForImage,cv::Mat & matForDlg);
+	void render_image(const cv::Mat & matForImage, const cv::Mat & matForDlg);
 
 	std::vector<OCRResult> ocr_image(cv::Mat srcMat);
 

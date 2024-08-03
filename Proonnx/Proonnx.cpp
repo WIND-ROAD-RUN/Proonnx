@@ -53,6 +53,7 @@ void Proonnx::ini_ui()
 	ui->pbt_modProductConfig->setVisible(false); 
 	ui->pbtn_clearCount->setVisible(false);
 	ui->pbt_addProductCongfig->setVisible(false);
+	ui->pbtn_selectProducrConfig->setVisible(false);
 
 }
 
@@ -380,6 +381,8 @@ Proonnx::Proonnx(QWidget* parent)
 	LOGRECORDER->info("    Inilize     Complete            ");
 	LOGRECORDER->info("###############################");
 
+	//
+	pbt_setIsCheckProduct_clicked();
 }
 
 Proonnx::~Proonnx()
@@ -634,6 +637,10 @@ void Proonnx::pbt_setIsCheckProduct_clicked()
 			item->setText(QString::fromStdString(m_locStrLoader->getString("31")));
 		}
 
+		for (int i = 0;i< m_cameraList->size();i++) {
+			(*m_disaplayCameraList)[i]->m_enbaleClicked = false;
+		}
+
 	}
 	else {
 		ui->pbt_setIsCheckProduct->setText(QString::fromStdString(m_locStrLoader->getString("30")));
@@ -643,6 +650,9 @@ void Proonnx::pbt_setIsCheckProduct_clicked()
 		LOGRECORDER->info("Camera  all stops recognizing ");
 		for (auto& item : *m_setIsCheckPbtnList) {
 			item->setText(QString::fromStdString(m_locStrLoader->getString("30")));
+		}
+		for (int i = 0; i < m_cameraList->size(); i++) {
+			(*m_disaplayCameraList)[i]->m_enbaleClicked = true;
 		}
 	}
 	/*if (m_cameraList->size() == 1) {

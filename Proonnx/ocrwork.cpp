@@ -48,13 +48,13 @@ void  ocrwork::drawView(cv::Mat& m_matSrc, std::vector<OCRResult>ocr_result)
     cv::Point ptRB(ocr_result[i].ptRB_x, ocr_result[i].ptRB_y);
     cv::Point ptRT(ocr_result[i].ptRT_x, ocr_result[i].ptRT_y);
 
-    cv::line(m_matSrc, ptLT, ptRT, colorRed, 1);
-    cv::line(m_matSrc, ptLT, ptLB, colorGreen, 1);
-    cv::line(m_matSrc, ptLB, ptRB, colorRed, 1);
-    cv::line(m_matSrc, ptRB, ptRT, colorGreen, 1);
+    cv::line(m_matSrc, ptLT, ptRT, colorRed, 4);
+    cv::line(m_matSrc, ptLT, ptLB, colorGreen, 4);
+    cv::line(m_matSrc, ptLB, ptRB, colorRed, 4);
+    cv::line(m_matSrc, ptRB, ptRT, colorGreen, 4);
     std::cout << "text: " << ocr_result[i].text << std::endl;
 
-		putText::putTextZH(m_matSrc, ocr_result[i].text, cv::Point(ptLT.x, ptLT.y - 20), cv::Scalar(0, 255, 0), 30, "微软雅黑");
+		putText::putTextZH(m_matSrc, ocr_result[i].text, cv::Point(ptLT.x, ptLT.y - 20), cv::Scalar(0, 255, 0), 100, "微软雅黑");
     }
 
 
