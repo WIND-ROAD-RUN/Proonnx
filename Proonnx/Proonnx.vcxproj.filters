@@ -192,16 +192,10 @@
       <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
     <ClCompile Include="DlgSetIsCheckProduct.cpp">
-      <Filter>Form Files\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgSetIsCheckProduct.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
     <ClCompile Include="ConfigForImageSave.cpp">
       <Filter>Source Files\config\ConfigForImageSave</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgClearCount.cpp">
-      <Filter>Form Files\ui</Filter>
     </ClCompile>
     <ClCompile Include="DlgClearCount.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
@@ -219,6 +213,12 @@
       <Filter>Source Files\config\LogSave</Filter>
     </ClCompile>
     <ClCompile Include="DlgSetCamera.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSetIsCheckProduct.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgClearCount.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -285,13 +285,7 @@
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
     <QtMoc Include="DlgSetIsCheckProduct.h">
-      <Filter>Form Files\ui</Filter>
-    </QtMoc>
-    <QtMoc Include="DlgSetIsCheckProduct.h">
       <Filter>Header Files\ProonnxUI</Filter>
-    </QtMoc>
-    <QtMoc Include="DlgClearCount.h">
-      <Filter>Form Files\ui</Filter>
     </QtMoc>
     <QtMoc Include="DlgClearCount.h">
       <Filter>Header Files\ProonnxUI</Filter>
@@ -303,6 +297,12 @@
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
     <QtMoc Include="IndexButton.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgSetIsCheckProduct.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgClearCount.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
   </ItemGroup>
