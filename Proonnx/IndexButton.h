@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <QPushButton>
 #include <QMouseEvent>
 #include <QWidget>
@@ -9,20 +9,20 @@ class IndexButton : public QPushButton {
 public:
     IndexButton( QWidget* parent = nullptr)
         : QPushButton(parent) {
-        // ³õÊ¼»¯´úÂë
+        // åˆå§‹åŒ–ä»£ç 
     }
 
 signals:
-    void clickedWithIndex(int index); // ¶¨Òå´øÓĞË÷ÒıµÄµã»÷ĞÅºÅ
+    void clickedWithIndex(int index); // å®šä¹‰å¸¦æœ‰ç´¢å¼•çš„ç‚¹å‡»ä¿¡å·
 
 protected:
     void mousePressEvent(QMouseEvent* event) override {
         if (event->button() == Qt::LeftButton) {
-            emit clickedWithIndex(m_index); // ·¢ËÍ´øÓĞË÷ÒıµÄµã»÷ĞÅºÅ
+            emit clickedWithIndex(m_index); // å‘é€å¸¦æœ‰ç´¢å¼•çš„ç‚¹å‡»ä¿¡å·
         }
-        QPushButton::mousePressEvent(event); // µ÷ÓÃ»ùÀàµÄÊÂ¼ş´¦Àí
+        QPushButton::mousePressEvent(event); // è°ƒç”¨åŸºç±»çš„äº‹ä»¶å¤„ç†
     }
 
 public:
-    int m_index; // ´æ´¢ĞòºÅ
+    int m_index; // å­˜å‚¨åºå·
 };

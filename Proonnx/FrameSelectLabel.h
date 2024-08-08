@@ -1,4 +1,4 @@
-#ifndef FRAMESELECTLABEL_H_
+﻿#ifndef FRAMESELECTLABEL_H_
 #define FRAMESELECTLABEL_H_
 
 #include <QLabel>

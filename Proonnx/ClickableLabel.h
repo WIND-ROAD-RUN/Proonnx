@@ -1,4 +1,4 @@
-#include <QLabel>
+ï»¿#include <QLabel>
 #include <QMouseEvent>
 #include <QWidget>
 
@@ -7,14 +7,14 @@ class ClickableLabel : public QLabel {
 
 public:
     ClickableLabel(QWidget* parent = nullptr) : QLabel(parent) {
-        // ³õÊ¼»¯´úÂë
+        // åˆå§‹åŒ–ä»£ç 
     }
 
 signals:
-    void clicked(int index); // ¶¨Òåµã»÷ĞÅºÅ£¬´øÒ»¸ö int ²ÎÊı
+    void clicked(int index); // å®šä¹‰ç‚¹å‡»ä¿¡å·ï¼Œå¸¦ä¸€ä¸ª int å‚æ•°
 
 public:
-    int m_index{ 0 }; // ´æ´¢Ë÷ÒıÖµ
+    int m_index{ 0 }; // å­˜å‚¨ç´¢å¼•å€¼
     int m_enbaleClicked{false};
 protected:
     void mousePressEvent(QMouseEvent* event) override {
@@ -22,8 +22,8 @@ protected:
             if (m_enbaleClicked) {
                 emit clicked(m_index);
             }
-             // ·¢ËÍµã»÷ĞÅºÅ£¬´«µİ m_index
+             // å‘é€ç‚¹å‡»ä¿¡å·ï¼Œä¼ é€’ m_index
         }
-        QLabel::mousePressEvent(event); // µ÷ÓÃ»ùÀàµÄÊÂ¼ş´¦Àí
+        QLabel::mousePressEvent(event); // è°ƒç”¨åŸºç±»çš„äº‹ä»¶å¤„ç†
     }
 };
