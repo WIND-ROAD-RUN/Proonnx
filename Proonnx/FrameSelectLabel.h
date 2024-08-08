@@ -1,4 +1,4 @@
-#ifndef FRAMESELECTLABEL_H_
+﻿#ifndef FRAMESELECTLABEL_H_
 #define FRAMESELECTLABEL_H_
 
 #include <QLabel>
@@ -24,6 +24,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent* event) override;
 
     void paintEvent(QPaintEvent* event) override;
+
 public:
     void paintLastRange();
 

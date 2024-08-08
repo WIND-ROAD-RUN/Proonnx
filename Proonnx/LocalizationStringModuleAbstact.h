@@ -40,8 +40,8 @@ Return true, if there is already a corresponding node, return false
 	*/
 	virtual bool changeLocalString(const std::string& id, const std::string& language, const std::string& src) = 0;
 
-	virtual bool loadFile() = 0;//加载数据到类中
-	virtual bool saveFile() = 0;//保存所有更改的数据
+	virtual bool loadFile() = 0;
+	virtual bool saveFile() = 0;
 };
 
 #endif // !HEADER_LOCALIZATIONSTRINGMODULE_H_

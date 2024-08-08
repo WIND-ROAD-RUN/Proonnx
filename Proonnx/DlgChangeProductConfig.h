@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <QDialog>
 #include "ui_DlgChangeProductConfig.h"
@@ -63,7 +63,8 @@ public:
 	void setWindowSize(int wide, int height);
 private:
 	Ui::DlgChangeProductConfigClass *ui;
-
+private:
+	void closeEvent(QCloseEvent* event) override;
 private slots:
 	void selectionMade_complete(const QRect& rect);
 
@@ -76,4 +77,6 @@ private slots:
 	void sBox_exposureTime_value_change(int);
 
 	void sBox_gain_value_change(int);
+
+	void pbtn_updateCamera_clicked();
 };

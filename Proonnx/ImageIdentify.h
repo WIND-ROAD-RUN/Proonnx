@@ -24,7 +24,7 @@ struct ImageIdentifyUtilty
 
 	static QImage 
 		convcertImageFromCvMat
-		(cv::Mat& mat);
+		(const cv::Mat & mat);
 
 	static bool 
 		checkProduct
@@ -73,16 +73,15 @@ class ImageIdentify
 	:public QAction {
 	Q_OBJECT
 private:
-
-
-private:
 	MonitorCamera* m_monitorCamera{nullptr};
 
 	ocrwork* m_indentModel{nullptr};
+
 private:
 	qint64  m_lastCapture_time{0};
 
 	qint64 m_Capture_time_mid{200};
+
 private:
 	RecognizeRange * m_recognizeRange{ nullptr };
 
@@ -91,10 +90,12 @@ public:
 	void setRecognizeRange(const RecognizeRange & range);
 
 	void setRejectAttribute(const RejectAttribute & rejectAttribute);
+
 private:
 	void save_caputure_time();
 private:
 	bool is_saveCaputureTime{ false };
+
 public:
 	bool m_setIsCheck{false};
 
@@ -126,6 +127,9 @@ public:
 	int m_productOutCount{ 0 };
 
 	QLabel* m_labelForProductName{ nullptr };
+public:
+	QLabel* m_labelForNg{ nullptr };
+
 public:
 	void setProductCount(int total,int pass,int out);
 
@@ -170,6 +174,7 @@ public:
 	explicit ImageIdentify(QLabel * label,const std::string & ip);
 
 	~ImageIdentify();
+
 private:
 	void ini_connect();
 
@@ -179,6 +184,7 @@ private:
 	int m_exposureTime{0};
 
 	int m_gain{0};
+
 public:
 	int getExposureTime() { return m_exposureTime; }
 
@@ -209,13 +215,15 @@ public:
 	bool setSoftwareTriggeredAcquisition();
 
 private:
-	void display_image(cv::Mat& mat);
+	void display_image(const cv::Mat& mat);
 
-	void display_dlgImage(cv::Mat& mat);
+	void display_image(const cv::Mat& mat,QLabel * label);
+
+	void display_dlgImage(const cv::Mat& mat);
 
 	void update_productInfo_label(bool check);
 
-	void render_image(cv::Mat& matForImage,cv::Mat & matForDlg);
+	void render_image(const cv::Mat & matForImage, const cv::Mat & matForDlg);
 
 	std::vector<OCRResult> ocr_image(cv::Mat srcMat);
 
@@ -225,7 +233,7 @@ private:
 
 	cv::Mat rotate_image(const cv::Mat& image, int rotations);
 
-	void save_image(bool productCheckResult,const QImage & image);
+	void save_image(bool productCheckResult,const QImage & image, bool isCrop);
 
 
 	int set_IO_start(int time);

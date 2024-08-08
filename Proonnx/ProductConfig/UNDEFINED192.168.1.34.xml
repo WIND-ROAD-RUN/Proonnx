@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ProductConfig>
+	<ProductName>UNDEFINED192.168.1.34</ProductName>
+	<ExposureTime>65000</ExposureTime>
+	<Gain>15</Gain>
+	<RotateCount>2</RotateCount>
+	<ProductCountInfo>
+		<TotalCount>484</TotalCount>
+		<PassCount>83</PassCount>
+		<OutCount>401</OutCount>
+	</ProductCountInfo>
+	<RejectAttribute>
+		<RejectDelay>0</RejectDelay>
+		<OffsetsNumber>1</OffsetsNumber>
+		<DisposalTime>100</DisposalTime>
+	</RejectAttribute>
+	<RecognizeRange>
+		<TopLeftCorner>
+			<X>0.039629005059021921</X>
+			<Y>0.018309859154929577</Y>
+		</TopLeftCorner>
+		<UpperRightCorner>
+			<X>0.99831365935919059</X>
+			<Y>0.018309859154929577</Y>
+		</UpperRightCorner>
+		<LeftLowerCorner>
+			<X>0.039629005059021921</X>
+			<Y>0.9830985915492958</Y>
+		</LeftLowerCorner>
+		<LowerRightCorner>
+			<X>0.99831365935919059</X>
+			<Y>0.9830985915492958</Y>
+		</LowerRightCorner>
+	</RecognizeRange>
+</ProductConfig>

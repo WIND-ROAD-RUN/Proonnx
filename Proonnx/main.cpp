@@ -8,9 +8,9 @@ int main(int argc, char *argv[])
     auto logRecorder = LogRecorder::getInstance();
     logRecorder->iniCom();
 
-    logRecorder->info("-----------------------------------------------");
+    logRecorder->info("***********************************************");
     logRecorder->info("Proonex                            operate");
-    logRecorder->info("-----------------------------------------------");
+    logRecorder->info("***********************************************");
     
     QApplication a(argc, argv);
     Proonnx w;

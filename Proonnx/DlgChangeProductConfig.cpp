@@ -1,4 +1,4 @@
-#include "DlgChangeProductConfig.h"
+﻿#include "DlgChangeProductConfig.h"
 
 #include<QMessageBox>
 
@@ -90,6 +90,10 @@ void DlgChangeProductConfig::ini_connect()
 		, this, SLOT(sBox_exposureTime_value_change(int)));
 	QObject::connect(ui->sBox_gain, SIGNAL(valueChanged(int))
 		, this, SLOT(sBox_gain_value_change(int)));
+	QObject::connect(ui->pbtn_updateCamera, SIGNAL(clicked()),
+		this, SLOT(pbtn_updateCamera_clicked()));
+	
+	
 }
 
 void DlgChangeProductConfig::ini_configLoader()
@@ -125,6 +129,19 @@ void DlgChangeProductConfig::setWindowSize(int wide, int height)
 	this->setFixedSize(wide, height);
 }
 
+void DlgChangeProductConfig::closeEvent(QCloseEvent* event)
+{
+	auto loader = LocalizationStringLoaderXML::getInstance();
+
+	if (QMessageBox::question(this, QString::fromStdString(loader->getString("42")), QString::fromStdString(loader->getString("43")),
+		QMessageBox::Yes | QMessageBox::No) == QMessageBox::No) {
+		event->accept();
+	}
+	else {
+		this->pbt_saveProductConfig_clicked();
+		event->accept(); 
+	}
+}
 void DlgChangeProductConfig::pbt_saveProductConfig_clicked()
 {
 
@@ -173,7 +190,6 @@ void DlgChangeProductConfig::pbt_saveProductConfig_clicked()
 	auto storeConfigResult = configLoader.storeConfig(config);
 	auto saveConfigResult = configLoader.saveFile(m_filePath.toStdString());
 	if (storeConfigResult && saveConfigResult&& storeRejectAttributeResult) {
-		QMessageBox::information(this, QString::fromStdString(loader->getString("12")), QString::fromStdString(loader->getString("24")));
 		LOGRECORDER->info("Save successfulls");
 	}
 	else {
@@ -226,20 +242,22 @@ void DlgChangeProductConfig::pbtn_drawRecognitionRange_clicked()
 
 void DlgChangeProductConfig::sBox_exposureTime_value_change(int)
 {
-	m_camera->stopAcquisition();
-	m_camera->setExposureTime(ui->sBox_exposureTime->value());
-	m_camera->startAcquisition();
 
 	LOGRECORDER->info("Set exposire time is:" + std::to_string(ui->sBox_exposureTime->value()));
 }
 
 void DlgChangeProductConfig::sBox_gain_value_change(int)
 {
-	m_camera->stopAcquisition();
-	m_camera->setGain(ui->sBox_gain->value());
-	m_camera->startAcquisition();
 
 	LOGRECORDER->info("Set gain is:" + std::to_string(ui->sBox_gain->value()));
+}
+
+void DlgChangeProductConfig::pbtn_updateCamera_clicked()
+{
+	m_camera->stopAcquisition();
+	m_camera->setGain(ui->sBox_gain->value());
+	m_camera->setExposureTime(ui->sBox_exposureTime->value());
+	m_camera->startAcquisition();
 }
 
 void DlgChangeProductConfig::selectionMade_complete(const QRect& rect)

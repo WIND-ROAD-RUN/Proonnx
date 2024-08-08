@@ -8,25 +8,25 @@
 #endif
 
 typedef struct OCRResult {
-	int ptLT_x, ptLT_y;		//左上角（x,y)坐标
-	int ptRT_x, ptRT_y;		//右上角（x,y)坐标
-	int ptRB_x, ptRB_y;		//右下角（x,y)坐标
-	int ptLB_x, ptLB_y;		//左下角（x,y)坐标
-	const char* text;		//检测内容
-	float score;			//置信度
+	int ptLT_x, ptLT_y;		//Upper left corner (x, y) coordinates
+	int ptRT_x, ptRT_y;		//Upper right corner (x, y) coordinates
+	int ptRB_x, ptRB_y;		//Bottom right corner (x, y) coordinates
+	int ptLB_x, ptLB_y;		//Bottom left corner (x, y) coordinates
+	const char* text;		//Testing content
+	float score;			//Confidence level
 };
 
 class OCR_DLL_API OcrApi {
 
 public:
 	
-	static OcrApi* createInstance(const char* path);  // 配置文件路径 创建实例对像
+	static OcrApi* createInstance(const char* path);  // Create instance object by configuring file path
 
-	virtual ~OcrApi() {}; // 将析构函数声明为虚函数
+	virtual ~OcrApi() {}; // Declare destructor as a virtual function
 
-	virtual int Predict(char* Src_data, int Src_width, int Src_height, int Src_channel, long step) = 0;  //ocr检测 
-	//返回检测结果的数量
-	virtual void GetOCRResult(int size, std::vector< OCRResult >& ocrResult) = 0;  //获取检测数据
+	virtual int Predict(char* Src_data, int Src_width, int Src_height, int Src_channel, long step) = 0;  //OCR detection
+//Return the number of test results
+	virtual void GetOCRResult(int size, std::vector< OCRResult >& ocrResult) = 0;  //Obtain detection data
 
 };
 

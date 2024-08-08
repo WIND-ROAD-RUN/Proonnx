@@ -17,6 +17,8 @@
 
 
 
+
+
 void ImageIdentify::setRecognizeRange(const RecognizeRange& range)
 {
 	m_recognizeRange->leftLowerCorner = range.leftLowerCorner;
@@ -28,7 +30,7 @@ void ImageIdentify::setRecognizeRange(const RecognizeRange& range)
 void ImageIdentify::setRejectAttribute(const RejectAttribute& rejectAttribute)
 {
 	m_rejectAttribute = new RejectAttribute;
-	m_rejectAttribute->DisposalTime=rejectAttribute.DisposalTime;
+	m_rejectAttribute->DisposalTime = rejectAttribute.DisposalTime;
 	m_rejectAttribute->OffsetsNumber = rejectAttribute.OffsetsNumber;
 	m_rejectAttribute->RejectDelay = rejectAttribute.RejectDelay;
 }
@@ -39,7 +41,7 @@ void ImageIdentify::save_caputure_time()
 	if (!is_saveCaputureTime) {
 		m_lastCapture_time = currentTimeInMs;
 		is_saveCaputureTime = true;
-		return;		//第一次不记录
+		return;		//Not recording for the first time
 	}
 	else {
 		m_Capture_time_mid = m_rollingAverage->addData(currentTimeInMs - m_lastCapture_time);
@@ -74,7 +76,7 @@ void ImageIdentify::setProductCount(int total, int pass, int out)
 
 	m_productLoader->storeProductProductInfo(config);
 	m_productLoader->saveFile(m_productConfigFilePath);
-	
+
 }
 
 void ImageIdentify::iniCamera()
@@ -87,7 +89,7 @@ void ImageIdentify::iniCamera()
 	setGain(cameraConfig.gain);
 	setRotateCount(cameraConfig.rotateCount);
 	m_recognizeRange = new RecognizeRange();
-	m_recognizeRange->topLeftCorner= cameraConfig.topLeftCorner;
+	m_recognizeRange->topLeftCorner = cameraConfig.topLeftCorner;
 	m_recognizeRange->leftLowerCorner = cameraConfig.leftLowerCorner;
 	m_recognizeRange->lowerRightCorner = cameraConfig.lowerRightCorner;
 	m_recognizeRange->upperRightCorner = cameraConfig.upperRightCorner;
@@ -97,28 +99,33 @@ void ImageIdentify::iniCamera()
 		m_labelForProductName->setText(QString::fromStdString(cameraConfig.productName));
 	}
 
-	auto productConfig= m_productLoader->loadProductCountInfo(m_productConfigFilePath);
+	auto productConfig = m_productLoader->loadProductCountInfo(m_productConfigFilePath);
 
 	if (m_labelForProductCount) {
-		m_stringForProductCount=m_labelForProductCount->text();
-		m_labelForProductCount->setText(m_stringForProductCount+ QString::number(productConfig.totalCount));
+		m_stringForProductCount = m_labelForProductCount->text();
+		m_labelForProductCount->setText(m_stringForProductCount + QString::number(productConfig.totalCount));
 		m_productCount = productConfig.totalCount;
 	}
 	if (m_labelForProductOutCount) {
 		m_stringForProductOutCount = m_labelForProductOutCount->text();
-		m_labelForProductOutCount->setText(m_stringForProductOutCount+ QString::number(productConfig.outCount));
+		m_labelForProductOutCount->setText(m_stringForProductOutCount + QString::number(productConfig.outCount));
 		m_productOutCount = productConfig.outCount;
 	}
 	if (m_labelForProductPassCount) {
-		m_stringForProductPassCount= m_labelForProductPassCount->text();
-		m_labelForProductPassCount->setText(m_stringForProductPassCount+ QString::number(productConfig.passCount));
-		m_productPassCount= productConfig.passCount;
+		m_stringForProductPassCount = m_labelForProductPassCount->text();
+		m_labelForProductPassCount->setText(m_stringForProductPassCount + QString::number(productConfig.passCount));
+		m_productPassCount = productConfig.passCount;
 	}
 	m_configForImageSave = ConfigForImageSave::getInstance();
 	m_configForImageSave->createDirectory(QString::fromStdString(cameraConfig.productName));
 	m_saveImageWorkPath = m_configForImageSave->getCurrentFilePath() + '/' + QString::fromStdString(cameraConfig.productName);
-	m_configForImageSave->createDirectory(m_saveImageWorkPath,"Pass");
+	m_configForImageSave->createDirectory(m_saveImageWorkPath, "Pass");
+	m_configForImageSave->createDirectory(m_saveImageWorkPath + "/Pass", "Native");
+	m_configForImageSave->createDirectory(m_saveImageWorkPath + "/Pass", "Crop");
+
 	m_configForImageSave->createDirectory(m_saveImageWorkPath, "NG");
+	m_configForImageSave->createDirectory(m_saveImageWorkPath + "/NG", "Native");
+	m_configForImageSave->createDirectory(m_saveImageWorkPath + "/NG", "Crop");
 }
 
 void ImageIdentify::setStandDate(const QString& standardDate)
@@ -209,7 +216,7 @@ bool ImageIdentify::setSoftwareTriggeredAcquisition()
 }
 
 
-void ImageIdentify::display_image(cv::Mat& mat)
+void ImageIdentify::display_image(const cv::Mat& mat)
 {
 	QImage im =
 		ImageIdentifyUtilty::convcertImageFromCvMat(mat);
@@ -226,7 +233,7 @@ void ImageIdentify::display_image(cv::Mat& mat)
 		return;
 	}
 
-	pixmap = pixmap.scaled(m_labelForImage->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+	pixmap = pixmap.scaled(m_labelForImage->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 	m_labelForImage->setPixmap(pixmap);
 	m_labelForImage->setScaledContents(true); // Fill the image with QLabel
 
@@ -236,7 +243,32 @@ void ImageIdentify::display_image(cv::Mat& mat)
 	}
 }
 
-void ImageIdentify::display_dlgImage(cv::Mat& mat)
+void ImageIdentify::display_image(const cv::Mat& mat, QLabel* label)
+{
+	if (!label) {
+		return;
+	}
+	QImage im =
+		ImageIdentifyUtilty::convcertImageFromCvMat(mat);
+
+	if (im.isNull()) {
+		qDebug() << "cvMat2QImage failed";
+		return;
+	}
+	// Convert QImage to QPixmap and display it on QLabel
+	QPixmap pixmap = QPixmap::fromImage(im);
+
+	if (pixmap.isNull()) {
+		qDebug() << "QPixmap::fromImage failed";
+		return;
+	}
+
+	pixmap = pixmap.scaled(m_labelForImage->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+	label->setPixmap(pixmap);
+	label->setScaledContents(true); // Fill the image with QLabel
+}
+
+void ImageIdentify::display_dlgImage(const cv::Mat& mat)
 {
 	if (m_dlgLabelForImage) {
 		//auto recognizeResult = ocr_image(mat);
@@ -277,12 +309,12 @@ void ImageIdentify::update_productInfo_label(bool check)
 	config.totalCount = m_productCount;
 	config.passCount = m_productPassCount;
 	config.outCount = m_productOutCount;
-	
+
 	m_productLoader->storeProductProductInfo(config);
 	m_productLoader->saveFile(m_productConfigFilePath);
 }
 
-void ImageIdentify::render_image(cv::Mat& matForImage, cv::Mat& matForDlg)
+void ImageIdentify::render_image(const cv::Mat & matForImage, const cv::Mat & matForDlg)
 {
 	display_image(matForImage);
 	display_dlgImage(matForDlg);
@@ -299,14 +331,14 @@ std::vector<OCRResult> ImageIdentify::ocr_image(cv::Mat srcMat)
 
 bool ImageIdentify::check_productDate(const std::vector<OCRResult>& date)
 {
-	
+
 }
 
 void ImageIdentify::change_check_state(bool check)
 {
 	auto palette = m_disaplayCheckInfo->palette();
 	if (check) {
-		palette.setColor(QPalette::WindowText, Qt::green); 
+		palette.setColor(QPalette::WindowText, Qt::green);
 		m_disaplayCheckInfo->setPalette(palette);
 		m_disaplayCheckInfo->setText("OK");
 	}
@@ -328,23 +360,45 @@ cv::Mat ImageIdentify::rotate_image(const cv::Mat& image, int rotations)
 	return rotatedImage;
 }
 
-void ImageIdentify::save_image(bool productCheckResult, const QImage& image)
+void ImageIdentify::save_image(bool productCheckResult, const QImage& image, bool isCrop)
 {
 	if (productCheckResult) {
-		auto filePath = m_saveImageWorkPath + QString("/Pass");
-		m_configForImageSave->saveImage
-		(image, 
-			filePath,
-			DateTransFormUtilty::removeSymbolsAndSpaces
-			(ImageIdentifyUtilty::getCurrentTimeWithMilliseconds())+QString(".jpg"));
+		if (isCrop) {
+			//切割逻辑
+			/*auto filePath = m_saveImageWorkPath + QString("/Pass/Crop");
+			m_configForImageSave->saveImage
+			(image,
+				filePath,
+				DateTransFormUtilty::removeSymbolsAndSpaces
+				(ImageIdentifyUtilty::getCurrentTimeWithMilliseconds()) + QString(".jpg"));*/
+		}
+		else {
+			auto filePath = m_saveImageWorkPath + QString("/Pass/Native");
+			m_configForImageSave->saveImage
+			(image,
+				filePath,
+				DateTransFormUtilty::removeSymbolsAndSpaces
+				(ImageIdentifyUtilty::getCurrentTimeWithMilliseconds()) + QString(".jpg"));
+		}
+
 	}
 	else {
-		auto filePath = m_saveImageWorkPath + QString("/NG");
-		m_configForImageSave->saveImage
-		(image, 
-			filePath, 
-			DateTransFormUtilty::removeSymbolsAndSpaces
-			(ImageIdentifyUtilty::getCurrentTimeWithMilliseconds())+QString(".jpg"));
+		if (isCrop) {
+			auto filePath = m_saveImageWorkPath + QString("/NG/Crop");
+			m_configForImageSave->saveImage
+			(image,
+				filePath,
+				DateTransFormUtilty::removeSymbolsAndSpaces
+				(ImageIdentifyUtilty::getCurrentTimeWithMilliseconds()) + QString(".jpg"));
+		}
+		else {
+			auto filePath = m_saveImageWorkPath + QString("/NG/Native");
+			m_configForImageSave->saveImage
+			(image,
+				filePath,
+				DateTransFormUtilty::removeSymbolsAndSpaces
+				(ImageIdentifyUtilty::getCurrentTimeWithMilliseconds()) + QString(".jpg"));
+		}
 	}
 }
 
@@ -356,14 +410,11 @@ int ImageIdentify::set_IO_start(int time)
 void ImageIdentify::send_checkErrorSignal()
 {
 	QtConcurrent::run([this]() {
-		/*int sleepTime =( m_Capture_time_mid * ((double)m_rejectAttribute->RejectDelay / (double)m_rejectAttribute->DisposalTime))* m_rejectAttribute->DisposalTime;
-		QThread::msleep(sleepTime);
-		set_IO_start(m_rejectAttribute->RejectDelay);*/
-		int sleepTime = (m_Capture_time_mid * m_rejectAttribute->OffsetsNumber)+m_rejectAttribute->RejectDelay;
+		int sleepTime = (m_Capture_time_mid * m_rejectAttribute->RejectDelay*0.01)*m_rejectAttribute->OffsetsNumber;
 		QThread::msleep(sleepTime);
 		set_IO_start((double)m_rejectAttribute->DisposalTime);
 		});
-	
+
 }
 
 void ImageIdentify::set_recognizeRange()
@@ -373,52 +424,89 @@ void ImageIdentify::set_recognizeRange()
 
 void ImageIdentify::DisplayImage(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInfo)
 {
-	// Convert image data to cv:: Mat format
+	QtConcurrent::run([=]() {
+	save_caputure_time();
 	cv::Mat nativeMat;
-	nativeMat= ImageIdentifyUtilty::ConvertMat(pFrameInfo, pData);
+	nativeMat = ImageIdentifyUtilty::ConvertMat(pFrameInfo, pData);
 
 	if (nativeMat.empty()) {
 		qDebug() << "mat is empty";
 		return;
 	}
 
-	nativeMat = rotate_image(nativeMat,m_rotateCount);
+	nativeMat = rotate_image(nativeMat, m_rotateCount);
 	cv::Mat matToSave;
 	nativeMat.copyTo(matToSave);
-	matToSave =
+	/*matToSave =
 		ImageIdentifyUtilty::cropImage(matToSave,
 			m_recognizeRange->topLeftCorner,
 			m_recognizeRange->upperRightCorner,
 			m_recognizeRange->lowerRightCorner,
-			m_recognizeRange->leftLowerCorner);
+			m_recognizeRange->leftLowerCorner);*/
 	cv::Mat matToRecognize;
 	matToSave.copyTo(matToRecognize);
 	set_recognizeRange();
-	auto recognizeResult = ocr_image(matToRecognize);
-
-	
+	//auto recognizeResult = ocr_image(matToRecognize);
 	if (is_check) {
-		auto checkResult = m_productCheck->check(recognizeResult, m_standardDate);
-		save_caputure_time();
-		if (checkResult == ProductCheckUtilty::ProductCheckInfo::WITHIN_THRESHOLD) {
-			change_check_state(true);
-			update_productInfo_label(true);
-			save_image(true, ImageIdentifyUtilty::convcertImageFromCvMat(matToSave));
-		}
-		else {
-			change_check_state(false);
-			update_productInfo_label(false);
-			save_image(false, ImageIdentifyUtilty::convcertImageFromCvMat(matToSave));
-			send_checkErrorSignal();
-		}
+			//判断识别逻辑
+				auto recognizeResult = ocr_image(matToRecognize);/////////
+				auto checkResult = m_productCheck->check(recognizeResult, m_standardDate);
+				if (checkResult == ProductCheckUtilty::ProductCheckInfo::WITHIN_THRESHOLD) {
+					change_check_state(true);
+					update_productInfo_label(true);
+					save_image(true, ImageIdentifyUtilty::convcertImageFromCvMat(nativeMat), false);
+					save_image(true, ImageIdentifyUtilty::convcertImageFromCvMat(matToSave), true);
+				}
+				else {
+					change_check_state(false);
+					update_productInfo_label(false);
+					save_image(false, ImageIdentifyUtilty::convcertImageFromCvMat(nativeMat), false);
+					save_image(true, ImageIdentifyUtilty::convcertImageFromCvMat(matToSave), true);
+					//设置io触发
+					//send_checkErrorSignal();
+					display_image(matToRecognize,m_labelForNg);
+				}
+
+				QMetaObject::invokeMethod(qApp, [this, matToRecognize, nativeMat]
+					{
+
+						render_image(matToRecognize, nativeMat);
+
+
+
+
+
+					});
+		
 	}
 	else {
 		is_saveCaputureTime = false;
+		QMetaObject::invokeMethod(qApp, [this, matToRecognize, nativeMat]
+			{
+
+				render_image(matToRecognize, nativeMat);
+
+
+
+
+
+			});
+
+
 	}
-	render_image(matToRecognize, nativeMat);
+
+
+	//debug
+	static int exposureTime= 50000;
+	exposureTime += 5000;
+	if (exposureTime>85000) {
+		exposureTime = 50000;
+	}
+	m_monitorCamera->setExposureTime(exposureTime);
+		});
 }
 
-int 
+int
 ImageIdentifyUtilty::RGB2BGR
 (unsigned char* pRgbData, unsigned int nWidth, unsigned int nHeight)
 {
@@ -463,13 +551,13 @@ cv::Mat ImageIdentifyUtilty::ConvertMat(MV_FRAME_OUT_INFO_EX* pFrameInfo, unsign
 		mat = cv::Mat(pFrameInfo->nHeight, pFrameInfo->nWidth, CV_8UC1, pData);
 		cv::cvtColor(mat, mat, cv::COLOR_BayerGB2RGB);
 		break;
-	case PixelType_Gvsp_BayerGR8: 
+	case PixelType_Gvsp_BayerGR8:
 		mat = cv::Mat(pFrameInfo->nHeight, pFrameInfo->nWidth, CV_8UC1, pData);
 		cv::cvtColor(mat, mat, cv::COLOR_BayerGR2RGB);
 		break;
 	case PixelType_Gvsp_BayerRG8:
 		mat = cv::Mat(pFrameInfo->nHeight, pFrameInfo->nWidth, CV_8UC1, pData);
-		cv::cvtColor(mat, mat, cv::COLOR_BayerBG2RGB); // 修改为 BayerBG2RGB
+		cv::cvtColor(mat, mat, cv::COLOR_BayerBG2RGB);
 		break;
 	default:
 		qDebug() << "Unsupported pixel type";
@@ -479,7 +567,7 @@ cv::Mat ImageIdentifyUtilty::ConvertMat(MV_FRAME_OUT_INFO_EX* pFrameInfo, unsign
 	return mat;
 }
 
-QImage ImageIdentifyUtilty::convcertImageFromCvMat(cv::Mat& mat)
+QImage ImageIdentifyUtilty::convcertImageFromCvMat(const cv::Mat & mat)
 {
 	QImage im;
 	if (mat.type() == CV_8UC3) {
@@ -497,14 +585,14 @@ QImage ImageIdentifyUtilty::convcertImageFromCvMat(cv::Mat& mat)
 
 bool ImageIdentifyUtilty::checkProduct(std::vector<OCRResult>& data, QString& standardDate)
 {
-	bool result{false};
-	for (const auto &item: data) {
+	bool result{ false };
+	for (const auto& item : data) {
 		if (!ImageIdentifyUtilty::isAlphanumericOrPunct(item.text)) {
 			continue;
 		}
-		auto replaceDate= ImageIdentifyUtilty::replaceChar(item.text,'Q','0');
-		replaceDate = trimToSubstring(replaceDate, ImageIdentifyUtilty::getFirstNCharacters(standardDate.toStdString(),3));
-		result= ImageIdentifyUtilty::hashSimilarity(replaceDate, standardDate.toStdString())>=90;
+		auto replaceDate = ImageIdentifyUtilty::replaceChar(item.text, 'Q', '0');
+		replaceDate = trimToSubstring(replaceDate, ImageIdentifyUtilty::getFirstNCharacters(standardDate.toStdString(), 3));
+		result = ImageIdentifyUtilty::hashSimilarity(replaceDate, standardDate.toStdString()) >= 90;
 	}
 	return result;
 }
@@ -512,55 +600,53 @@ bool ImageIdentifyUtilty::checkProduct(std::vector<OCRResult>& data, QString& st
 bool ImageIdentifyUtilty::isAlphanumericOrPunct(const char* str)
 {
 	if (str == nullptr) {
-		return false; 
+		return false;
 	}
 
 	for (size_t i = 0; i < strlen(str); ++i) {
 		char ch = str[i];
 		if (!std::isalnum(ch) && !std::ispunct(ch)) {
-			return false; 
+			return false;
 		}
 	}
-	return true; 
+	return true;
 }
 
 std::string ImageIdentifyUtilty::replaceChar(const char* str, char oldChar, char newChar)
 {
 	if (str == nullptr) {
-		return ""; // 检查空指针，返回空字符串
+		return "";
 	}
 
-	std::string result = str; // 将 const char* 转换为 std::string
+	std::string result = str;
 
-	// 遍历字符串并替换字符
+
 	for (size_t i = 0; i < result.length(); ++i) {
 		if (result[i] == oldChar) {
-			result[i] = newChar; // 替换字符
+			result[i] = newChar;
 		}
 	}
 
-	return result; // 返回更改后的字符串
+	return result;
 }
 
 std::string ImageIdentifyUtilty::trimToSubstring(std::string str1, const std::string& str2)
 {
-	// 查找 str2 在 str1 中的位置
+
 	size_t pos = str1.find(str2);
 
-	// 如果找到 str2，返回从该位置开始的子字符串
+
 	if (pos != std::string::npos) {
-		return str1.substr(pos); // 返回从 pos 开始的子字符串
+		return str1.substr(pos);
 	}
 
-	// 如果未找到，返回原始 str1
 	return str1;
 }
 
 std::string ImageIdentifyUtilty::getFirstNCharacters(const std::string& str, int n)
 {
-	// 确保 n 不超过字符串长度
 	if (n < 0) {
-		return ""; // 如果 n 为负，返回空字符串
+		return "";
 	}
 	return str.substr(0, std::min(n, static_cast<int>(str.length())));
 }
@@ -570,17 +656,15 @@ int ImageIdentifyUtilty::hashSimilarity(const std::string& str1, const std::stri
 	std::unordered_set<char> set1;
 	std::unordered_set<char> set2;
 
-	// 将 str1 中的字符添加到 set1
+
 	for (char ch : str1) {
 		set1.insert(ch);
 	}
 
-	// 将 str2 中的字符添加到 set2
 	for (char ch : str2) {
 		set2.insert(ch);
 	}
 
-	// 计算交集大小
 	std::unordered_set<char> intersection;
 	for (char ch : set1) {
 		if (set2.find(ch) != set2.end()) {
@@ -588,42 +672,34 @@ int ImageIdentifyUtilty::hashSimilarity(const std::string& str1, const std::stri
 		}
 	}
 
-	// 计算并集大小
 	std::unordered_set<char> unionSet = set1;
 	unionSet.insert(set2.begin(), set2.end());
 
-	// 计算 Jaccard 相似度
 	double jaccardIndex = static_cast<double>(intersection.size()) / unionSet.size();
 
-	// 返回相似度的百分比（0-100）
 	return static_cast<int>(jaccardIndex * 100);
 }
 
 QString ImageIdentifyUtilty::getCurrentTimeWithMilliseconds()
 {
-	QDateTime current = QDateTime::currentDateTime(); // 获取当前时间
-	return current.toString("yyyy-MM-dd HH:mm:ss.zzz"); // 格式化为字符串，包含毫秒
+	QDateTime current = QDateTime::currentDateTime();
+	return current.toString("yyyy-MM-dd HH:mm:ss.zzz");
 }
 
 cv::Mat ImageIdentifyUtilty::cropImage(const cv::Mat& image, const std::pair<double, double>& topLeft, const std::pair<double, double>& topRight, const std::pair<double, double>& bottomRight, const std::pair<double, double>& bottomLeft)
 {
-	// 获取图像的尺寸
 	int width = image.cols;
 	int height = image.rows;
 
-	// 计算裁剪区域的绝对坐标
 	cv::Point2f tl(topLeft.first * width, topLeft.second * height);
 	cv::Point2f tr(topRight.first * width, topRight.second * height);
 	cv::Point2f br(bottomRight.first * width, bottomRight.second * height);
 	cv::Point2f bl(bottomLeft.first * width, bottomLeft.second * height);
 
-	// 创建裁剪区域的四个点
 	std::vector<cv::Point2f> points = { tl, tr, br, bl };
 
-	// 计算裁剪区域的矩形
 	cv::Rect boundingRect = cv::boundingRect(points);
 
-	// 裁剪图像
 	cv::Mat croppedImage = image(boundingRect);
 
 	return croppedImage;

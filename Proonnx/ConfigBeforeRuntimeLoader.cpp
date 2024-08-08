@@ -12,37 +12,44 @@ ConfigBeforeRuntimeLoader::~ConfigBeforeRuntimeLoader()
 	delete m_configBeforeRuntimeModule;
 }
 
-void ConfigBeforeRuntimeLoader::setNewFile(const std::string& filePath)
+void ConfigBeforeRuntimeLoader::setNewFile
+(const std::string& filePath)
 {
 	m_configBeforeRuntimeModule->setNewFile(filePath);
 }
 
-bool ConfigBeforeRuntimeLoader::loadFile(const std::string& filePath)
+bool ConfigBeforeRuntimeLoader::loadFile
+(const std::string& filePath)
 {
 	return m_configBeforeRuntimeModule->loadFile(filePath);
 }
 
-void ConfigBeforeRuntimeLoader::saveFile(const std::string& filePath)
+void ConfigBeforeRuntimeLoader::saveFile
+(const std::string& filePath)
 {
 	m_configBeforeRuntimeModule->saveFile(filePath);
 }
 
-bool ConfigBeforeRuntimeLoader::storeCameraCount(int count)
+bool ConfigBeforeRuntimeLoader::storeCameraCount
+(int count)
 {
 	return m_configBeforeRuntimeModule->storeCameraCount(count);
 }
 
-bool ConfigBeforeRuntimeLoader::storeLanguage(const std::string& language)
+bool ConfigBeforeRuntimeLoader::storeLanguage
+(const std::string& language)
 {
 	return m_configBeforeRuntimeModule->storeLanguage(language);
 }
 
-bool ConfigBeforeRuntimeLoader::storeCameraConfig(const std::string& ip, const std::string& configPath)
+bool ConfigBeforeRuntimeLoader::storeCameraConfig
+(const std::string& ip, const std::string& configPath)
 {
 	return m_configBeforeRuntimeModule->storeCameraConfig(ip,configPath);
 }
 
-bool ConfigBeforeRuntimeLoader::readCameraConfig(const std::string& ip, std::string& configPath)
+bool ConfigBeforeRuntimeLoader::readCameraConfig
+(const std::string& ip, std::string& configPath)
 {
 	return m_configBeforeRuntimeModule->readCameraConfig(ip, configPath);
 }

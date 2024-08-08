@@ -12,7 +12,9 @@ LocalizationStringLoaderXML()
 LocalizationStringLoaderXML::
 LocalizationStringLoaderXML
 (const std::string& filePath, const std::string& language)
-    :m_XMLFilePath(filePath), m_language(language), m_LocalStringComponet(new LocalizationStringXML(filePath)) {}
+    :m_XMLFilePath(filePath), 
+    m_language(language), 
+    m_LocalStringComponet(new LocalizationStringXML(filePath)) {}
 
 LocalizationStringLoaderXML::
 ~LocalizationStringLoaderXML() { delete m_LocalStringComponet; }
