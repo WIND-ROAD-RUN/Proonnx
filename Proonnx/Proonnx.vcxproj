@@ -66,8 +66,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)\spdlog\build\Release;$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;spdlog.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)\spdlog\include;$(SolutionDir)\Proonnx\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
