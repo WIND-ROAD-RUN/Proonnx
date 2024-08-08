@@ -24,6 +24,7 @@
 #include"DlgClearCount.h"
 #include"LogRecorder.h"
 #include"DlgSetCamera.h"
+#include"DlgForTest.h"
 
 static LogRecorder* LOGRECORDER = LogRecorder::getInstance();
 
@@ -300,6 +301,8 @@ void Proonnx::ini_connect()
 		this, SLOT(pbtn_clearCount_clicked()));
 	QObject::connect(ui->pbtn_quit, SIGNAL(clicked()),
 		this, SLOT(pbtn_quit_clicked()));
+	QObject::connect(ui->pbtn_testDlg, SIGNAL(clicked()),
+		this, SLOT(pbtn_testDlg_clicked()));
 }
 
 void Proonnx::des_com()
@@ -815,6 +818,12 @@ void Proonnx::clicked_label_clicked(int index)
 	}
 
 
+}
+
+void Proonnx::pbtn_testDlg_clicked()
+{
+	DlgForTest dlg;
+	dlg.exec();
 }
 
 void Proonnx::pbt_addProductCongfig_clicked()

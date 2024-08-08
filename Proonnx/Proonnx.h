@@ -123,4 +123,6 @@ private slots:
 
 	void clicked_label_clicked(int index);
 
+	void pbtn_testDlg_clicked();
+
 };
