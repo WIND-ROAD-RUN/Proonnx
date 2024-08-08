@@ -197,13 +197,10 @@ void DlgAddProductConfig::pbt_saveProductConfig_clicked()
 		return;
 	}
 
-	
-	QFileDialog 
-		fileDlg(this, QString::fromStdString(loader->getString("22")),
-			"", QString::fromStdString(loader->getString("23")));
-	if (fileDlg.exec() == QFileDialog::Accepted) {
-		auto fileName = fileDlg.selectedFiles().first();
 
+	QString fileName = QFileDialog::getSaveFileName(this, QString::fromStdString(loader->getString("44")),
+		ui->lEdit_productName->text(), QString::fromStdString(loader->getString("23")));
+	if (fileName.size()!=0) {
 		LOGRECORDER->info("Add product config at path:" + fileName.toStdString());
 		LOGRECORDER->info("And the save data is next :");
 

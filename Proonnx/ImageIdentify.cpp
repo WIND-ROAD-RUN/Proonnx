@@ -497,12 +497,12 @@ void ImageIdentify::DisplayImage(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFr
 
 
 	//debug
-	static int exposureTime= 50000;
+	/*static int exposureTime= 50000;
 	exposureTime += 5000;
 	if (exposureTime>85000) {
 		exposureTime = 50000;
 	}
-	m_monitorCamera->setExposureTime(exposureTime);
+	m_monitorCamera->setExposureTime(exposureTime);*/
 		});
 }
 

@@ -226,6 +226,7 @@ void Proonnx::ini_cameraList()
 			imageIdentify->IniOcr();
 			auto connectResult = imageIdentify->connectCamera();
 			if (connectResult) {
+			
 				(*m_disaplayCameraList)[i]->m_enbaleClicked = true;
 				std::string cameraConfigFilePath;
 				auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(devList[i], cameraConfigFilePath);
@@ -535,6 +536,7 @@ void Proonnx::pbt_modProductConfig_clicked()
 			dlg.setWindowSize(this->width() * 0.75, this->height() * 0.75);
 			std::string path;
 			auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(m_cameraList->at(cameraIndex - 1)->m_Ip, path);
+			qDebug() << "read path:" << QString::fromStdString(path);
 			if (readResult) {
 				dlg.setFilePath(QString::fromStdString(path));
 				dlg.setCameraIndex(cameraIndex);
@@ -708,13 +710,14 @@ void Proonnx::pbt_setIsCheckProduct(int index)
 	auto camera = (*m_cameraList)[index];
 	if (!camera->getIsCheckProduct()) {
 		(*m_setIsCheckPbtnList)[index]->setText(QString::fromStdString(m_locStrLoader->getString("31")));
-		
+		(*m_disaplayCameraList)[index]->m_enbaleClicked = false;
 		camera->setHardwareTriggeredAcquisition();
 		camera->setIsCheckProduct(true);
 	}
 	else {
 		(*m_setIsCheckPbtnList)[index]->setText(QString::fromStdString(m_locStrLoader->getString("30")));
 		camera->setSoftwareTriggeredAcquisition();
+		(*m_disaplayCameraList)[index]->m_enbaleClicked = true;
 		camera->setIsCheckProduct(false);
 	}
 }

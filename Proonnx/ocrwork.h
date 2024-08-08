@@ -1,6 +1,6 @@
 ﻿#ifndef OCRWORK_H
 #define OCRWORK_H
-
+////////
 #include"OCRApi_GPU/include/OcrApi.h"
 #include "opencv/include/opencv2/opencv.hpp"
 #include <cmath>  
