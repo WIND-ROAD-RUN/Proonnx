@@ -197,9 +197,14 @@ void DlgAddProductConfig::pbt_saveProductConfig_clicked()
 		return;
 	}
 
-
-	QString fileName = QFileDialog::getSaveFileName(this, QString::fromStdString(loader->getString("44")),
+	QString currentFilePath = QCoreApplication::applicationFilePath();
+	currentFilePath += QString("/ProductConfig");
+	
+	QFileDialog dialog(this);
+	dialog.setDirectory(currentFilePath); // ÉèÖÃÄ¬ÈÏÂ·¾¶
+	QString fileName = dialog.getSaveFileName(this, QString::fromStdString(loader->getString("44")),
 		ui->lEdit_productName->text(), QString::fromStdString(loader->getString("23")));
+
 	if (fileName.size()!=0) {
 		LOGRECORDER->info("Add product config at path:" + fileName.toStdString());
 		LOGRECORDER->info("And the save data is next :");
