@@ -36,12 +36,12 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>5.12.10_msvc2017_64</QtInstall>
+    <QtInstall>5.15.2_msvc2019_64</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>5.12.10_msvc2017_64</QtInstall>
+    <QtInstall>5.15.2_msvc2019_64</QtInstall>
     <QtModules>core;gui;widgets;concurrent</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
@@ -112,7 +112,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DlgForTest.cpp" />
     <ClCompile Include="DlgSetCamera.cpp" />
+    <ClCompile Include="ImageIdentifyUtilty.cpp" />
     <ClCompile Include="LogModule.cpp" />
     <ClCompile Include="LogRecorder.cpp" />
     <ClCompile Include="LogSystemUtilty.cpp" />
@@ -121,6 +123,7 @@
     <QtUic Include="DlgAddProductConfig.ui" />
     <QtUic Include="DlgChangeProductConfig.ui" />
     <QtUic Include="DlgClearCount.ui" />
+    <QtUic Include="DlgForTest.ui" />
     <QtUic Include="DlgSelectCameraIndex.ui" />
     <QtUic Include="DlgSetCamera.ui" />
     <QtUic Include="DlgSetIsCheckProduct.ui" />
@@ -162,6 +165,8 @@
     <QtMoc Include="ClickableLabel.h" />
     <QtMoc Include="DlgSetCamera.h" />
     <QtMoc Include="IndexButton.h" />
+    <QtMoc Include="DlgForTest.h" />
+    <ClInclude Include="ImageIdentifyUtilty.h" />
     <ClInclude Include="LogRecorder.h" />
     <ClInclude Include="LogModule.h" />
     <ClInclude Include="LogSystemUtilty.h" />

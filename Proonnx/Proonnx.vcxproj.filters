@@ -167,9 +167,6 @@
     <ClCompile Include="ocrPutText.cpp">
       <Filter>Source Files\ImageIdentify\OCR</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FrameSelectLabel.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
@@ -221,6 +218,18 @@
     <ClCompile Include="DlgClearCount.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
+    <ClCompile Include="DlgForTest.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgForTest.cpp">
+      <Filter>Source Files\ProonnxUI</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageIdentifyUtilty.cpp">
+      <Filter>Source Files\ImageIdentify\ImageIdentify</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Proonnx.ui">
@@ -245,6 +254,9 @@
       <Filter>Form Files\ui</Filter>
     </QtUic>
     <QtUic Include="DlgSetCamera.ui">
+      <Filter>Form Files\ui</Filter>
+    </QtUic>
+    <QtUic Include="DlgForTest.ui">
       <Filter>Form Files\ui</Filter>
     </QtUic>
   </ItemGroup>
@@ -303,6 +315,12 @@
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
     <QtMoc Include="DlgClearCount.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgForTest.h">
+      <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgForTest.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
   </ItemGroup>
@@ -387,6 +405,9 @@
     </ClInclude>
     <ClInclude Include="LogSystemUtilty.h">
       <Filter>Header Files\config\LogSave</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageIdentifyUtilty.h">
+      <Filter>Header Files\ImageIdentify\ImageIdentify</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

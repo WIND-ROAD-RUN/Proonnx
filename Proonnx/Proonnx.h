@@ -49,6 +49,7 @@ private:
 	QVector<QLabel*>* m_productOutCountList{ nullptr };
 
 	QVector<ImageIdentify*> * m_cameraList{nullptr};
+
 public:
 	QVector<IndexButton*>* m_setIsCheckPbtnList{ nullptr };
 
@@ -91,6 +92,7 @@ public:
 
 private:
 	Ui::ProonnxClass* ui;
+
 private:
 	bool m_isSingleCheckProduct{false};
 
@@ -122,5 +124,7 @@ private slots:
 	void pbtn_quit_clicked();
 
 	void clicked_label_clicked(int index);
+
+	void pbtn_testDlg_clicked();
 
 };

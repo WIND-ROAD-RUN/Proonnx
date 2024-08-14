@@ -24,6 +24,7 @@
 #include"DlgClearCount.h"
 #include"LogRecorder.h"
 #include"DlgSetCamera.h"
+#include"DlgForTest.h"
 
 static LogRecorder* LOGRECORDER = LogRecorder::getInstance();
 
@@ -226,6 +227,7 @@ void Proonnx::ini_cameraList()
 			imageIdentify->IniOcr();
 			auto connectResult = imageIdentify->connectCamera();
 			if (connectResult) {
+			
 				(*m_disaplayCameraList)[i]->m_enbaleClicked = true;
 				std::string cameraConfigFilePath;
 				auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(devList[i], cameraConfigFilePath);
@@ -300,6 +302,8 @@ void Proonnx::ini_connect()
 		this, SLOT(pbtn_clearCount_clicked()));
 	QObject::connect(ui->pbtn_quit, SIGNAL(clicked()),
 		this, SLOT(pbtn_quit_clicked()));
+	QObject::connect(ui->pbtn_testDlg, SIGNAL(clicked()),
+		this, SLOT(pbtn_testDlg_clicked()));
 }
 
 void Proonnx::des_com()
@@ -535,6 +539,7 @@ void Proonnx::pbt_modProductConfig_clicked()
 			dlg.setWindowSize(this->width() * 0.75, this->height() * 0.75);
 			std::string path;
 			auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(m_cameraList->at(cameraIndex - 1)->m_Ip, path);
+			qDebug() << "read path:" << QString::fromStdString(path);
 			if (readResult) {
 				dlg.setFilePath(QString::fromStdString(path));
 				dlg.setCameraIndex(cameraIndex);
@@ -708,13 +713,14 @@ void Proonnx::pbt_setIsCheckProduct(int index)
 	auto camera = (*m_cameraList)[index];
 	if (!camera->getIsCheckProduct()) {
 		(*m_setIsCheckPbtnList)[index]->setText(QString::fromStdString(m_locStrLoader->getString("31")));
-		
+		(*m_disaplayCameraList)[index]->m_enbaleClicked = false;
 		camera->setHardwareTriggeredAcquisition();
 		camera->setIsCheckProduct(true);
 	}
 	else {
 		(*m_setIsCheckPbtnList)[index]->setText(QString::fromStdString(m_locStrLoader->getString("30")));
 		camera->setSoftwareTriggeredAcquisition();
+		(*m_disaplayCameraList)[index]->m_enbaleClicked = true;
 		camera->setIsCheckProduct(false);
 	}
 }
@@ -815,6 +821,12 @@ void Proonnx::clicked_label_clicked(int index)
 	}
 
 
+}
+
+void Proonnx::pbtn_testDlg_clicked()
+{
+	DlgForTest dlg;
+	dlg.exec();
 }
 
 void Proonnx::pbt_addProductCongfig_clicked()
