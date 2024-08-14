@@ -13,8 +13,6 @@
 #include"RollingAverage.h"
 #include"ImageIdentifyUtilty.h"
 
-
-
 class MonitorCamera;
 class ProductConfigLoader;
 class ConfigForImageSave;
