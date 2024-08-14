@@ -29,8 +29,8 @@ void DlgForTest::ini_connect()
 
 void DlgForTest::ini_ui()
 {
-    m_ocrwork = new ocrwork();
-    m_ocrwork->initial();
+    /*m_ocrwork = new ocrwork();
+    m_ocrwork->initial();*/
 }
 
 void DlgForTest::pbtn_recognize_clicked()
