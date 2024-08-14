@@ -19,6 +19,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Extra", "Extra\Extra.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cfglg", "cfglg\cfglg.vcxproj", "{59276DDC-A705-4C2A-B3B8-9FCB6C8E047A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cma", "cma\cma.vcxproj", "{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -133,6 +135,26 @@ Global
 		{59276DDC-A705-4C2A-B3B8-9FCB6C8E047A}.RelWithDebInfo|x64.Build.0 = Release|x64
 		{59276DDC-A705-4C2A-B3B8-9FCB6C8E047A}.RelWithDebInfo|x86.ActiveCfg = Release|Win32
 		{59276DDC-A705-4C2A-B3B8-9FCB6C8E047A}.RelWithDebInfo|x86.Build.0 = Release|Win32
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.Debug|x64.ActiveCfg = Debug|x64
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.Debug|x64.Build.0 = Debug|x64
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.Debug|x86.ActiveCfg = Debug|x64
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.Debug|x86.Build.0 = Debug|x64
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.DebugForProonnx|x64.ActiveCfg = Debug|x64
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.DebugForProonnx|x64.Build.0 = Debug|x64
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.DebugForProonnx|x86.ActiveCfg = Debug|x64
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.DebugForProonnx|x86.Build.0 = Debug|x64
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.MinSizeRel|x64.ActiveCfg = Debug|x64
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.MinSizeRel|x64.Build.0 = Debug|x64
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.MinSizeRel|x86.ActiveCfg = Debug|x64
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.MinSizeRel|x86.Build.0 = Debug|x64
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.Release|x64.ActiveCfg = Release|x64
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.Release|x64.Build.0 = Release|x64
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.Release|x86.ActiveCfg = Release|x64
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.Release|x86.Build.0 = Release|x64
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.RelWithDebInfo|x64.ActiveCfg = Release|x64
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.RelWithDebInfo|x64.Build.0 = Release|x64
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.RelWithDebInfo|x86.ActiveCfg = Release|x64
+		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.RelWithDebInfo|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
