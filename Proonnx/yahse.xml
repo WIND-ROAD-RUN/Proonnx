@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ProductConfig>
+	<ProductName>yahse</ProductName>
+	<ExposureTime>10000</ExposureTime>
+	<Gain>6</Gain>
+	<RotateCount>3</RotateCount>
+	<ProductCountInfo>
+		<TotalCount>24</TotalCount>
+		<PassCount>8</PassCount>
+		<OutCount>16</OutCount>
+	</ProductCountInfo>
+	<RejectAttribute>
+		<RejectDelay>0</RejectDelay>
+		<OffsetsNumber>1</OffsetsNumber>
+		<DisposalTime>100</DisposalTime>
+	</RejectAttribute>
+	<RecognizeRange>
+		<TopLeftCorner>
+			<X>0</X>
+			<Y>0</Y>
+		</TopLeftCorner>
+		<UpperRightCorner>
+			<X>0</X>
+			<Y>0</Y>
+		</UpperRightCorner>
+		<LeftLowerCorner>
+			<X>0</X>
+			<Y>0</Y>
+		</LeftLowerCorner>
+		<LowerRightCorner>
+			<X>0</X>
+			<Y>0</Y>
+		</LowerRightCorner>
+	</RecognizeRange>
+</ProductConfig>

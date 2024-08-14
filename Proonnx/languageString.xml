@@ -171,5 +171,9 @@
 		<language language="USA">Are you sure tu quit and save</language>
 		<language language="CHN">是否保存并退出</language>
 	</string>
+	<string id="44">
+		<language language="USA">Save file</language>
+		<language language="CHN">保存文件</language>
+	</string>
 	
 </MyLocalizationStringModele_strings>
