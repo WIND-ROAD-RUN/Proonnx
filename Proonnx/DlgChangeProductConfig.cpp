@@ -1,6 +1,8 @@
 ﻿#include "DlgChangeProductConfig.h"
 
 #include<QMessageBox>
+#include<QFileInfo>
+#include<QDir>
 
 #include"spdlog/spdlog.h"
 #include"ProductConfigLoader.h"
@@ -114,13 +116,19 @@ void DlgChangeProductConfig::ini_configLoader()
 void DlgChangeProductConfig::iniUI()
 {
 	ini_configLoader();
+	ConfigBeforeRuntimeLoader loader;
+	loader.loadFile(m_configBeforeRuntime.toStdString());
+	std::string s;
+	loader.readCameraConfig(m_camera->m_Ip, s);
+	m_filePath = QString::fromStdString(s);
 	ui->lEdit_filePath->setText(m_filePath);
-
+	qDebug() << "read product config" << m_filePath;
 	auto productConfig = m_loader->loadProductConfig(m_filePath.toStdString());
 	m_recognizeRange->leftLowerCorner = productConfig.leftLowerCorner;
 	m_recognizeRange->lowerRightCorner = productConfig.lowerRightCorner;
 	m_recognizeRange->topLeftCorner = productConfig.topLeftCorner;
 	m_recognizeRange->upperRightCorner = productConfig.upperRightCorner;
+	ui->lEdit_productName->setText(QString::fromStdString(productConfig.productName));
 
 }
 
@@ -138,8 +146,14 @@ void DlgChangeProductConfig::closeEvent(QCloseEvent* event)
 		event->accept();
 	}
 	else {
-		this->pbt_saveProductConfig_clicked();
-		event->accept(); 
+		if (ui->lEdit_productName->text().size()==0) {
+			QMessageBox::warning(this, QString::fromStdString(loader->getString("34")), QString::fromStdString(loader->getString("35")));
+			event->ignore();
+		}
+		else {
+			this->pbt_saveProductConfig_clicked();
+			event->accept();
+		}
 	}
 }
 void DlgChangeProductConfig::pbt_saveProductConfig_clicked()
@@ -188,6 +202,23 @@ void DlgChangeProductConfig::pbt_saveProductConfig_clicked()
 
 	auto storeRejectAttributeResult = configLoader.storeRejectAttribute(rejectAttribute);
 	auto storeConfigResult = configLoader.storeConfig(config);
+
+	QFileInfo fileInfo(m_filePath);
+	QDir dir = fileInfo.dir();
+	QString newFilePath = dir.filePath(ui->lEdit_productName->text()+QString(".xml"));
+	QFile fileLast(m_filePath);
+	fileLast.remove();
+	m_filePath = newFilePath;
+	qDebug() << "change filepath" << m_filePath;
+	ConfigBeforeRuntimeLoader loaderRuntime;
+	loaderRuntime.loadFile(m_configBeforeRuntime.toStdString());
+	loaderRuntime.storeCameraConfig(m_camera->m_Ip, newFilePath.toStdString());
+	loaderRuntime.saveFile(m_configBeforeRuntime.toStdString());
+	qDebug() << "save" << m_filePath;
+	std::string s;
+	loaderRuntime.readCameraConfig(m_camera->m_Ip, s);
+	qDebug() << QString::fromStdString(s);
+
 	auto saveConfigResult = configLoader.saveFile(m_filePath.toStdString());
 	if (storeConfigResult && saveConfigResult&& storeRejectAttributeResult) {
 		LOGRECORDER->info("Save successfulls");
