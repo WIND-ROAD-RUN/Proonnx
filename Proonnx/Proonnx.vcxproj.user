@@ -13,4 +13,8 @@
     <QtTouchProperty>
     </QtTouchProperty>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugForProonnx|x64'" Label="QtSettings">
+    <QtLastBackgroundBuild>2024-07-19T12:02:57.7128288Z</QtLastBackgroundBuild>
+    <QtTouchProperty />
+  </PropertyGroup>
 </Project>

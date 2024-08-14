@@ -3,13 +3,8 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_Proonnx.h"
 
-#include"MVS/Includes/MvCameraControl.h"
-#include"ImageIdentify.h"
-#include"ClickableLabel.h"
 #include<QVector>
 #include<QLabel>
-#include"IndexButton.h"
-
 
 namespace cv {
 	class Mat;
@@ -20,6 +15,8 @@ class ocrwork;
 class LocalizationStringLoaderXML;
 class ConfigBeforeRuntimeLoader;
 class ConfigForImageSave;
+class ClickableLabel;
+class IndexButton;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ProonnxClass; };
@@ -102,28 +99,33 @@ private:
 	void set_isCheckProductByList(const QVector<bool> & list);
 
 	void set_allDoNotCheck();
+
 private:
 	void select_config(int index);
 
-private slots:
-	void pbt_addProductCongfig_clicked();
+private:
 	void pbt_addProductCongfig(int index);
 
-	void pbt_modProductConfig_clicked();
 	void pbt_modProductConfig(int index);
+
+	void pbt_setIsCheckProduct(int index);
+
+	void setCheckProduct_clicked(bool check);
+
+	void clicked_label_clicked(int index);
+
+private slots:
+	void pbt_modProductConfig_clicked();
 
 	void pbtn_setProonnx_clicked();
 
 	void pbt_setIsCheckProduct_clicked();
-	void pbt_setIsCheckProduct(int index);
-	void setCheckProduct_clicked(bool check);
 
 	void pbtn_clearCount_clicked();
+
 	void pbtn_clearCount(int index);
 
 	void pbtn_quit_clicked();
-
-	void clicked_label_clicked(int index);
 
 	void pbtn_testDlg_clicked();
 
