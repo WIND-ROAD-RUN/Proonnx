@@ -1,8 +1,13 @@
-#include <QtCore/QCoreApplication>
+#include<iostream>
+#include"cma_Camera.h"
+
+using namespace std;
+using namespace rw::cma;
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
+    auto cameraList = CameraMVSUtility::checkAllConnectCamera();
+    cout << cameraList.size();
 
-    return a.exec();
+    return 0;
 }
