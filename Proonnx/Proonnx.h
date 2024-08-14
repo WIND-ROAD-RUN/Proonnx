@@ -114,16 +114,12 @@ private:
 
 	void clicked_label_clicked(int index);
 
-private slots:
-	void pbt_modProductConfig_clicked();
+	void pbtn_clearCount(int index);
 
+private slots:
 	void pbtn_setProonnx_clicked();
 
 	void pbt_setIsCheckProduct_clicked();
-
-	void pbtn_clearCount_clicked();
-
-	void pbtn_clearCount(int index);
 
 	void pbtn_quit_clicked();
 
