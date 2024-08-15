@@ -31,10 +31,14 @@ static LogRecorder* LOGRECORDER = LogRecorder::getInstance();
 
 void Proonnx::ini_ui()
 {
+
+#ifdef NDEBUG_RW
 	this->setWindowFlags(Qt::FramelessWindowHint);
 	this->showFullScreen();
 
 	this->setWindowFlags(this->windowFlags() & ~Qt::WindowMinMaxButtonsHint);
+#endif // NDEBUG_RW
+
 
 	ini_configBeforeRuntimeLoader();
 	ini_localizationStringLoader();

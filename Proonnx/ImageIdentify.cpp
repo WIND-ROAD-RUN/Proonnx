@@ -331,7 +331,7 @@ std::vector<OCRResult> ImageIdentify::ocr_image(cv::Mat srcMat)
 
 bool ImageIdentify::check_productDate(const std::vector<OCRResult>& date)
 {
-
+	return false;
 }
 
 void ImageIdentify::change_check_state(bool check)

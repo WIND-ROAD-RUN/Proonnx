@@ -112,11 +112,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\spdlog\include;%(AdditionalIncludeDirectories);$(ProjectDir);$(Qt_INCLUDEPATH_)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Proonnx\opencv\include;$(SolutionDir)\spdlog\include;%(AdditionalIncludeDirectories);$(ProjectDir);$(Qt_INCLUDEPATH_)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DEBUG_RW;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)\spdlog\build\Release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>spdlog.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
