@@ -49,7 +49,7 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>5.15.2_msvc2019_64</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core;gui;widgets;concurrent</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
@@ -90,34 +90,34 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\oulq\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>oulq.lib;MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\spdlog\include;$(SolutionDir)\Proonnx\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)\Proonnx\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>NDEBUG_RW;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugForProonnx|x64'">
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\oulq\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>oulq.lib;MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\spdlog\include;$(SolutionDir)\Proonnx\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)\spdlog\include;$(SolutionDir)\Proonnx\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>DEBUG_RW;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Proonnx\opencv\include;$(SolutionDir)\spdlog\include;%(AdditionalIncludeDirectories);$(ProjectDir);$(Qt_INCLUDEPATH_)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)\Proonnx\opencv\include;$(SolutionDir)\spdlog\include;%(AdditionalIncludeDirectories);$(ProjectDir);$(Qt_INCLUDEPATH_)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>DEBUG_RW;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\oulq\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>oulq.lib;MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -217,7 +217,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="ClickableLabel.h" />
     <QtMoc Include="DlgSetCamera.h" />
     <QtMoc Include="IndexButton.h" />
     <QtMoc Include="DlgForTest.h" />
@@ -265,6 +264,11 @@
   <ItemGroup>
     <Library Include="MVS\Libraries\win32\MvCameraControl.lib" />
     <Library Include="MVS\Libraries\win64\MvCameraControl.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\oulq\oulq.vcxproj">
+      <Project>{22e752e4-ae8a-40aa-9a3d-c7f23565b046}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

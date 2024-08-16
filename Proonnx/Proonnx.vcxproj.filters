@@ -302,9 +302,6 @@
     <QtMoc Include="DlgClearCount.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
-    <QtMoc Include="ClickableLabel.h">
-      <Filter>Header Files\ProonnxUI</Filter>
-    </QtMoc>
     <QtMoc Include="DlgSetCamera.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>

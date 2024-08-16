@@ -15,12 +15,18 @@ class ocrwork;
 class LocalizationStringLoaderXML;
 class ConfigBeforeRuntimeLoader;
 class ConfigForImageSave;
-class ClickableLabel;
+namespace rw {
+	namespace oulq {
+		class ClickableLabel;
+	}
+}
 class IndexButton;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ProonnxClass; };
 QT_END_NAMESPACE
+
+using namespace rw::oulq;
 
 class Proonnx : public QMainWindow
 {

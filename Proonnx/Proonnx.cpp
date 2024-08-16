@@ -17,7 +17,8 @@
 #include"DlgForTest.h"
 #include"DlgSetIsCheckProduct.h"
 #include"DlgClearCount.h"
-#include"ClickableLabel.h"
+//#include"ClickableLabel.h"
+#include"oulq/oulq_clickedLabel.h"
 #include"IndexButton.h"
 #include"LocalizationStringLoader-XML.h"
 #include"ConfigBeforeRuntimeLoader.h"
@@ -28,6 +29,7 @@
 #include"ImageIdentify.h"
 
 static LogRecorder* LOGRECORDER = LogRecorder::getInstance();
+using namespace rw::oulq;
 
 void Proonnx::ini_ui()
 {
@@ -591,19 +593,18 @@ void Proonnx::setCheckProduct_clicked(bool check)
 	if (check) {
 		for (auto& item : *m_cameraList) {
 			set_isCheckProduct(check);
-#ifdef NDEBUG_RW
+
 			item->setHardwareTriggeredAcquisition();
-#endif // NDEBUG_RW
+
 
 		}
 	}
 	else {
 		for (auto& item : *m_cameraList) {
 			set_isCheckProduct(check);
-#ifdef NDEBUG_RW
+
 			item->setSoftwareTriggeredAcquisition();
-#endif // NDEBUG_RW
-		
+
 		}
 	}
 

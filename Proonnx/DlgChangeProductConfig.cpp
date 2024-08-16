@@ -118,9 +118,9 @@ void DlgChangeProductConfig::iniUI()
 	ini_configLoader();
 	ConfigBeforeRuntimeLoader loader;
 	loader.loadFile(m_configBeforeRuntime.toStdString());
-	std::string s;
+	/*std::string s;
 	loader.readCameraConfig(m_camera->m_Ip, s);
-	m_filePath = QString::fromStdString(s);
+	m_filePath = QString::fromStdString(s);*/
 	ui->lEdit_filePath->setText(m_filePath);
 	qDebug() << "read product config" << m_filePath;
 	auto productConfig = m_loader->loadProductConfig(m_filePath.toStdString());

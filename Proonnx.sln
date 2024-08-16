@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cfglg", "cfglg\cfglg.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cma", "cma\cma.vcxproj", "{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "oulq", "oulq\oulq.vcxproj", "{22E752E4-AE8A-40AA-9A3D-C7F23565B046}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -155,6 +157,26 @@ Global
 		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.RelWithDebInfo|x64.Build.0 = Release|x64
 		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.RelWithDebInfo|x86.ActiveCfg = Release|x64
 		{9CCFA355-0B09-493B-8DC3-CBB0DBF91BB8}.RelWithDebInfo|x86.Build.0 = Release|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.Debug|x64.ActiveCfg = Debug|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.Debug|x64.Build.0 = Debug|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.Debug|x86.ActiveCfg = Debug|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.Debug|x86.Build.0 = Debug|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.DebugForProonnx|x64.ActiveCfg = Debug|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.DebugForProonnx|x64.Build.0 = Debug|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.DebugForProonnx|x86.ActiveCfg = Debug|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.DebugForProonnx|x86.Build.0 = Debug|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.MinSizeRel|x64.ActiveCfg = Debug|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.MinSizeRel|x64.Build.0 = Debug|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.MinSizeRel|x86.ActiveCfg = Debug|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.MinSizeRel|x86.Build.0 = Debug|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.Release|x64.ActiveCfg = Release|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.Release|x64.Build.0 = Release|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.Release|x86.ActiveCfg = Release|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.Release|x86.Build.0 = Release|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.RelWithDebInfo|x64.ActiveCfg = Release|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.RelWithDebInfo|x64.Build.0 = Release|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.RelWithDebInfo|x86.ActiveCfg = Release|x64
+		{22E752E4-AE8A-40AA-9A3D-C7F23565B046}.RelWithDebInfo|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
