@@ -108,11 +108,7 @@ private:
 
 	void pbt_modProductConfig(int index);
 
-	void pbt_setIsCheckProduct(int index);
-
 	void setCheckProduct_clicked(bool check);
-
-	void clicked_label_clicked(int index);
 
 	void pbtn_clearCount(int index);
 
@@ -125,4 +121,7 @@ private slots:
 
 	void pbtn_testDlg_clicked();
 
+	void clicked_label_clicked(int index);
+
+	void pbt_setIsCheckProduct(int index);
 };

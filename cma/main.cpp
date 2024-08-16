@@ -9,30 +9,30 @@
 using namespace std;
 using namespace rw::cma;
 
-
-
-
 int main(int argc, char *argv[])
 {
 
     QCoreApplication a(argc, argv);
     auto cameraList = CameraUtilty::checkAllConnectCamera();
-    Camera* camera = new Camera;
+    /*Camera* camera = new Camera;*/
     cout << cameraList.size()<<endl;
     if (cameraList.size()) {
-        camera->setIp(cameraList.at(0));
+        /*camera->setIp(cameraList.at(0));
         cout << cameraList.at(0)<<endl;
         cout << "connectResult:";
         cout <<camera->connectCamera();
         imageIdentify identify(camera);
-        camera->startAcquisition();
         camera->setHardwareTriggeredAcquisition();
-        int i;
-        cin >> i;
-        camera->stopAcquisition();
-
+        camera->startAcquisition();*/
+        Camera_MVS cm;
+        cout << cameraList.at(0) << endl;
+        cm.setIp(cameraList.at(0));
+        cout << "connectResult:";
+        cout << cm.connectCamera()<<endl;
+        cout<<cm.setSoftwareTriggeredAcquisition()<<endl;
+        cm.startAcquisition();
     }
-    delete camera;
+   /* delete camera;*/
     return a.exec();
 }
 

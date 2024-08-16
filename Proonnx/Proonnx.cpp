@@ -231,7 +231,6 @@ void Proonnx::ini_cameraList()
 			imageIdentify->IniOcr();
 			auto connectResult = imageIdentify->connectCamera();
 			if (connectResult) {
-			
 				(*m_disaplayCameraList)[i]->m_enbaleClicked = true;
 				std::string cameraConfigFilePath;
 				auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(devList[i], cameraConfigFilePath);
@@ -592,13 +591,19 @@ void Proonnx::setCheckProduct_clicked(bool check)
 	if (check) {
 		for (auto& item : *m_cameraList) {
 			set_isCheckProduct(check);
+#ifdef NDEBUG_RW
 			item->setHardwareTriggeredAcquisition();
+#endif // NDEBUG_RW
+
 		}
 	}
 	else {
 		for (auto& item : *m_cameraList) {
 			set_isCheckProduct(check);
+#ifdef NDEBUG_RW
 			item->setSoftwareTriggeredAcquisition();
+#endif // NDEBUG_RW
+		
 		}
 	}
 
