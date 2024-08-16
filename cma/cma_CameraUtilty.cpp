@@ -1,6 +1,10 @@
 #include "cma_CameraUtilty.h"
 
 #include"MVS/Includes/MvCameraControl.h"
+#include"opencv2/opencv.hpp"
+
+#include<qdebug>
+
 namespace rw {
     namespace cma {
 
@@ -40,6 +44,45 @@ namespace rw {
 
 			return cameraIPs;
         }
+
+		cv::Mat CameraUtilty::ConvertMat(MV_FRAME_OUT_INFO_EX* pFrameInfo, unsigned char* pData)
+		{
+			cv::Mat mat;
+			switch (pFrameInfo->enPixelType) {
+			case PixelType_Gvsp_RGB8_Packed:
+				mat = cv::Mat(pFrameInfo->nHeight, pFrameInfo->nWidth, CV_8UC3, pData);
+				cv::cvtColor(mat, mat, cv::COLOR_BGR2RGB); // convert color format
+				break;
+			case PixelType_Gvsp_Mono8:
+				mat = cv::Mat(pFrameInfo->nHeight, pFrameInfo->nWidth, CV_8UC1, pData);
+				break;
+			case PixelType_Gvsp_YUV422_Packed:
+				mat = cv::Mat(pFrameInfo->nHeight, pFrameInfo->nWidth, CV_8UC2, pData);
+				cv::cvtColor(mat, mat, cv::COLOR_YUV2RGB_Y422);
+				break;
+			case PixelType_Gvsp_YUV422_YUYV_Packed:
+				mat = cv::Mat(pFrameInfo->nHeight, pFrameInfo->nWidth, CV_8UC2, pData);
+				cv::cvtColor(mat, mat, cv::COLOR_YUV2RGB_YUYV);
+				break;
+			case PixelType_Gvsp_BayerGB8:
+				mat = cv::Mat(pFrameInfo->nHeight, pFrameInfo->nWidth, CV_8UC1, pData);
+				cv::cvtColor(mat, mat, cv::COLOR_BayerGB2RGB);
+				break;
+			case PixelType_Gvsp_BayerGR8:
+				mat = cv::Mat(pFrameInfo->nHeight, pFrameInfo->nWidth, CV_8UC1, pData);
+				cv::cvtColor(mat, mat, cv::COLOR_BayerGR2RGB);
+				break;
+			case PixelType_Gvsp_BayerRG8:
+				mat = cv::Mat(pFrameInfo->nHeight, pFrameInfo->nWidth, CV_8UC1, pData);
+				cv::cvtColor(mat, mat, cv::COLOR_BayerBG2RGB);
+				break;
+			default:
+				qDebug() << "Unsupported pixel type";
+				qDebug() << pFrameInfo->enPixelType;
+				return mat;
+			}
+			return mat;
+		}
 
     }
 }

@@ -110,13 +110,20 @@
   <ItemGroup>
     <ClCompile Include="cma_Camera.cpp" />
     <ClCompile Include="cma_CameraUtilty.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="image.cpp" />
+    <ClCompile Include="main.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="cma_Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cma_CameraUtilty.h" />
+    <QtMoc Include="image.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

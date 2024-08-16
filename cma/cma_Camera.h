@@ -9,17 +9,15 @@
 typedef struct _MV_FRAME_OUT_INFO_EX_ MV_FRAME_OUT_INFO_EX;
 typedef struct _MV_FRAME_OUT_ MV_FRAME_OUT;
 
+namespace cv {
+    class Mat;
+}
+
 namespace rw {
     namespace cma {
-        struct CameraMVSUtility
-        {
-            static std::vector<std::string> checkAllConnectCamera();
-        };
-
         /// <summary>
         /// 
         /// </summary>
-
         class Camera_MVS;
         class Camera
             : public QObject {
@@ -48,17 +46,18 @@ namespace rw {
 
             bool setGain(int gain);
 
+            int setIOStart(int time);
+
+        public:
             bool setHardwareTriggeredAcquisition();
 
             bool setSoftwareTriggeredAcquisition();
 
-            int setIOStart(int time);
+        signals:
+            void ImgCallBackSignal(std::shared_ptr<cv::Mat>  mat);
 
-        //signals:
-        //    void ImgCallBackSignal(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInfo);
-
-        //private slots:
-        //    void monitorImage();
+        private slots:
+            void monitorImage(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInfo);
 
         };
 
