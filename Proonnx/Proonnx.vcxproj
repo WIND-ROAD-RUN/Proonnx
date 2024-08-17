@@ -193,7 +193,6 @@
     <ClCompile Include="DlgSelectCameraIndex.cpp" />
     <ClCompile Include="DlgSetIsCheckProduct.cpp" />
     <ClCompile Include="DlgSetProonnx.cpp" />
-    <ClCompile Include="FrameSelectLabel.cpp" />
     <ClCompile Include="ImageIdentify.cpp" />
     <ClCompile Include="LocalizationStringLoader-XML.cpp" />
     <ClCompile Include="LocalizationStringModule-XML.cpp" />
@@ -227,7 +226,6 @@
     <ClInclude Include="RollingAverage.h" />
     <QtMoc Include="DlgChangeProductConfig.h" />
     <QtMoc Include="mycamera.h" />
-    <QtMoc Include="FrameSelectLabel.h" />
     <QtMoc Include="DlgSetProonnx.h" />
     <ClInclude Include="ConfigBeforeRuntimeLoader.h" />
     <ClInclude Include="ConfigBeforeRuntimeModule.h" />

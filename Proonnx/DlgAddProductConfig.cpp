@@ -4,7 +4,7 @@
 #include<QFileDialog>
 #include<QGroupBox>
 
-#include"FrameSelectLabel.h"
+#include"oulq/oulq_LabelCustom.h"
 #include"ProductConfigLoader.h"
 #include"ImageIdentify.h"
 #include"ConfigBeforeRuntimeLoader.h"
@@ -47,7 +47,7 @@ void DlgAddProductConfig::setConfigBeforeRuntime(const QString& filePath)
 
 void DlgAddProductConfig::ini_ui()
 {
-	m_frameSelectLabel = new FrameSelectLabel;
+	m_frameSelectLabel = new LabelFrameSelectable;
 	auto loader = LocalizationStringLoaderXML::getInstance();
 	m_frameSelectLabel->setText(QString::fromStdString(loader->getString("21")));
 	QVBoxLayout* gBox_dispalyImageLayout = new QVBoxLayout();

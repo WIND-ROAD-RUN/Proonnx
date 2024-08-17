@@ -9,8 +9,14 @@ QT_END_NAMESPACE
 
 class  ProductConfigLoader;
 struct RecognizeRange;
-class FrameSelectLabel;
 class ImageIdentify;
+namespace rw {
+	namespace oulq {
+		class LabelFrameSelectable;
+	}
+}
+
+using namespace rw::oulq;
 
 class DlgChangeProductConfig : public QDialog
 {
@@ -29,7 +35,7 @@ public:
 	void setConfigBeforeRuntime(const QString& filePath);
 
 private:
-	FrameSelectLabel* m_frameSelectLabel{nullptr};
+	LabelFrameSelectable* m_frameSelectLabel{nullptr};
 
 private:
 	int m_cameraIndex{ 1 };

@@ -3,10 +3,11 @@
 #include<QMessageBox>
 #include<QFileInfo>
 #include<QDir>
+#include<QCloseEvent>
 
 #include"spdlog/spdlog.h"
 #include"ProductConfigLoader.h"
-#include"FrameSelectLabel.h"
+#include"oulq/oulq_LabelCustom.h"
 #include"ImageIdentify.h"
 #include"LocalizationStringLoader-XML.h"
 #include"ConfigBeforeRuntimeLoader.h"
@@ -49,7 +50,7 @@ void DlgChangeProductConfig::ini_ui()
 {
 	auto loader = LocalizationStringLoaderXML::getInstance();
 	ui->lEdit_filePath->setEnabled(false);
-	m_frameSelectLabel = new FrameSelectLabel();
+	m_frameSelectLabel = new LabelFrameSelectable();
 	m_frameSelectLabel->setText(QString::fromStdString(loader->getString("21")));
 	QVBoxLayout* gBox_dispalyImageLayout = new QVBoxLayout();
 	gBox_dispalyImageLayout->addWidget(m_frameSelectLabel);

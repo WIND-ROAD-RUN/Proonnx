@@ -34,9 +34,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="oulq_LabelCustom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

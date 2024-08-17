@@ -11,6 +11,14 @@ struct RecognizeRange;
 class FrameSelectLabel;
 class ImageIdentify;
 
+namespace rw {
+	namespace oulq {
+		class LabelFrameSelectable;
+	}
+}
+
+using namespace rw::oulq;
+
 class DlgAddProductConfig : public QDialog
 {
 	Q_OBJECT
@@ -20,7 +28,7 @@ private:
 	RecognizeRange * m_recognizeRange{nullptr};
 
 private:
-	FrameSelectLabel* m_frameSelectLabel;
+	LabelFrameSelectable* m_frameSelectLabel;
 private:
 	QString m_configBeforeRuntime;
 private:

@@ -4,11 +4,15 @@
 #include"oulq_global.h"
 
 #include <QLabel>
-#include <QMouseEvent>
 #include <QWidget>
+#include <QPainter>
+#include<QPoint>
+
+class QMouseEvent;
 
 namespace rw {
     namespace oulq {
+
         class LabelClickable
             : public QLabel {
             Q_OBJECT
@@ -28,6 +32,48 @@ namespace rw {
             void mousePressEvent(QMouseEvent* event) override;
 
         };
+
+        class LabelFrameSelectable 
+            : public QLabel {
+            Q_OBJECT
+
+        public:
+            explicit LabelFrameSelectable(QWidget* parent = nullptr);
+
+            void enableSelection(bool enable);
+
+            void setLastSelectionRect(const QRect& rect);
+
+        protected:
+            void mousePressEvent(QMouseEvent* event) override;
+
+            void mouseMoveEvent(QMouseEvent* event) override;
+
+            void mouseReleaseEvent(QMouseEvent* event) override;
+
+            void paintEvent(QPaintEvent* event) override;
+
+        public:
+            void paintLastRange();
+
+        private:
+            bool isSelecting;
+
+            bool selectionEnabled;
+
+            QPoint startPoint;
+
+            QPoint endPoint;
+
+            QRect currentSelectionRect;
+
+            QRect lastSelectionRect;
+
+        signals:
+            void selectionMade(const QRect& rect);
+
+        };
+
     }
 
 }

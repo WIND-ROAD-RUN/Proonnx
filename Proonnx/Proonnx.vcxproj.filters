@@ -167,9 +167,6 @@
     <ClCompile Include="ocrPutText.cpp">
       <Filter>Source Files\ImageIdentify\OCR</Filter>
     </ClCompile>
-    <ClCompile Include="FrameSelectLabel.cpp">
-      <Filter>Source Files\ProonnxUI</Filter>
-    </ClCompile>
     <ClCompile Include="DlgSetProonnx.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
@@ -280,9 +277,6 @@
     </QtMoc>
     <QtMoc Include="mycamera.h">
       <Filter>Header Files\ImageIdentify\Camera</Filter>
-    </QtMoc>
-    <QtMoc Include="FrameSelectLabel.h">
-      <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
     <QtMoc Include="DlgSetProonnx.h">
       <Filter>Header Files\ProonnxUI</Filter>
