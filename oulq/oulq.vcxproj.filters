@@ -26,12 +26,6 @@
     <ClInclude Include="oulq_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <QtMoc Include="oulq.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <ClCompile Include="oulq.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="oulq_LabelCustom.cpp">

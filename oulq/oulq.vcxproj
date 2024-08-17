@@ -103,8 +103,6 @@
     <ClCompile Include="oulq_LabelCustom.cpp" />
     <QtMoc Include="oulq_LabelCustom.h" />
     <ClInclude Include="oulq_global.h" />
-    <QtMoc Include="oulq.h" />
-    <ClCompile Include="oulq.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="VirtualKeyboard.ui" />
