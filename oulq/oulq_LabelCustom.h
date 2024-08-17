@@ -9,12 +9,12 @@
 
 namespace rw {
     namespace oulq {
-        class ClickableLabel
+        class LabelClickable
             : public QLabel {
             Q_OBJECT
 
         public:
-            ClickableLabel(QWidget* parent = nullptr);
+            LabelClickable(QWidget* parent = nullptr);
 
         signals:
             void clicked(int index);

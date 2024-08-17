@@ -17,8 +17,7 @@
 #include"DlgForTest.h"
 #include"DlgSetIsCheckProduct.h"
 #include"DlgClearCount.h"
-//#include"ClickableLabel.h"
-#include"oulq/oulq_clickedLabel.h"
+#include"oulq/oulq_LabelCustom.h"
 #include"IndexButton.h"
 #include"LocalizationStringLoader-XML.h"
 #include"ConfigBeforeRuntimeLoader.h"
@@ -143,7 +142,7 @@ void Proonnx::ini_gBox_monitoringDisplay()
 
 	LOGRECORDER->info("Set the window layout to display the camera window as " + std::to_string(cameraCount));
 
-	m_disaplayCameraList = new QVector<ClickableLabel*>;
+	m_disaplayCameraList = new QVector<LabelClickable*>;
 	m_disaplayCheckInfoList = new QVector<QLabel*>;
 	m_disaplayProductNameList = new QVector<QLabel*>;
 	m_productCountList = new QVector<QLabel*>;
@@ -158,7 +157,7 @@ void Proonnx::ini_gBox_monitoringDisplay()
 	int cols = (cameraCount + rows - 1) / rows; // Round Up
 
 	for (int i = 0; i < cameraCount; i++) {
-		ClickableLabel* label = new ClickableLabel;
+		LabelClickable* label = new LabelClickable;
 		label->m_index = i;
 		QObject::connect(label, SIGNAL(clicked(int)), this, SLOT(clicked_label_clicked(int)));
 		label->setText(QString::fromStdString(m_locStrLoader->getString("26")) + QString::number(i + 1));

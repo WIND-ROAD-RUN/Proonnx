@@ -1,13 +1,13 @@
-#include "oulq_clickedLabel.h"
+#include "oulq_LabelCustom.h"
 
 namespace rw {
     namespace oulq {
-        ClickableLabel::ClickableLabel(QWidget* parent)
+        LabelClickable::LabelClickable(QWidget* parent)
             : QLabel(parent) {
 
         }
 
-        void ClickableLabel::mousePressEvent(QMouseEvent* event)  {
+        void LabelClickable::mousePressEvent(QMouseEvent* event)  {
             if (event->button() == Qt::LeftButton) {
                 if (m_enbaleClicked) {
                     emit clicked(m_index);

@@ -17,7 +17,7 @@ class ConfigBeforeRuntimeLoader;
 class ConfigForImageSave;
 namespace rw {
 	namespace oulq {
-		class ClickableLabel;
+		class LabelClickable;
 	}
 }
 class IndexButton;
@@ -39,7 +39,7 @@ private:
 	ConfigForImageSave* m_configForImageSave{ nullptr };
 
 private:
-	QVector<ClickableLabel *>* m_disaplayCameraList{ nullptr };
+	QVector<LabelClickable *>* m_disaplayCameraList{ nullptr };
 
 	QVector<QLabel*>* m_disaplayProductNameList{ nullptr };
 

@@ -98,11 +98,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="oulq_clickedLabel.cpp" />
-    <ClCompile Include="VirtualKeyboard.cpp" />
-    <QtMoc Include="oulq_clickedLabel.h" />
+    <ClCompile Include="oulq_LabelCustom.cpp" />
+    <QtMoc Include="oulq_LabelCustom.h" />
     <ClInclude Include="oulq_global.h" />
-    <QtMoc Include="VirtualKeyboard.h" />
     <QtMoc Include="oulq.h" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="oulq.cpp" />

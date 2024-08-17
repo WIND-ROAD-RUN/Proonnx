@@ -37,18 +37,12 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VirtualKeyboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="oulq_clickedLabel.cpp">
+    <ClCompile Include="oulq_LabelCustom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="VirtualKeyboard.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="oulq_clickedLabel.h">
+    <QtMoc Include="oulq_LabelCustom.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
