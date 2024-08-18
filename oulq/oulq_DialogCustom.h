@@ -23,7 +23,8 @@ namespace rw {
         };
 
 
-        class DialogInitialization : public QDialog
+        class DialogInitialization 
+            : public QDialog
         {
             Q_OBJECT
 
