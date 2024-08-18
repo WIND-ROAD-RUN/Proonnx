@@ -1,8 +1,19 @@
 #include "DlgForTest.h"
 
+#include"oulq/oulq_DialogCustom.h"
+
+#include<thread>
+#include<future>
+#include<chrono>
+
 #include<QFileDialog>
 #include<QMessageBox>
 #include"ocrwork.h"
+#include<thread>
+
+#include<QDebug>
+
+using namespace rw::oulq;
 
 DlgForTest::DlgForTest(QWidget *parent)
     : QDialog(parent)
@@ -19,6 +30,42 @@ DlgForTest::~DlgForTest()
     delete m_ocrwork;
 }
 
+void DlgForTest::ini_ocrwork()
+{
+    DialogInitialization dlgIni;
+    dlgIni.show();
+    QApplication::processEvents(); 
+    std::promise<ocrwork *> iniPromise;
+    std::future<ocrwork*> iniFuture = iniPromise.get_future();
+
+    auto ini_ocrwork = [](std::promise<ocrwork *> && iniPromise) {
+        ocrwork* result = new ocrwork();
+        result->initial();
+        iniPromise.set_value(result);
+        };
+
+    std::thread iniOcr(ini_ocrwork,std::move(iniPromise));
+
+    int num = 0;
+    while (iniFuture.wait_for(std::chrono::milliseconds(100))!=std::future_status::ready){
+        QString text("Initializing");
+        if (num>3) {
+            num = 0;
+        }
+        for (int i = 0;i<num;i++ ) {
+            text.push_back(".");
+        }
+        num++;
+        dlgIni.setInitializeInfo(text);
+        QApplication::processEvents();
+        std::this_thread::sleep_for(std::chrono::seconds(1)); 
+    }
+    m_ocrwork = iniFuture.get();
+    iniOcr.join();
+
+    dlgIni.accept();
+}
+
 void DlgForTest::ini_connect()
 {
     QObject::connect(ui->pbtn_openFile, SIGNAL(clicked()),
@@ -29,6 +76,7 @@ void DlgForTest::ini_connect()
 
 void DlgForTest::ini_ui()
 {
+    ini_ocrwork();
     /*m_ocrwork = new ocrwork();
     m_ocrwork->initial();*/
 }

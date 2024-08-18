@@ -100,12 +100,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="oulq_DialogCustom.cpp" />
     <ClCompile Include="oulq_LabelCustom.cpp" />
     <QtMoc Include="oulq_LabelCustom.h" />
+    <QtMoc Include="oulq_DialogCustom.h" />
     <ClInclude Include="oulq_global.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="VirtualKeyboard.ui" />
+    <QtUic Include="oulq_DialogInitialization.ui" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

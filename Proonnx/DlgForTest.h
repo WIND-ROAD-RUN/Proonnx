@@ -18,6 +18,7 @@ public:
 private:
     ocrwork* m_ocrwork{nullptr};
 
+    void ini_ocrwork();
 private:
     void ini_connect();
 
