@@ -10,7 +10,7 @@ DlgSetIsCheckProduct::DlgSetIsCheckProduct(QWidget *parent)
 {
 	ui->setupUi(this);
 	ini_ui();
-	ini_localizationStringLoaderUI();
+	ini_localizationStringUI();
 	ini_connect();
 }
 
@@ -23,7 +23,7 @@ void DlgSetIsCheckProduct::ini_ui()
 {
 }
 
-void DlgSetIsCheckProduct::ini_localizationStringLoaderUI()
+void DlgSetIsCheckProduct::ini_localizationStringUI()
 {
 	auto loader = LocalizationStringLoaderXML::getInstance();
 	this->setWindowTitle(QString::fromStdString(loader->getString("33")));

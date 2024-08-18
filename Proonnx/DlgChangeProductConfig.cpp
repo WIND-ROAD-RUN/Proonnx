@@ -56,10 +56,10 @@ void DlgChangeProductConfig::ini_ui()
 	gBox_dispalyImageLayout->addWidget(m_frameSelectLabel);
 	ui->gBox_dispalyImage->setLayout(gBox_dispalyImageLayout);
 	m_frameSelectLabel->setScaledContents(true);
-	ini_localizationStringLoaderUI();
+	ini_localizationStringUI();
 }
 
-void DlgChangeProductConfig::ini_localizationStringLoaderUI()
+void DlgChangeProductConfig::ini_localizationStringUI()
 {
 	auto loader = LocalizationStringLoaderXML::getInstance();
 	ConfigBeforeRuntimeLoader configLoader;

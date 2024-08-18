@@ -116,16 +116,16 @@ void ImageIdentify::iniCamera()
 		m_labelForProductPassCount->setText(m_stringForProductPassCount + QString::number(productConfig.passCount));
 		m_productPassCount = productConfig.passCount;
 	}
-	m_configForImageSave = ConfigForImageSave::getInstance();
-	m_configForImageSave->createDirectory(QString::fromStdString(cameraConfig.productName));
-	m_saveImageWorkPath = m_configForImageSave->getCurrentFilePath() + '/' + QString::fromStdString(cameraConfig.productName);
-	m_configForImageSave->createDirectory(m_saveImageWorkPath, "Pass");
-	m_configForImageSave->createDirectory(m_saveImageWorkPath + "/Pass", "Native");
-	m_configForImageSave->createDirectory(m_saveImageWorkPath + "/Pass", "Crop");
+	m_configForImageSaveLoader = ConfigForImageSave::getInstance();
+	m_configForImageSaveLoader->createDirectory(QString::fromStdString(cameraConfig.productName));
+	m_saveImageWorkPath = m_configForImageSaveLoader->getCurrentFilePath() + '/' + QString::fromStdString(cameraConfig.productName);
+	m_configForImageSaveLoader->createDirectory(m_saveImageWorkPath, "Pass");
+	m_configForImageSaveLoader->createDirectory(m_saveImageWorkPath + "/Pass", "Native");
+	m_configForImageSaveLoader->createDirectory(m_saveImageWorkPath + "/Pass", "Crop");
 
-	m_configForImageSave->createDirectory(m_saveImageWorkPath, "NG");
-	m_configForImageSave->createDirectory(m_saveImageWorkPath + "/NG", "Native");
-	m_configForImageSave->createDirectory(m_saveImageWorkPath + "/NG", "Crop");
+	m_configForImageSaveLoader->createDirectory(m_saveImageWorkPath, "NG");
+	m_configForImageSaveLoader->createDirectory(m_saveImageWorkPath + "/NG", "Native");
+	m_configForImageSaveLoader->createDirectory(m_saveImageWorkPath + "/NG", "Crop");
 }
 
 void ImageIdentify::setStandDate(const QString& standardDate)
@@ -366,7 +366,7 @@ void ImageIdentify::save_image(bool productCheckResult, const QImage& image, boo
 		if (isCrop) {
 			//ÇÐ¸îÂß¼­
 			/*auto filePath = m_saveImageWorkPath + QString("/Pass/Crop");
-			m_configForImageSave->saveImage
+			m_configForImageSaveLoader->saveImage
 			(image,
 				filePath,
 				DateTransFormUtilty::removeSymbolsAndSpaces
@@ -374,7 +374,7 @@ void ImageIdentify::save_image(bool productCheckResult, const QImage& image, boo
 		}
 		else {
 			auto filePath = m_saveImageWorkPath + QString("/Pass/Native");
-			m_configForImageSave->saveImage
+			m_configForImageSaveLoader->saveImage
 			(image,
 				filePath,
 				DateTransFormUtilty::removeSymbolsAndSpaces
@@ -385,7 +385,7 @@ void ImageIdentify::save_image(bool productCheckResult, const QImage& image, boo
 	else {
 		if (isCrop) {
 			auto filePath = m_saveImageWorkPath + QString("/NG/Crop");
-			m_configForImageSave->saveImage
+			m_configForImageSaveLoader->saveImage
 			(image,
 				filePath,
 				DateTransFormUtilty::removeSymbolsAndSpaces
@@ -393,7 +393,7 @@ void ImageIdentify::save_image(bool productCheckResult, const QImage& image, boo
 		}
 		else {
 			auto filePath = m_saveImageWorkPath + QString("/NG/Native");
-			m_configForImageSave->saveImage
+			m_configForImageSaveLoader->saveImage
 			(image,
 				filePath,
 				DateTransFormUtilty::removeSymbolsAndSpaces

@@ -9,7 +9,7 @@ DlgClearCount::DlgClearCount(QWidget *parent)
 {
 	ui->setupUi(this);
 	ini_ui();
-	ini_localizationStringLoaderUI();
+	ini_localizationStringUI();
 	ini_connect();
 }
 
@@ -23,7 +23,7 @@ void DlgClearCount::ini_ui()
 
 }
 
-void DlgClearCount::ini_localizationStringLoaderUI()
+void DlgClearCount::ini_localizationStringUI()
 {
 	auto loader = LocalizationStringLoaderXML::getInstance();
 	this->setWindowTitle(QString::fromStdString(loader->getString("36")));

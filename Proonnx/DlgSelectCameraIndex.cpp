@@ -33,10 +33,10 @@ void DlgSelectCameraIndex::ini_ui()
 {
 	qDebug() << m_cameraCount;
 	ui->spBox_cameraIndex->setMaximum(m_cameraCount);
-	ini_localizationStringLoaderUI();
+	ini_localizationStringUI();
 }
 
-void DlgSelectCameraIndex::ini_localizationStringLoaderUI()
+void DlgSelectCameraIndex::ini_localizationStringUI()
 {
 	auto loader = LocalizationStringLoaderXML::getInstance();
 	ConfigBeforeRuntimeLoader configLoader;

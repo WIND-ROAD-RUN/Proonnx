@@ -36,35 +36,35 @@ private:
 
 	ConfigBeforeRuntimeLoader* m_configBeforeRuntimeLoader{nullptr};
 
-	ConfigForImageSave* m_configForImageSave{ nullptr };
+	ConfigForImageSave* m_configForImageSaveLoader{ nullptr };
 
 private:
-	QVector<LabelClickable *>* m_disaplayCameraList{ nullptr };
+	QVector<LabelClickable *>* m_labelDisaplayCameraList{ nullptr };
 
-	QVector<QLabel*>* m_disaplayProductNameList{ nullptr };
+	QVector<QLabel*>* m_labelDisaplayProductNameList{ nullptr };
 
-	QVector<QLabel*>* m_disaplayCheckInfoList{ nullptr };
+	QVector<QLabel*>* m_labelDisaplayCheckInfoList{ nullptr };
 
-	QVector<QLabel*>* m_productCountList{ nullptr };
+	QVector<QLabel*>* m_labelProductCountList{ nullptr };
 
-	QVector<QLabel*>* m_productPassCountList{ nullptr };
+	QVector<QLabel*>* m_labelProductPassCountList{ nullptr };
 
-	QVector<QLabel*>* m_productOutCountList{ nullptr };
+	QVector<QLabel*>* m_labelProductOutCountList{ nullptr };
 
-	QVector<ImageIdentify*> * m_cameraList{nullptr};
+	QVector<ImageIdentify*> * m_imageIdentifyList{nullptr};
 
 public:
-	QVector<IndexButton*>* m_setIsCheckPbtnList{ nullptr };
+	QVector<IndexButton*>* m_pbtnSetIsCheckList{ nullptr };
 
 private:
-	QString m_configBeforeRuntimeLoaderFilePath{};
+	QString m_filePathConfigBeforeRuntimeLoader{};
 
 private:
 	void ini_ui();
 
 	void ini_localizationStringLoader();
 
-	void ini_localizationStringLoaderUI();
+	void ini_localizationStringUI();
 
 private:
 	void ini_configBeforeRuntimeLoader();

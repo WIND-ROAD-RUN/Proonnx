@@ -33,7 +33,7 @@ void DlgSetProonnx::setWindowSize(int wide, int height)
 
 void DlgSetProonnx::ini_ui()
 {
-	ini_localizationStringLoaderUI();
+	ini_localizationStringUI();
 }
 
 void DlgSetProonnx::ini_configBeforeRuntimeLoader(const std::string& filePath)
@@ -62,7 +62,7 @@ void DlgSetProonnx::ini_uiFromConfigBeforeRuntime()
 	}
 }
 
-void DlgSetProonnx::ini_localizationStringLoaderUI()
+void DlgSetProonnx::ini_localizationStringUI()
 {
 	m_locStrLoader = LocalizationStringLoaderXML::getInstance();
 	ConfigBeforeRuntimeLoader configLoader;
@@ -101,7 +101,7 @@ void DlgSetProonnx::cBox_changeLanguage_index_change_on(int index)
 		auto loadStrDataResult = m_locStrLoader->loadData();
 		m_configBeforeRuntimeLoader->storeLanguage("USA");
 	}
-	ini_localizationStringLoaderUI();
+	ini_localizationStringUI();
 }
 
 void DlgSetProonnx::pbtn_accept_clicked()
