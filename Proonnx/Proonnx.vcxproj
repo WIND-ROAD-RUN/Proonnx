@@ -257,6 +257,12 @@
     <Library Include="MVS\Libraries\win64\MvCameraControl.lib" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\cfgl\cfgl.vcxproj">
+      <Project>{f4517599-0279-42f1-ae95-59ed41b32e00}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\cfgr\cfgr.vcxproj">
+      <Project>{4f780c0a-e679-45fb-b6d6-10bfbb7b1625}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\oulq\oulq.vcxproj">
       <Project>{22e752e4-ae8a-40aa-9a3d-c7f23565b046}</Project>
     </ProjectReference>
