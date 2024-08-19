@@ -2,6 +2,4 @@
 <ConfigBeforeRuntimeModule>
 	<CameraCount>4</CameraCount>
 	<Language>CHN</Language>
-	<CameraConfig ip="169.254.207.1">D:/Workplace/vs/rep/Proonnx/Proonnx/ProductConfig/UNDEFINED169.254.207.1.xml</CameraConfig>
-	<CameraConfig ip="169.254.207.2">D:/Workplace/vs/rep/Proonnx/Proonnx/ProductConfig/UNDEFINED169.254.207.2.xml</CameraConfig>
 </ConfigBeforeRuntimeModule>

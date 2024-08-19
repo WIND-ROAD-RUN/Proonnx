@@ -59,10 +59,12 @@ void Proonnx::ini_ui()
 	//////////////////////
 #ifdef DEBUG_RW
 	ui->pbtn_testDlg->setVisible(true);
+	ui->pbtn_setProonnx->setVisible(true);
 #endif // DEBUG_RW
 
 #ifdef NDEBUG_RW
 	ui->pbtn_testDlg->setVisible(false);
+	ui->pbtn_setProonnx->setVisible(false);
 #endif // NDEBUG_RW
 
 }
