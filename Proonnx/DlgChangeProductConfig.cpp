@@ -9,9 +9,11 @@
 #include"ProductConfigLoader.h"
 #include"oulq/oulq_LabelCustom.h"
 #include"ImageIdentify.h"
-#include"LocalizationStringLoader-XML.h"
+#include"cfgl/cfgl_LocalizationStringLoader.h"
 #include"ConfigBeforeRuntimeLoader.h"
 #include"LogRecorder.h"
+
+using namespace rw::cfgl;
 
 static LogRecorder* LOGRECORDER = LogRecorder::getInstance();
 

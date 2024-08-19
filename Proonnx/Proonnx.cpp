@@ -8,6 +8,10 @@
 #include<QHBoxLayout>
 #include<QVBoxLayout>
 
+#include"oulq/oulq_LabelCustom.h"
+//#include"LocalizationStringLoader-XML.h"
+#include"cfgl/cfgl_LocalizationStringLoader.h"
+
 #include"MonitorCamera.h"
 #include"DlgAddProductConfig.h"
 #include"DlgChangeProductConfig.h"
@@ -17,9 +21,7 @@
 #include"DlgForTest.h"
 #include"DlgSetIsCheckProduct.h"
 #include"DlgClearCount.h"
-#include"oulq/oulq_LabelCustom.h"
 #include"IndexButton.h"
-#include"LocalizationStringLoader-XML.h"
 #include"ConfigBeforeRuntimeLoader.h"
 #include"ProductConfigLoader.h"
 #include"ConfigForImageSave.h"
@@ -28,7 +30,6 @@
 #include"ImageIdentify.h"
 
 static LogRecorder* LOGRECORDER = LogRecorder::getInstance();
-using namespace rw::oulq;
 
 void Proonnx::ini_ui()
 {

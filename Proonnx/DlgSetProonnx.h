@@ -5,11 +5,18 @@
 
 
 class ConfigBeforeRuntimeLoader;
-class LocalizationStringLoaderXML;
+
+namespace rw {
+	namespace cfgl {
+		class LocalizationStringLoaderXML;
+	}
+}
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class DlgSetProonnxClass; };
 QT_END_NAMESPACE
+
+using namespace rw::cfgl;
 
 class DlgSetProonnx : public QDialog
 {

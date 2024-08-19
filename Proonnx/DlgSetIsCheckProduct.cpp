@@ -1,8 +1,10 @@
 #include "DlgSetIsCheckProduct.h"
 
-#include"LocalizationStringLoader-XML.h"
+#include"cfgl/cfgl_LocalizationStringLoader.h"
 #include<QVBoxLayout>
 #include<QCheckBox>
+
+using namespace rw::cfgl;
 
 DlgSetIsCheckProduct::DlgSetIsCheckProduct(QWidget *parent)
 	: QDialog(parent)

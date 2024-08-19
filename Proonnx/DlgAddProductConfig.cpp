@@ -8,8 +8,10 @@
 #include"ProductConfigLoader.h"
 #include"ImageIdentify.h"
 #include"ConfigBeforeRuntimeLoader.h"
-#include"LocalizationStringLoader-XML.h"
+#include"cfgl/cfgl_LocalizationStringLoader.h"
 #include"LogRecorder.h"
+
+using namespace rw::cfgl;
 
 static LogRecorder* LOGRECORDER = LogRecorder::getInstance();
 

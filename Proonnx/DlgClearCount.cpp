@@ -1,8 +1,11 @@
 #include "DlgClearCount.h"
 
-#include"LocalizationStringLoader-XML.h"
+#include"cfgl/cfgl_LocalizationStringLoader.h"
 #include<QVBoxLayout>
 #include<QCheckBox>
+
+using namespace rw::cfgl;
+
 DlgClearCount::DlgClearCount(QWidget *parent)
 	: QDialog(parent)
 	, ui(new Ui::DlgClearCountClass())

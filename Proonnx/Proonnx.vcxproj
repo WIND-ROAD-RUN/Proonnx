@@ -90,8 +90,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)\oulq\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>oulq.lib;MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\cfgl\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\oulq\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cfgl.lib;oulq.lib;MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)\Proonnx\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -101,8 +101,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugForProonnx|x64'">
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)\oulq\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>oulq.lib;MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\cfgl\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\oulq\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cfgl.lib;oulq.lib;MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)\spdlog\include;$(SolutionDir)\Proonnx\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -116,8 +116,8 @@
       <PreprocessorDefinitions>DEBUG_RW;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)\oulq\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>oulq.lib;MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\cfgl\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\oulq\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cfgl.lib;oulq.lib;MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -194,9 +194,6 @@
     <ClCompile Include="DlgSetIsCheckProduct.cpp" />
     <ClCompile Include="DlgSetProonnx.cpp" />
     <ClCompile Include="ImageIdentify.cpp" />
-    <ClCompile Include="LocalizationStringLoader-XML.cpp" />
-    <ClCompile Include="LocalizationStringModule-XML.cpp" />
-    <ClCompile Include="LocalizationStringModuleAbstact.cpp" />
     <ClCompile Include="MonitorCamera.cpp" />
     <ClCompile Include="mycamera.cpp" />
     <ClCompile Include="OcrApi.cpp" />
@@ -251,10 +248,6 @@
     <ClInclude Include="ProductConfigModule.h" />
     <QtMoc Include="DlgAddProductConfig.h" />
     <ClInclude Include="DateTransform.h" />
-    <ClInclude Include="LocalizationStringLoader-XML.h" />
-    <ClInclude Include="LocalizationStringLoaderAbstract.h" />
-    <ClInclude Include="LocalizationStringModule-XML.h" />
-    <ClInclude Include="LocalizationStringModuleAbstact.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="languageString.xml" />
