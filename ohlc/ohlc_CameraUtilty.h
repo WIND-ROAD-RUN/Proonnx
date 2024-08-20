@@ -1,5 +1,5 @@
-#ifndef CMA_CAMERAUTILTY_H_
-#define CMA_CAMERAUTILTY_H_
+#ifndef OHLC_CAMERAUTILTY_H_
+#define OHLC_CAMERAUTILTY_H_
 
 #include<vector>
 #include<string>
@@ -12,16 +12,16 @@ namespace cv {
 }
 
 namespace rw {
-    namespace cma {
+    namespace ohlc {
         struct CameraUtilty
         {
             static std::vector<std::string> checkAllConnectCamera();
 
             static cv::Mat ConvertMat(MV_FRAME_OUT_INFO_EX* pFrameInfo, unsigned char* pData);
         };
-    
     }
 
 }
 
-#endif // !CMA_CAMERAUTILTY_H_
+
+#endif // !OHLC_CAMERAUTILTY_H_

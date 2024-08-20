@@ -1,9 +1,9 @@
 #pragma once
 
 #include <QObject> 
-#include"cma_Camera.h"
+#include"ohlc_Camera.h"
 
-using namespace rw::cma;
+using namespace rw::ohlc;
 
 class imageIdentify : public QObject {
     Q_OBJECT // 确保这个宏存在

@@ -1,4 +1,4 @@
-#include "cma_CameraUtilty.h"
+#include"ohlc_CameraUtilty.h"
 
 #include"MVS/Includes/MvCameraControl.h"
 #include"opencv2/opencv.hpp"
@@ -6,10 +6,9 @@
 #include<qdebug>
 
 namespace rw {
-    namespace cma {
-
-        std::vector<std::string> CameraUtilty::checkAllConnectCamera()
-        {
+    namespace ohlc {
+		std::vector<std::string> CameraUtilty::checkAllConnectCamera()
+		{
 			std::vector<std::string> cameraIPs;
 			MV_CC_DEVICE_INFO_LIST stDeviceList;
 			memset(&stDeviceList, 0, sizeof(MV_CC_DEVICE_INFO_LIST));
@@ -43,7 +42,7 @@ namespace rw {
 			}
 
 			return cameraIPs;
-        }
+		}
 
 		cv::Mat CameraUtilty::ConvertMat(MV_FRAME_OUT_INFO_EX* pFrameInfo, unsigned char* pData)
 		{
@@ -83,6 +82,6 @@ namespace rw {
 			}
 			return mat;
 		}
-
     }
+
 }

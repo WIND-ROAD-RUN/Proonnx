@@ -23,13 +23,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cma_Camera.cpp">
+    <ClInclude Include="ohlc_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ohlc_CameraUtilty.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ohlc_Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cma_CameraUtilty.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="ohlc_CameraUtilty.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="image.cpp">
@@ -37,16 +42,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="cma_Camera.h">
+    <QtMoc Include="ohlc_Camera.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="image.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="cma_CameraUtilty.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

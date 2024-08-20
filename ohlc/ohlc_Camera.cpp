@@ -1,6 +1,6 @@
-#include"cma_Camera.h"
+#include"ohlc_Camera.h"
 
-#include"cma_CameraUtilty.h"
+#include"ohlc_CameraUtilty.h"
 
 #include<qDebug>
 #include<iostream>
@@ -8,7 +8,7 @@
 #include"opencv2/opencv.hpp"
 
 namespace rw {
-    namespace cma {
+    namespace ohlc {
         Camera_MVS::Camera_MVS() {
         }
 
@@ -269,8 +269,6 @@ namespace rw {
             auto mat = std::make_shared<cv::Mat>(CameraUtilty::ConvertMat(pFrameInfo, pData));
             emit this->ImgCallBackSignal(mat);
         }
-
-
     }
 
 }

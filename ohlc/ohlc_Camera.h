@@ -1,5 +1,5 @@
-#ifndef CMA_MVSCAMERA_H_
-#define CMA_MVSCAMERA_H_
+#ifndef OGLC_CAMERA_H_
+#define OGLC_CAMERA_H_
 
 #include <vector>
 #include <string>
@@ -14,10 +14,10 @@ namespace cv {
 }
 
 namespace rw {
-    namespace cma {
+    namespace ohlc {
         /// <summary>
-        /// 
-        /// </summary>
+            /// 
+            /// </summary>
         class Camera_MVS;
         class Camera
             : public QObject {
@@ -105,7 +105,7 @@ namespace rw {
 
         };
     }
+
 }
 
-
-#endif // !CMA_MVSCAMERA_H_
+#endif // !OGLC_CAMERA_H_
