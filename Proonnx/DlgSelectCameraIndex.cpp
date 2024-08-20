@@ -3,9 +3,10 @@
 
 #include<qdebug>
 #include"cfgl/cfgl_LocalizationStringLoader.h"
-#include"ConfigBeforeRuntimeLoader.h"
+#include"cfgr/cfgr_ConfigBeforeRuntimeLoader.h"
 
 using namespace rw::cfgl;
+using namespace rw::cfgr;
 
 DlgSelectCameraIndex::DlgSelectCameraIndex(QWidget *parent, int cameraCount)
 	: QDialog(parent),m_cameraCount(cameraCount)

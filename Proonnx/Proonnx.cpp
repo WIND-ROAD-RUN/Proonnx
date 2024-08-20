@@ -11,6 +11,7 @@
 #include"oulq/oulq_LabelCustom.h"
 //#include"LocalizationStringLoader-XML.h"
 #include"cfgl/cfgl_LocalizationStringLoader.h"
+#include"cfgr/cfgr_ConfigBeforeRuntimeLoader.h"
 
 #include"MonitorCamera.h"
 #include"DlgAddProductConfig.h"
@@ -22,7 +23,6 @@
 #include"DlgSetIsCheckProduct.h"
 #include"DlgClearCount.h"
 #include"IndexButton.h"
-#include"ConfigBeforeRuntimeLoader.h"
 #include"ProductConfigLoader.h"
 #include"ConfigForImageSave.h"
 #include"DateTransform.h"

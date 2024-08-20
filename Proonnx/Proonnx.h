@@ -12,7 +12,6 @@ namespace cv {
 
 class ImageIdentify;
 class ocrwork;
-class ConfigBeforeRuntimeLoader;
 class ConfigForImageSave;
 namespace rw {
 	namespace oulq {
@@ -21,6 +20,10 @@ namespace rw {
 	namespace cfgl {
 		class LocalizationStringLoaderXML;
 	}
+	namespace cfgr {
+		class ConfigBeforeRuntimeLoader;
+	}
+
 }
 class IndexButton;
 
@@ -30,6 +33,7 @@ QT_END_NAMESPACE
 
 using namespace rw::oulq;
 using namespace rw::cfgl;
+using namespace rw::cfgr;
 
 class Proonnx : public QMainWindow
 {

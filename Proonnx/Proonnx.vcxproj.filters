@@ -96,12 +96,6 @@
     <Filter Include="Source Files\ImageIdentify\ImageIdentify">
       <UniqueIdentifier>{4fd8197b-50dd-4212-ac2c-0216d2fc71a4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\config\ConfigBeforeRuntime">
-      <UniqueIdentifier>{8201cfc4-8c06-4609-8cb4-6cbccd4063da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\config\ConfigBeforeRuntime">
-      <UniqueIdentifier>{7217464b-97f9-4bf9-ab45-ec88ac8d5bf0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\config\ConfigForImageSave">
       <UniqueIdentifier>{5d229c63-76b0-412d-9f81-662cd9a5bb47}</UniqueIdentifier>
     </Filter>
@@ -154,12 +148,6 @@
     </ClCompile>
     <ClCompile Include="DlgSetProonnx.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
-    </ClCompile>
-    <ClCompile Include="ConfigBeforeRuntimeLoader.cpp">
-      <Filter>Source Files\config\ConfigBeforeRuntime</Filter>
-    </ClCompile>
-    <ClCompile Include="ConfigBeforeRuntimeModule.cpp">
-      <Filter>Source Files\config\ConfigBeforeRuntime</Filter>
     </ClCompile>
     <ClCompile Include="ImageIdentify.cpp">
       <Filter>Source Files\ImageIdentify\ImageIdentify</Filter>
@@ -348,12 +336,6 @@
     </ClInclude>
     <ClInclude Include="ocrPutText.h">
       <Filter>Header Files\ImageIdentify\OCR</Filter>
-    </ClInclude>
-    <ClInclude Include="ConfigBeforeRuntimeLoader.h">
-      <Filter>Header Files\config\ConfigBeforeRuntime</Filter>
-    </ClInclude>
-    <ClInclude Include="ConfigBeforeRuntimeModule.h">
-      <Filter>Header Files\config\ConfigBeforeRuntime</Filter>
     </ClInclude>
     <ClInclude Include="ConfigForImageSave.h">
       <Filter>Header Files\config\ConfigForImageSave</Filter>

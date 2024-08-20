@@ -3,12 +3,12 @@
 #include <QDialog>
 #include "ui_DlgSetProonnx.h"
 
-
-class ConfigBeforeRuntimeLoader;
-
 namespace rw {
 	namespace cfgl {
 		class LocalizationStringLoaderXML;
+	}
+	namespace cfgr {
+		class ConfigBeforeRuntimeLoader;
 	}
 }
 
@@ -17,6 +17,7 @@ namespace Ui { class DlgSetProonnxClass; };
 QT_END_NAMESPACE
 
 using namespace rw::cfgl;
+using namespace rw::cfgr;
 
 class DlgSetProonnx : public QDialog
 {

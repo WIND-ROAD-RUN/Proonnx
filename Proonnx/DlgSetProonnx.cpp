@@ -1,9 +1,11 @@
 #include "DlgSetProonnx.h"
 
-#include"ConfigBeforeRuntimeLoader.h"
+#include"cfgr/cfgr_ConfigBeforeRuntimeLoader.h"
 #include"cfgl/cfgl_LocalizationStringLoader.h"
 
 #include<QDir>
+
+using namespace rw::cfgr;
 
 DlgSetProonnx::DlgSetProonnx(QWidget *parent)
 	: QDialog(parent)

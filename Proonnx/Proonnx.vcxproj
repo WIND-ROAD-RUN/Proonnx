@@ -90,8 +90,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)\cfgl\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\oulq\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cfgl.lib;oulq.lib;MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\cfgr\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\cfgl\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\oulq\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cfgr.lib;cfgl.lib;oulq.lib;MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)\Proonnx\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -101,8 +101,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugForProonnx|x64'">
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)\cfgl\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\oulq\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cfgl.lib;oulq.lib;MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\cfgr\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\cfgl\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\oulq\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cfgr.lib;cfgl.lib;oulq.lib;MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)\spdlog\include;$(SolutionDir)\Proonnx\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -116,8 +116,8 @@
       <PreprocessorDefinitions>DEBUG_RW;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)\cfgl\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\oulq\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cfgl.lib;oulq.lib;MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\cfgr\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\cfgl\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\oulq\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\Proonnx\opencv\lib;$(ProjectDir)\MVS\Libraries\win64;$(ProjectDir)\OCRApi_GPU\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cfgr.lib;cfgl.lib;oulq.lib;MvCameraControl.lib;OcrApi_GPU.lib;opencv_world480.lib;opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -183,8 +183,6 @@
     <QtUic Include="DlgSetProonnx.ui" />
     <QtUic Include="Proonnx.ui" />
     <QtMoc Include="Proonnx.h" />
-    <ClCompile Include="ConfigBeforeRuntimeLoader.cpp" />
-    <ClCompile Include="ConfigBeforeRuntimeModule.cpp" />
     <ClCompile Include="ConfigForImageSave.cpp" />
     <ClCompile Include="DateTransform.cpp" />
     <ClCompile Include="DlgAddProductConfig.cpp" />
@@ -224,8 +222,6 @@
     <QtMoc Include="DlgChangeProductConfig.h" />
     <QtMoc Include="mycamera.h" />
     <QtMoc Include="DlgSetProonnx.h" />
-    <ClInclude Include="ConfigBeforeRuntimeLoader.h" />
-    <ClInclude Include="ConfigBeforeRuntimeModule.h" />
     <QtMoc Include="ImageIdentify.h" />
     <QtMoc Include="MonitorCamera.h" />
     <QtMoc Include="DlgSelectCameraIndex.h" />

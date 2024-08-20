@@ -7,12 +7,12 @@
 #include"oulq/oulq_LabelCustom.h"
 #include"ProductConfigLoader.h"
 #include"ImageIdentify.h"
-#include"ConfigBeforeRuntimeLoader.h"
+#include"cfgr/cfgr_ConfigBeforeRuntimeLoader.h"
 #include"cfgl/cfgl_LocalizationStringLoader.h"
 #include"LogRecorder.h"
 
 using namespace rw::cfgl;
-
+using namespace rw::cfgr;
 static LogRecorder* LOGRECORDER = LogRecorder::getInstance();
 
 DlgAddProductConfig::DlgAddProductConfig(QWidget *parent)
