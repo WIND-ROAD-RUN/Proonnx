@@ -19,6 +19,27 @@ namespace rw {
 
             static cv::Mat ConvertMat(MV_FRAME_OUT_INFO_EX* pFrameInfo, unsigned char* pData);
         };
+        
+        struct CameraAttribute {
+        public:
+            std::string ip{};
+
+        public:
+            unsigned int ExposureTime{ 10000 };
+
+            unsigned short gain{ 0 };
+
+            unsigned int ioDuration{200};
+
+        public:
+            enum class TriggeredMode {
+                Hardware = 0,
+                Software=1
+            };
+
+            TriggeredMode triggerdMode{ TriggeredMode::Hardware};
+
+        };
     }
 
 }

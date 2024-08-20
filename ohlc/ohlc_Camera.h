@@ -19,9 +19,11 @@ namespace rw {
             /// 
             /// </summary>
         class Camera_MVS;
+        struct CameraAttribute;
         class Camera
             : public QObject {
             Q_OBJECT
+
         private:
             std::shared_ptr<Camera_MVS> m_cameraMVS{};
 
@@ -31,17 +33,14 @@ namespace rw {
             ~Camera();
 
         public:
-            void setIp(const std::string& ip);
+            void setCameraAttribute(const CameraAttribute& cameraAttribute);
 
-            std::string getIp();
+            CameraAttribute getCameraAttribute();
 
         public:
             bool connectCamera();
 
-            void startAcquisition();
-
-            void stopAcquisition();
-
+        public:
             bool setExposureTime(int exposureTime);
 
             bool setGain(int gain);

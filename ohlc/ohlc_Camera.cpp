@@ -214,29 +214,23 @@ namespace rw {
         {
 
         }
-        void Camera::setIp(const std::string& ip)
-        {
-            m_cameraMVS->setIp(ip);
-        }
 
-        std::string Camera::getIp()
+        void Camera::setCameraAttribute(const CameraAttribute& cameraAttribute)
         {
-            return m_cameraMVS->getIp();
+            m_cameraMVS->setExposureTime(cameraAttribute.ExposureTime);
+            m_cameraMVS->setGain(cameraAttribute.gain);
+            if (cameraAttribute.triggerdMode==CameraAttribute::TriggeredMode::Hardware) {
+                m_cameraMVS->setHardwareTriggeredAcquisition();
+            }
+            else if (cameraAttribute.triggerdMode == CameraAttribute::TriggeredMode::Software) {
+                m_cameraMVS->setSoftwareTriggeredAcquisition();
+            }
+            m_cameraMVS->setIOStart(cameraAttribute.ioDuration);
         }
 
         bool Camera::connectCamera()
         {
             return m_cameraMVS->connectCamera();
-        }
-
-        void Camera::startAcquisition()
-        {
-            m_cameraMVS->startAcquisition();
-        }
-
-        void Camera::stopAcquisition()
-        {
-            m_cameraMVS->stopAcquisition();
         }
 
         bool Camera::setExposureTime(int exposureTime)

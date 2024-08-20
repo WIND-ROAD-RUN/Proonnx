@@ -2,6 +2,7 @@
 #include <QtWidgets/QApplication>
 
 #include"LogRecorder.h"
+#include<QInputMethod>
 
 int main(int argc, char *argv[])
 {
