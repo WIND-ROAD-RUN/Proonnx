@@ -2,4 +2,5 @@
 <ConfigBeforeRuntimeModule>
 	<CameraCount>4</CameraCount>
 	<Language>CHN</Language>
+	<CameraConfig ip="169.254.207.2">D:/Workplace/vs/rep/Proonnx/Proonnx/ProductConfig/ceShi1.xml</CameraConfig>
 </ConfigBeforeRuntimeModule>
