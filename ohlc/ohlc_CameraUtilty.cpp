@@ -3,8 +3,6 @@
 #include"MVS/Includes/MvCameraControl.h"
 #include"opencv2/opencv.hpp"
 
-#include<qdebug>
-
 namespace rw {
     namespace ohlc {
 		std::vector<std::string> CameraUtilty::checkAllConnectCamera()
@@ -76,8 +74,6 @@ namespace rw {
 				cv::cvtColor(mat, mat, cv::COLOR_BayerBG2RGB);
 				break;
 			default:
-				qDebug() << "Unsupported pixel type";
-				qDebug() << pFrameInfo->enPixelType;
 				return mat;
 			}
 			return mat;

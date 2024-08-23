@@ -5,17 +5,24 @@
 /Proonnx/logs
 /Proonnx/x64
 /Proonnx/ProductConfig
+
 /cfgl/bin
 /cfgl/build
 /cfglg/bin
 /cfglg/build
+
 /cfgr/bin
 /cfgr/build
+
 /oulq/bin
 /oulq/build
+
 /ohlc/bin
 /ohlc/build
+
 /Extra/bin
 /Extra/build
+/ExtraQ/bin
+/ExtraQ/build
 
 

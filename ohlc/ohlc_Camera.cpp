@@ -146,29 +146,24 @@ namespace rw {
 
         bool Camera_MVS::setHardwareTriggeredAcquisition()
         {
-            int nRet = MV_CC_SetEnumValue(m_handle, "LineSelector", 2);
-            //0:Line0 1:Line1 2:Line2
-            nRet = MV_CC_SetEnumValue(m_handle, "LineMode", 8);//Only line2 needs to be set
-
-
-
-            MV_CC_SetTriggerMode(m_handle, 1);
-            int enumValue = MV_CC_SetEnumValue(m_handle, "TriggerSource", 0);
-
-            return 0;
-
-
-
+          
+            int nRet = MV_CC_SetTriggerMode(m_handle, 1);
+            if (MV_OK == nRet)
+            {
+                return true;
+            }
+            return false;
         }
 
         bool Camera_MVS::setSoftwareTriggeredAcquisition()
         {
             int nRet = MV_CC_SetTriggerMode(m_handle, 0);
-            if (MV_OK != nRet)
+            if (MV_OK == nRet)
             {
-                return -1;
+                return true;
             }
-            return nRet;
+            return false;
+
         }
 
         int Camera_MVS::setIOStart(int time)
