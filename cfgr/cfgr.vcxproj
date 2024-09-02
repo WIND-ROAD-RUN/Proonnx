@@ -217,10 +217,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="cfgr_CatalogueInitializer.h" />
     <ClInclude Include="cfgr_ConfigBeforeRuntimeLoader.h" />
     <ClInclude Include="cfgr_ConfigBeforeRuntimeModule.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cfgr_CatalogueInitializer.cpp" />
     <ClCompile Include="cfgr_ConfigBeforeRuntimeLoader.cpp" />
     <ClCompile Include="cfgr_ConfigBeforeRuntimeModule.cpp" />
   </ItemGroup>
