@@ -168,6 +168,7 @@ void Proonnx::ini_gBox_monitoringDisplay()
 		label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding); // Expand tags to fill the layout
 		label->setScaledContents(true); // Fill the image with labels
 		m_labelDisaplayCameraList->append(label);
+		m_labelDisaplayCameraListHasCamera.append(false);
 		int row = i / cols;
 		int col = i % cols;
 
@@ -236,6 +237,7 @@ void Proonnx::ini_cameraList()
 			auto connectResult = imageIdentify->connectCamera();
 			if (connectResult) {
 				(*m_labelDisaplayCameraList)[i]->m_enbaleClicked = true;
+				m_labelDisaplayCameraListHasCamera[i] = true;
 				std::string cameraConfigFilePath;
 				auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(devList[i], cameraConfigFilePath);
 				if (readResult) {
@@ -466,7 +468,7 @@ void Proonnx::pbt_addProductCongfig(int index)
 	auto isCheckList = get_isCheckProductList();
 	set_isCheckProduct(false);
 	DlgAddProductConfig dlgAddProductConfig(this);
-	dlgAddProductConfig.setWindowSize(this->width() * 0.75, this->height() * 0.75);
+	dlgAddProductConfig.setWindowSize(this->width() , this->height() );
 
 	dlgAddProductConfig.setCameraIndex(index + 1);
 	dlgAddProductConfig.setCamera(m_imageIdentifyList->at(index));
@@ -490,7 +492,7 @@ void Proonnx::pbt_modProductConfig(int index)
 	auto isCheckList = get_isCheckProductList();
 	set_isCheckProduct(false);
 	DlgChangeProductConfig dlg;
-	dlg.setWindowSize(this->width() * 0.75, this->height() * 0.75);
+	dlg.setWindowSize(this->width(), this->height());
 	std::string path;
 	auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(m_imageIdentifyList->at(index)->m_Ip, path);
 	if (readResult) {
@@ -553,7 +555,7 @@ void Proonnx::pbt_setIsCheckProduct_clicked()
 		}
 
 		for (int i = 0;i< m_imageIdentifyList->size();i++) {
-			(*m_labelDisaplayCameraList)[i]->m_enbaleClicked = false;
+			(*m_labelDisaplayCameraList)[i]->m_enbaleClicked = false&& m_labelDisaplayCameraListHasCamera[i];
 		}
 
 	}
@@ -567,7 +569,7 @@ void Proonnx::pbt_setIsCheckProduct_clicked()
 			item->setText(QString::fromStdString(m_locStrLoader->getString("30")));
 		}
 		for (int i = 0; i < m_imageIdentifyList->size(); i++) {
-			(*m_labelDisaplayCameraList)[i]->m_enbaleClicked = true;
+			(*m_labelDisaplayCameraList)[i]->m_enbaleClicked = true && m_labelDisaplayCameraListHasCamera[i];
 		}
 	}
 
@@ -579,14 +581,14 @@ void Proonnx::pbt_setIsCheckProduct(int index)
 	auto camera = (*m_imageIdentifyList)[index];
 	if (!camera->getIsCheckProduct()) {
 		(*m_pbtnSetIsCheckList)[index]->setText(QString::fromStdString(m_locStrLoader->getString("31")));
-		(*m_labelDisaplayCameraList)[index]->m_enbaleClicked = false;
+		(*m_labelDisaplayCameraList)[index]->m_enbaleClicked = false && m_labelDisaplayCameraListHasCamera[index];
 		camera->setHardwareTriggeredAcquisition();
 		camera->setIsCheckProduct(true);
 	}
 	else {
 		(*m_pbtnSetIsCheckList)[index]->setText(QString::fromStdString(m_locStrLoader->getString("30")));
 		camera->setSoftwareTriggeredAcquisition();
-		(*m_labelDisaplayCameraList)[index]->m_enbaleClicked = true;
+		(*m_labelDisaplayCameraList)[index]->m_enbaleClicked = true && m_labelDisaplayCameraListHasCamera[index];
 		camera->setIsCheckProduct(false);
 	}
 }
@@ -667,6 +669,7 @@ void Proonnx::clicked_label_clicked(int index)
 void Proonnx::pbtn_testDlg_clicked()
 {
 	DlgForTest dlg;
+	dlg.setWindowModality(Qt::WindowModal);
 	dlg.exec();
 }
 

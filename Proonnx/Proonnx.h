@@ -47,6 +47,7 @@ private:
 
 private:
 	QVector<LabelClickable *>* m_labelDisaplayCameraList{ nullptr };
+	QVector<bool> m_labelDisaplayCameraListHasCamera;
 
 	QVector<QLabel*>* m_labelDisaplayProductNameList{ nullptr };
 
