@@ -60,6 +60,8 @@ void DlgChangeProductConfig::ini_ui()
 	ui->gBox_dispalyImage->setLayout(gBox_dispalyImageLayout);
 	m_frameSelectLabel->setScaledContents(true);
 	ini_localizationStringUI();
+
+	ui->pbtn_drawRecognitionRange->setVisible(false);
 }
 
 void DlgChangeProductConfig::ini_localizationStringUI()

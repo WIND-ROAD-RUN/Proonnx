@@ -57,6 +57,8 @@ void DlgAddProductConfig::ini_ui()
 	ui->gBox_dispalyImage->setLayout(gBox_dispalyImageLayout);
 	m_frameSelectLabel->setScaledContents(true);
 	ini_localizationStringUI();
+
+	ui->pbtn_drawRecognitionRange->setVisible(false);
 }
 
 void DlgAddProductConfig::ini_localizationStringUI()
@@ -203,7 +205,7 @@ void DlgAddProductConfig::pbt_saveProductConfig_clicked()
 	currentFilePath += QString("/ProductConfig");
 	
 	QFileDialog dialog(this);
-	dialog.setDirectory(currentFilePath); // ÉèÖÃÄ¬ÈÏÂ·¾¶
+	dialog.setDirectory(currentFilePath); // è®¾ç½®é»˜è®¤è·¯å¾„
 	QString fileName = dialog.getSaveFileName(this, QString::fromStdString(loader->getString("44")),
 		ui->lEdit_productName->text(), QString::fromStdString(loader->getString("23")));
 

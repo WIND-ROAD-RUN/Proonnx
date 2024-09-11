@@ -285,14 +285,6 @@ void Proonnx::ini_cameraList()
 
 		}
 	}
-
-#ifdef DEBUG_RW
-	for (const auto & item : (*m_labelDisaplayCameraList)) {
-		item->m_enbaleClicked = true;
-	}
-#endif // DEBUG_RW
-
-
 }
 
 void Proonnx::ini_connect()
