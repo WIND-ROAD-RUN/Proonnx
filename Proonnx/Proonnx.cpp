@@ -667,6 +667,7 @@ void Proonnx::clicked_label_clicked(int index)
 void Proonnx::pbtn_testDlg_clicked()
 {
 	DlgForTest dlg;
+	dlg.setWindowModality(Qt::WindowModal);
 	dlg.exec();
 }
 
