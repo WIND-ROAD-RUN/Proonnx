@@ -42,14 +42,8 @@
     <Filter Include="Header Files\config\ProductConfig">
       <UniqueIdentifier>{4eb73a18-b14f-48e2-89d9-1c87008fc8c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\config\LocalizationModule">
-      <UniqueIdentifier>{6674b9f8-5317-41ac-ac40-3e48ab706314}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\config">
       <UniqueIdentifier>{4a02ca20-54c8-45ed-ae12-ac10bc5ebb88}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\config\LocalizationModule">
-      <UniqueIdentifier>{f09352ce-be35-4fca-bda5-387d346f843f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\config\ProductConfig">
       <UniqueIdentifier>{fb924e59-b171-4cc9-a794-443a96056703}</UniqueIdentifier>
@@ -102,12 +96,6 @@
     <Filter Include="Source Files\ImageIdentify\ImageIdentify">
       <UniqueIdentifier>{4fd8197b-50dd-4212-ac2c-0216d2fc71a4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\config\ConfigBeforeRuntime">
-      <UniqueIdentifier>{8201cfc4-8c06-4609-8cb4-6cbccd4063da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\config\ConfigBeforeRuntime">
-      <UniqueIdentifier>{7217464b-97f9-4bf9-ab45-ec88ac8d5bf0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\config\ConfigForImageSave">
       <UniqueIdentifier>{5d229c63-76b0-412d-9f81-662cd9a5bb47}</UniqueIdentifier>
     </Filter>
@@ -124,15 +112,6 @@
   <ItemGroup>
     <ClCompile Include="Proonnx.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
-    </ClCompile>
-    <ClCompile Include="LocalizationStringModuleAbstact.cpp">
-      <Filter>Source Files\config\LocalizationModule</Filter>
-    </ClCompile>
-    <ClCompile Include="LocalizationStringModule-XML.cpp">
-      <Filter>Source Files\config\LocalizationModule</Filter>
-    </ClCompile>
-    <ClCompile Include="LocalizationStringLoader-XML.cpp">
-      <Filter>Source Files\config\LocalizationModule</Filter>
     </ClCompile>
     <ClCompile Include="DlgAddProductConfig.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
@@ -167,17 +146,8 @@
     <ClCompile Include="ocrPutText.cpp">
       <Filter>Source Files\ImageIdentify\OCR</Filter>
     </ClCompile>
-    <ClCompile Include="FrameSelectLabel.cpp">
-      <Filter>Source Files\ProonnxUI</Filter>
-    </ClCompile>
     <ClCompile Include="DlgSetProonnx.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
-    </ClCompile>
-    <ClCompile Include="ConfigBeforeRuntimeLoader.cpp">
-      <Filter>Source Files\config\ConfigBeforeRuntime</Filter>
-    </ClCompile>
-    <ClCompile Include="ConfigBeforeRuntimeModule.cpp">
-      <Filter>Source Files\config\ConfigBeforeRuntime</Filter>
     </ClCompile>
     <ClCompile Include="ImageIdentify.cpp">
       <Filter>Source Files\ImageIdentify\ImageIdentify</Filter>
@@ -281,9 +251,6 @@
     <QtMoc Include="mycamera.h">
       <Filter>Header Files\ImageIdentify\Camera</Filter>
     </QtMoc>
-    <QtMoc Include="FrameSelectLabel.h">
-      <Filter>Header Files\ProonnxUI</Filter>
-    </QtMoc>
     <QtMoc Include="DlgSetProonnx.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
@@ -300,9 +267,6 @@
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
     <QtMoc Include="DlgClearCount.h">
-      <Filter>Header Files\ProonnxUI</Filter>
-    </QtMoc>
-    <QtMoc Include="ClickableLabel.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
     <QtMoc Include="DlgSetCamera.h">
@@ -325,18 +289,6 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LocalizationStringModuleAbstact.h">
-      <Filter>Header Files\config\LocalizationModule</Filter>
-    </ClInclude>
-    <ClInclude Include="LocalizationStringModule-XML.h">
-      <Filter>Header Files\config\LocalizationModule</Filter>
-    </ClInclude>
-    <ClInclude Include="LocalizationStringLoaderAbstract.h">
-      <Filter>Header Files\config\LocalizationModule</Filter>
-    </ClInclude>
-    <ClInclude Include="LocalizationStringLoader-XML.h">
-      <Filter>Header Files\config\LocalizationModule</Filter>
-    </ClInclude>
     <ClInclude Include="DateTransform.h">
       <Filter>Header Files\ImageIdentify\ProductDateCheck</Filter>
     </ClInclude>
@@ -384,12 +336,6 @@
     </ClInclude>
     <ClInclude Include="ocrPutText.h">
       <Filter>Header Files\ImageIdentify\OCR</Filter>
-    </ClInclude>
-    <ClInclude Include="ConfigBeforeRuntimeLoader.h">
-      <Filter>Header Files\config\ConfigBeforeRuntime</Filter>
-    </ClInclude>
-    <ClInclude Include="ConfigBeforeRuntimeModule.h">
-      <Filter>Header Files\config\ConfigBeforeRuntime</Filter>
     </ClInclude>
     <ClInclude Include="ConfigForImageSave.h">
       <Filter>Header Files\config\ConfigForImageSave</Filter>

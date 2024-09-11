@@ -4,13 +4,15 @@
 #include<QFileDialog>
 #include<QGroupBox>
 
-#include"FrameSelectLabel.h"
+#include"oulq/oulq_LabelCustom.h"
 #include"ProductConfigLoader.h"
 #include"ImageIdentify.h"
-#include"ConfigBeforeRuntimeLoader.h"
-#include"LocalizationStringLoader-XML.h"
+#include"cfgr/cfgr_ConfigBeforeRuntimeLoader.h"
+#include"cfgl/cfgl_LocalizationStringLoader.h"
 #include"LogRecorder.h"
 
+using namespace rw::cfgl;
+using namespace rw::cfgr;
 static LogRecorder* LOGRECORDER = LogRecorder::getInstance();
 
 DlgAddProductConfig::DlgAddProductConfig(QWidget *parent)
@@ -47,17 +49,17 @@ void DlgAddProductConfig::setConfigBeforeRuntime(const QString& filePath)
 
 void DlgAddProductConfig::ini_ui()
 {
-	m_frameSelectLabel = new FrameSelectLabel;
+	m_frameSelectLabel = new LabelFrameSelectable;
 	auto loader = LocalizationStringLoaderXML::getInstance();
 	m_frameSelectLabel->setText(QString::fromStdString(loader->getString("21")));
 	QVBoxLayout* gBox_dispalyImageLayout = new QVBoxLayout();
 	gBox_dispalyImageLayout->addWidget(m_frameSelectLabel);
 	ui->gBox_dispalyImage->setLayout(gBox_dispalyImageLayout);
 	m_frameSelectLabel->setScaledContents(true);
-	ini_localizationStringLoaderUI();
+	ini_localizationStringUI();
 }
 
-void DlgAddProductConfig::ini_localizationStringLoaderUI()
+void DlgAddProductConfig::ini_localizationStringUI()
 {
 	auto loader=LocalizationStringLoaderXML::getInstance();
 	ConfigBeforeRuntimeLoader configLoader;

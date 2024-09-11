@@ -116,16 +116,16 @@ void ImageIdentify::iniCamera()
 		m_labelForProductPassCount->setText(m_stringForProductPassCount + QString::number(productConfig.passCount));
 		m_productPassCount = productConfig.passCount;
 	}
-	m_configForImageSave = ConfigForImageSave::getInstance();
-	m_configForImageSave->createDirectory(QString::fromStdString(cameraConfig.productName));
-	m_saveImageWorkPath = m_configForImageSave->getCurrentFilePath() + '/' + QString::fromStdString(cameraConfig.productName);
-	m_configForImageSave->createDirectory(m_saveImageWorkPath, "Pass");
-	m_configForImageSave->createDirectory(m_saveImageWorkPath + "/Pass", "Native");
-	m_configForImageSave->createDirectory(m_saveImageWorkPath + "/Pass", "Crop");
+	m_configForImageSaveLoader = ConfigForImageSave::getInstance();
+	m_configForImageSaveLoader->createDirectory(QString::fromStdString(cameraConfig.productName));
+	m_saveImageWorkPath = m_configForImageSaveLoader->getCurrentFilePath() + '/' + QString::fromStdString(cameraConfig.productName);
+	m_configForImageSaveLoader->createDirectory(m_saveImageWorkPath, "Pass");
+	m_configForImageSaveLoader->createDirectory(m_saveImageWorkPath + "/Pass", "Native");
+	m_configForImageSaveLoader->createDirectory(m_saveImageWorkPath + "/Pass", "Crop");
 
-	m_configForImageSave->createDirectory(m_saveImageWorkPath, "NG");
-	m_configForImageSave->createDirectory(m_saveImageWorkPath + "/NG", "Native");
-	m_configForImageSave->createDirectory(m_saveImageWorkPath + "/NG", "Crop");
+	m_configForImageSaveLoader->createDirectory(m_saveImageWorkPath, "NG");
+	m_configForImageSaveLoader->createDirectory(m_saveImageWorkPath + "/NG", "Native");
+	m_configForImageSaveLoader->createDirectory(m_saveImageWorkPath + "/NG", "Crop");
 }
 
 void ImageIdentify::setStandDate(const QString& standardDate)
@@ -331,7 +331,7 @@ std::vector<OCRResult> ImageIdentify::ocr_image(cv::Mat srcMat)
 
 bool ImageIdentify::check_productDate(const std::vector<OCRResult>& date)
 {
-
+	return false;
 }
 
 void ImageIdentify::change_check_state(bool check)
@@ -366,7 +366,7 @@ void ImageIdentify::save_image(bool productCheckResult, const QImage& image, boo
 		if (isCrop) {
 			//ÇÐ¸îÂß¼­
 			/*auto filePath = m_saveImageWorkPath + QString("/Pass/Crop");
-			m_configForImageSave->saveImage
+			m_configForImageSaveLoader->saveImage
 			(image,
 				filePath,
 				DateTransFormUtilty::removeSymbolsAndSpaces
@@ -374,7 +374,7 @@ void ImageIdentify::save_image(bool productCheckResult, const QImage& image, boo
 		}
 		else {
 			auto filePath = m_saveImageWorkPath + QString("/Pass/Native");
-			m_configForImageSave->saveImage
+			m_configForImageSaveLoader->saveImage
 			(image,
 				filePath,
 				DateTransFormUtilty::removeSymbolsAndSpaces
@@ -385,7 +385,7 @@ void ImageIdentify::save_image(bool productCheckResult, const QImage& image, boo
 	else {
 		if (isCrop) {
 			auto filePath = m_saveImageWorkPath + QString("/NG/Crop");
-			m_configForImageSave->saveImage
+			m_configForImageSaveLoader->saveImage
 			(image,
 				filePath,
 				DateTransFormUtilty::removeSymbolsAndSpaces
@@ -393,7 +393,7 @@ void ImageIdentify::save_image(bool productCheckResult, const QImage& image, boo
 		}
 		else {
 			auto filePath = m_saveImageWorkPath + QString("/NG/Native");
-			m_configForImageSave->saveImage
+			m_configForImageSaveLoader->saveImage
 			(image,
 				filePath,
 				DateTransFormUtilty::removeSymbolsAndSpaces
@@ -504,5 +504,86 @@ void ImageIdentify::DisplayImage(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFr
 	}
 	m_monitorCamera->setExposureTime(exposureTime);*/
 		});
+
+	////////////////
+
+	//save_caputure_time();
+	//cv::Mat nativeMat;
+	//nativeMat = ImageIdentifyUtilty::ConvertMat(pFrameInfo, pData);
+
+	//if (nativeMat.empty()) {
+	//	qDebug() << "mat is empty";
+	//	return;
+	//}
+
+	//nativeMat = rotate_image(nativeMat, m_rotateCount);
+	//cv::Mat matToSave;
+	//nativeMat.copyTo(matToSave);
+	///*matToSave =
+	//	ImageIdentifyUtilty::cropImage(matToSave,
+	//		m_recognizeRange->topLeftCorner,
+	//		m_recognizeRange->upperRightCorner,
+	//		m_recognizeRange->lowerRightCorner,
+	//		m_recognizeRange->leftLowerCorner);*/
+	//cv::Mat matToRecognize;
+	//matToSave.copyTo(matToRecognize);
+	//set_recognizeRange();
+	////auto recognizeResult = ocr_image(matToRecognize);
+	//if (is_check) {
+	//	//ÅÐ¶ÏÊ¶±ðÂß¼­
+	//	auto recognizeResult = ocr_image(matToRecognize);/////////
+	//	auto checkResult = m_productCheck->check(recognizeResult, m_standardDate);
+	//	if (checkResult == ProductCheckUtilty::ProductCheckInfo::WITHIN_THRESHOLD) {
+	//		change_check_state(true);
+	//		update_productInfo_label(true);
+	//		save_image(true, ImageIdentifyUtilty::convcertImageFromCvMat(nativeMat), false);
+	//		save_image(true, ImageIdentifyUtilty::convcertImageFromCvMat(matToSave), true);
+	//	}
+	//	else {
+	//		change_check_state(false);
+	//		update_productInfo_label(false);
+	//		save_image(false, ImageIdentifyUtilty::convcertImageFromCvMat(nativeMat), false);
+	//		save_image(true, ImageIdentifyUtilty::convcertImageFromCvMat(matToSave), true);
+	//		//ÉèÖÃio´¥·¢
+	//		//send_checkErrorSignal();
+	//		display_image(matToRecognize, m_labelForNg);
+	//	}
+
+	//	QMetaObject::invokeMethod(qApp, [this, matToRecognize, nativeMat]
+	//		{
+
+	//			render_image(matToRecognize, nativeMat);
+
+
+
+
+
+	//		});
+
+	//}
+	//else {
+	//	is_saveCaputureTime = false;
+	//	QMetaObject::invokeMethod(qApp, [this, matToRecognize, nativeMat]
+	//		{
+
+	//			render_image(matToRecognize, nativeMat);
+
+
+
+
+
+	//		});
+
+
+	//}
+
+
+	////debug
+	///*static int exposureTime= 50000;
+	//exposureTime += 5000;
+	//if (exposureTime>85000) {
+	//	exposureTime = 50000;
+	//}
+	//m_monitorCamera->setExposureTime(exposureTime);*/
 }
 

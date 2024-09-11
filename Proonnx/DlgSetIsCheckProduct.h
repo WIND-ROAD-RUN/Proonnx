@@ -21,7 +21,7 @@ public:
 private:
 	void ini_ui();
 
-	void ini_localizationStringLoaderUI();
+	void ini_localizationStringUI();
 
 	void ini_connect();
 

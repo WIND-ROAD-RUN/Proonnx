@@ -86,7 +86,7 @@ public:
 private:
 	ProductConfigLoader* m_productLoader{nullptr};
 
-	ConfigForImageSave* m_configForImageSave{nullptr};
+	ConfigForImageSave* m_configForImageSaveLoader{nullptr};
 
 private:
 	QString m_saveImageWorkPath{};
