@@ -3,13 +3,8 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_Proonnx.h"
 
-#include"MVS/Includes/MvCameraControl.h"
-#include"ImageIdentify.h"
-#include"ClickableLabel.h"
 #include<QVector>
 #include<QLabel>
-#include"IndexButton.h"
-
 
 namespace cv {
 	class Mat;
@@ -17,13 +12,28 @@ namespace cv {
 
 class ImageIdentify;
 class ocrwork;
-class LocalizationStringLoaderXML;
-class ConfigBeforeRuntimeLoader;
 class ConfigForImageSave;
+namespace rw {
+	namespace oulq {
+		class LabelClickable;
+	}
+	namespace cfgl {
+		class LocalizationStringLoaderXML;
+	}
+	namespace cfgr {
+		class ConfigBeforeRuntimeLoader;
+	}
+
+}
+class IndexButton;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ProonnxClass; };
 QT_END_NAMESPACE
+
+using namespace rw::oulq;
+using namespace rw::cfgl;
+using namespace rw::cfgr;
 
 class Proonnx : public QMainWindow
 {
@@ -33,35 +43,35 @@ private:
 
 	ConfigBeforeRuntimeLoader* m_configBeforeRuntimeLoader{nullptr};
 
-	ConfigForImageSave* m_configForImageSave{ nullptr };
+	ConfigForImageSave* m_configForImageSaveLoader{ nullptr };
 
 private:
-	QVector<ClickableLabel *>* m_disaplayCameraList{ nullptr };
+	QVector<LabelClickable *>* m_labelDisaplayCameraList{ nullptr };
 
-	QVector<QLabel*>* m_disaplayProductNameList{ nullptr };
+	QVector<QLabel*>* m_labelDisaplayProductNameList{ nullptr };
 
-	QVector<QLabel*>* m_disaplayCheckInfoList{ nullptr };
+	QVector<QLabel*>* m_labelDisaplayCheckInfoList{ nullptr };
 
-	QVector<QLabel*>* m_productCountList{ nullptr };
+	QVector<QLabel*>* m_labelProductCountList{ nullptr };
 
-	QVector<QLabel*>* m_productPassCountList{ nullptr };
+	QVector<QLabel*>* m_labelProductPassCountList{ nullptr };
 
-	QVector<QLabel*>* m_productOutCountList{ nullptr };
+	QVector<QLabel*>* m_labelProductOutCountList{ nullptr };
 
-	QVector<ImageIdentify*> * m_cameraList{nullptr};
+	QVector<ImageIdentify*> * m_imageIdentifyList{nullptr};
 
 public:
-	QVector<IndexButton*>* m_setIsCheckPbtnList{ nullptr };
+	QVector<IndexButton*>* m_pbtnSetIsCheckList{ nullptr };
 
 private:
-	QString m_configBeforeRuntimeLoaderFilePath{};
+	QString m_filePathConfigBeforeRuntimeLoader{};
 
 private:
 	void ini_ui();
 
 	void ini_localizationStringLoader();
 
-	void ini_localizationStringLoaderUI();
+	void ini_localizationStringUI();
 
 private:
 	void ini_configBeforeRuntimeLoader();
@@ -102,29 +112,29 @@ private:
 	void set_isCheckProductByList(const QVector<bool> & list);
 
 	void set_allDoNotCheck();
+
 private:
 	void select_config(int index);
 
-private slots:
-	void pbt_addProductCongfig_clicked();
+private:
 	void pbt_addProductCongfig(int index);
 
-	void pbt_modProductConfig_clicked();
 	void pbt_modProductConfig(int index);
 
+	void setCheckProduct_clicked(bool check);
+
+	void pbtn_clearCount(int index);
+
+private slots:
 	void pbtn_setProonnx_clicked();
 
 	void pbt_setIsCheckProduct_clicked();
-	void pbt_setIsCheckProduct(int index);
-	void setCheckProduct_clicked(bool check);
-
-	void pbtn_clearCount_clicked();
-	void pbtn_clearCount(int index);
 
 	void pbtn_quit_clicked();
 
-	void clicked_label_clicked(int index);
-
 	void pbtn_testDlg_clicked();
 
+	void clicked_label_clicked(int index);
+
+	void pbt_setIsCheckProduct(int index);
 };

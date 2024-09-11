@@ -14,9 +14,13 @@ class DlgForTest : public QDialog
 
 public:
     DlgForTest(QWidget *parent = nullptr);
+
     ~DlgForTest();
+
 private:
     ocrwork* m_ocrwork{nullptr};
+
+    void ini_ocrwork();
 
 private:
     void ini_connect();

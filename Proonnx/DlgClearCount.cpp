@@ -1,15 +1,18 @@
 #include "DlgClearCount.h"
 
-#include"LocalizationStringLoader-XML.h"
+#include"cfgl/cfgl_LocalizationStringLoader.h"
 #include<QVBoxLayout>
 #include<QCheckBox>
+
+using namespace rw::cfgl;
+
 DlgClearCount::DlgClearCount(QWidget *parent)
 	: QDialog(parent)
 	, ui(new Ui::DlgClearCountClass())
 {
 	ui->setupUi(this);
 	ini_ui();
-	ini_localizationStringLoaderUI();
+	ini_localizationStringUI();
 	ini_connect();
 }
 
@@ -23,7 +26,7 @@ void DlgClearCount::ini_ui()
 
 }
 
-void DlgClearCount::ini_localizationStringLoaderUI()
+void DlgClearCount::ini_localizationStringUI()
 {
 	auto loader = LocalizationStringLoaderXML::getInstance();
 	this->setWindowTitle(QString::fromStdString(loader->getString("36")));

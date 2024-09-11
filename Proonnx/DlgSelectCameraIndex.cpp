@@ -2,8 +2,11 @@
 
 
 #include<qdebug>
-#include"LocalizationStringLoader-XML.h"
-#include"ConfigBeforeRuntimeLoader.h"
+#include"cfgl/cfgl_LocalizationStringLoader.h"
+#include"cfgr/cfgr_ConfigBeforeRuntimeLoader.h"
+
+using namespace rw::cfgl;
+using namespace rw::cfgr;
 
 DlgSelectCameraIndex::DlgSelectCameraIndex(QWidget *parent, int cameraCount)
 	: QDialog(parent),m_cameraCount(cameraCount)
@@ -33,10 +36,10 @@ void DlgSelectCameraIndex::ini_ui()
 {
 	qDebug() << m_cameraCount;
 	ui->spBox_cameraIndex->setMaximum(m_cameraCount);
-	ini_localizationStringLoaderUI();
+	ini_localizationStringUI();
 }
 
-void DlgSelectCameraIndex::ini_localizationStringLoaderUI()
+void DlgSelectCameraIndex::ini_localizationStringUI()
 {
 	auto loader = LocalizationStringLoaderXML::getInstance();
 	ConfigBeforeRuntimeLoader configLoader;
