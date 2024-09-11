@@ -1,4 +1,4 @@
-#pragma warning(disable:4996)
+ï»¿#pragma warning(disable:4996)
 
 #include "DateTransform.h"
 
@@ -126,12 +126,12 @@ DateTransFormUtilty::dateHashSimilarity
 QString DateTransFormUtilty::removeSymbolsAndSpaces(const QString& input)
 {
 	QString result = input;
-	// ±éÀúÃ¿¸ö×Ö·û£¬ÒÆ³ı·Ç×ÖÄ¸ºÍÊı×ÖµÄ×Ö·û
+	// éå†æ¯ä¸ªå­—ç¬¦ï¼Œç§»é™¤éå­—æ¯å’Œæ•°å­—çš„å­—ç¬¦
 	for (int i = 0; i < result.size(); ++i) {
 		QChar ch = result[i];
 		if (!ch.isLetterOrNumber()) {
 			result.remove(i, 1);
-			--i; // µ÷ÕûË÷ÒıÒÔ´¦ÀíÒÆ³ıµÄ×Ö·û
+			--i; // è°ƒæ•´ç´¢å¼•ä»¥å¤„ç†ç§»é™¤çš„å­—ç¬¦
 		}
 	}
 	return result;

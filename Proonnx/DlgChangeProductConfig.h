@@ -65,12 +65,16 @@ public:
 	void setFilePath(const QString& filePath) { m_filePath = filePath; }
 
 	void iniUI();
+
 public:
 	void setWindowSize(int wide, int height);
+
 private:
 	Ui::DlgChangeProductConfigClass *ui;
+
 private:
 	void closeEvent(QCloseEvent* event) override;
+
 private slots:
 	void selectionMade_complete(const QRect& rect);
 
