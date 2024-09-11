@@ -29,6 +29,7 @@
 #include"DateTransform.h"
 #include"LogRecorder.h"
 #include"ImageIdentify.h"
+#include"DlgSelectProductConfig.h"
 
 static LogRecorder* LOGRECORDER = LogRecorder::getInstance();
 
@@ -382,6 +383,10 @@ Proonnx::Proonnx(QWidget* parent)
 	pbt_startImageIdentify_clicked();
 #endif // NDEBUG_RW
 
+#ifdef DEBUG_RW
+	(*m_labelDisaplayCameraList)[0]->m_enbaleClicked = true;
+#endif // DEBUG_RW
+
 
 }
 
@@ -423,7 +428,9 @@ void Proonnx::set_allDoNotCheck()
 
 void Proonnx::select_config(int index)
 {
-	auto loader = LocalizationStringLoaderXML::getInstance();
+	DlgSelectProductConfig dlg;
+	dlg.exec();
+	/*auto loader = LocalizationStringLoaderXML::getInstance();
 	QFileDialog
 		fileDlg(this, QString::fromStdString(loader->getString("22")),
 			"", QString::fromStdString(loader->getString("23")));
@@ -450,7 +457,7 @@ void Proonnx::select_config(int index)
 		auto countConfig = loader.loadProductCountInfo(fileName.toStdString());
 		(*m_imageIdentifyList)[index]->setProductCount(countConfig.totalCount, countConfig.passCount, countConfig.outCount);
 		m_configBeforeRuntimeLoader->storeCameraConfig((*m_imageIdentifyList)[index]->m_Ip, fileName.toStdString());
-	}
+	}*/
 }
 
 void Proonnx::pbt_addProductCongfig(int index)

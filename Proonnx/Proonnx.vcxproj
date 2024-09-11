@@ -166,6 +166,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DlgForTest.cpp" />
+    <ClCompile Include="DlgSelectProductConfig.cpp" />
     <ClCompile Include="DlgSetCamera.cpp" />
     <ClCompile Include="ImageIdentifyUtilty.cpp" />
     <ClCompile Include="LogModule.cpp" />
@@ -178,6 +179,7 @@
     <QtUic Include="DlgClearCount.ui" />
     <QtUic Include="DlgForTest.ui" />
     <QtUic Include="DlgSelectCameraIndex.ui" />
+    <QtUic Include="DlgSelectProductConfig.ui" />
     <QtUic Include="DlgSetCamera.ui" />
     <QtUic Include="DlgSetIsCheckProduct.ui" />
     <QtUic Include="DlgSetProonnx.ui" />
@@ -214,6 +216,7 @@
     <QtMoc Include="DlgSetCamera.h" />
     <QtMoc Include="IndexButton.h" />
     <QtMoc Include="DlgForTest.h" />
+    <QtMoc Include="DlgSelectProductConfig.h" />
     <ClInclude Include="ImageIdentifyUtilty.h" />
     <ClInclude Include="LogRecorder.h" />
     <ClInclude Include="LogModule.h" />

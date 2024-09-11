@@ -1,48 +1,34 @@
-//#include <QtCore/QCoreApplication>
-//
-//int main(int argc, char *argv[])
-//{
-//    QCoreApplication a(argc, argv);
-//
-//    return a.exec();
-//}
+#include <QApplication>
+#include <QTreeView>
+#include <QStandardItemModel>
+#include<QHeaderView>
 
-#include<iostream>
+int main(int argc, char* argv[])
+{
+    QApplication app(argc, argv);
 
-#include"ohlc/ohlc_CameraUtilty.h"
-#include"ohlc/ohlc_Camera.h"
-#include<QVector>
-#include<thread>
+    // 创建 QTreeView 实例
+    QTreeView treeView;
 
-using namespace rw::ohlc;
-using namespace std;
+    // 创建 QStandardItemModel 实例
+    QStandardItemModel model(4, 2); // 4行2列
 
-int main() {
-    auto cameraIpList = CameraUtilty::checkAllConnectCamera();
-    cout << "CameraSize:" << cameraIpList.size() << endl;
-    cout << "Camera Ip List:" << endl;
-    for (const auto& item : cameraIpList) {
-        cout << "               |____ " << item << endl;
+    // 向模型中添加数据
+    for (int row = 0; row < 4; ++row) {
+        for (int col = 0; col < 2; ++col) {
+            QModelIndex index = model.index(row, col, QModelIndex());
+            model.setData(index, QString("Row %1, Column %2").arg(row + 1).arg(col + 1));
+        }
     }
 
-    QVector<Camera_MVS *> cameraList;
-    cout << "Connect camera:" << endl;
-    for (const auto& item : cameraIpList) {
-        cout << "      |___Connect camera:" << item << endl;
-        Camera_MVS *camera=new Camera_MVS; 
-        camera->setIp(item);
-        cout << "      |    |__result: " << camera->connectCamera() << endl;
-        cameraList.push_back(camera);
-    }
+    // 将模型设置为 QTreeView 的模型
+    treeView.setModel(&model);
 
-    auto camera = cameraList.at(0);
-    cout << "setHardtwareTriggered Result: " << camera->setSoftwareTriggeredAcquisition();
-    camera->startAcquisition();
-    
-    int wait;
-    cin >> wait;
+    // 设置表头可见
+    treeView.header()->setVisible(true);
 
-    camera->stopAcquisition();
+    // 显示 QTreeView
+    treeView.show();
 
-    return 0;
+    return app.exec();
 }

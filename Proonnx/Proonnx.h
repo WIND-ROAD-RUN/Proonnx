@@ -13,6 +13,7 @@ namespace cv {
 class ImageIdentify;
 class ocrwork;
 class ConfigForImageSave;
+
 namespace rw {
 	namespace oulq {
 		class LabelClickable;
