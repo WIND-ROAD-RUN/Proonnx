@@ -108,12 +108,15 @@
     <Filter Include="Source Files\config\LogSave">
       <UniqueIdentifier>{45e9061e-a89a-495d-84f5-1214513c1d8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ProonnxUI\Dlg">
+      <UniqueIdentifier>{0a37ae41-ca9c-4b70-990e-591c53ec34fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ProonnxUI\Dlg">
+      <UniqueIdentifier>{949b4269-0deb-4014-a36f-ba358e6c1d59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Proonnx.cpp">
-      <Filter>Source Files\ProonnxUI</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgAddProductConfig.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
     <ClCompile Include="DateTransform.cpp">
@@ -131,9 +134,6 @@
     <ClCompile Include="DlgChangeProductConfig.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
-    <ClCompile Include="DlgChangeProductConfig.cpp">
-      <Filter>Source Files\ProonnxUI</Filter>
-    </ClCompile>
     <ClCompile Include="mycamera.cpp">
       <Filter>Source Files\ImageIdentify\Camera</Filter>
     </ClCompile>
@@ -146,26 +146,14 @@
     <ClCompile Include="ocrPutText.cpp">
       <Filter>Source Files\ImageIdentify\OCR</Filter>
     </ClCompile>
-    <ClCompile Include="DlgSetProonnx.cpp">
-      <Filter>Source Files\ProonnxUI</Filter>
-    </ClCompile>
     <ClCompile Include="ImageIdentify.cpp">
       <Filter>Source Files\ImageIdentify\ImageIdentify</Filter>
     </ClCompile>
     <ClCompile Include="MonitorCamera.cpp">
       <Filter>Source Files\ImageIdentify\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="DlgSelectCameraIndex.cpp">
-      <Filter>Source Files\ProonnxUI</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgSetIsCheckProduct.cpp">
-      <Filter>Source Files\ProonnxUI</Filter>
-    </ClCompile>
     <ClCompile Include="ConfigForImageSave.cpp">
       <Filter>Source Files\config\ConfigForImageSave</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgClearCount.cpp">
-      <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
     <ClCompile Include="RollingAverage.cpp">
       <Filter>Source Files\ImageIdentify\ProductDateCheck</Filter>
@@ -179,16 +167,10 @@
     <ClCompile Include="LogSystemUtilty.cpp">
       <Filter>Source Files\config\LogSave</Filter>
     </ClCompile>
-    <ClCompile Include="DlgSetCamera.cpp">
-      <Filter>Source Files\ProonnxUI</Filter>
-    </ClCompile>
     <ClCompile Include="DlgSetIsCheckProduct.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
     <ClCompile Include="DlgClearCount.cpp">
-      <Filter>Source Files\ProonnxUI</Filter>
-    </ClCompile>
-    <ClCompile Include="DlgForTest.cpp">
       <Filter>Source Files\ProonnxUI</Filter>
     </ClCompile>
     <ClCompile Include="DlgForTest.cpp">
@@ -199,6 +181,33 @@
     </ClCompile>
     <ClCompile Include="ImageIdentifyUtilty.cpp">
       <Filter>Source Files\ImageIdentify\ImageIdentify</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgAddProductConfig.cpp">
+      <Filter>Source Files\ProonnxUI\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgChangeProductConfig.cpp">
+      <Filter>Source Files\ProonnxUI\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgClearCount.cpp">
+      <Filter>Source Files\ProonnxUI\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgForTest.cpp">
+      <Filter>Source Files\ProonnxUI\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSelectCameraIndex.cpp">
+      <Filter>Source Files\ProonnxUI\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSetCamera.cpp">
+      <Filter>Source Files\ProonnxUI\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSetIsCheckProduct.cpp">
+      <Filter>Source Files\ProonnxUI\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSetProonnx.cpp">
+      <Filter>Source Files\ProonnxUI\Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSelectProductConfig.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -229,6 +238,9 @@
     <QtUic Include="DlgForTest.ui">
       <Filter>Form Files\ui</Filter>
     </QtUic>
+    <QtUic Include="DlgSelectProductConfig.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="Proonnx.qrc">
@@ -239,38 +251,17 @@
     <QtMoc Include="Proonnx.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
-    <QtMoc Include="DlgAddProductConfig.h">
-      <Filter>Header Files\ProonnxUI</Filter>
-    </QtMoc>
-    <QtMoc Include="DlgChangeProductConfig.h">
-      <Filter>Header Files\ProonnxUI</Filter>
-    </QtMoc>
     <QtMoc Include="DlgChangeProductConfig.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
     <QtMoc Include="mycamera.h">
       <Filter>Header Files\ImageIdentify\Camera</Filter>
     </QtMoc>
-    <QtMoc Include="DlgSetProonnx.h">
-      <Filter>Header Files\ProonnxUI</Filter>
-    </QtMoc>
     <QtMoc Include="MonitorCamera.h">
       <Filter>Header Files\ImageIdentify\Camera</Filter>
     </QtMoc>
     <QtMoc Include="ImageIdentify.h">
       <Filter>Header Files\ImageIdentify\ImageIdentify</Filter>
-    </QtMoc>
-    <QtMoc Include="DlgSelectCameraIndex.h">
-      <Filter>Header Files\ProonnxUI</Filter>
-    </QtMoc>
-    <QtMoc Include="DlgSetIsCheckProduct.h">
-      <Filter>Header Files\ProonnxUI</Filter>
-    </QtMoc>
-    <QtMoc Include="DlgClearCount.h">
-      <Filter>Header Files\ProonnxUI</Filter>
-    </QtMoc>
-    <QtMoc Include="DlgSetCamera.h">
-      <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
     <QtMoc Include="IndexButton.h">
       <Filter>Header Files\ProonnxUI</Filter>
@@ -284,7 +275,31 @@
     <QtMoc Include="DlgForTest.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
+    <QtMoc Include="DlgAddProductConfig.h">
+      <Filter>Header Files\ProonnxUI\Dlg</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgChangeProductConfig.h">
+      <Filter>Header Files\ProonnxUI\Dlg</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgClearCount.h">
+      <Filter>Header Files\ProonnxUI\Dlg</Filter>
+    </QtMoc>
     <QtMoc Include="DlgForTest.h">
+      <Filter>Header Files\ProonnxUI\Dlg</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgSelectCameraIndex.h">
+      <Filter>Header Files\ProonnxUI\Dlg</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgSetCamera.h">
+      <Filter>Header Files\ProonnxUI\Dlg</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgSetIsCheckProduct.h">
+      <Filter>Header Files\ProonnxUI\Dlg</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgSetProonnx.h">
+      <Filter>Header Files\ProonnxUI\Dlg</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgSelectProductConfig.h">
       <Filter>Header Files\ProonnxUI</Filter>
     </QtMoc>
   </ItemGroup>
