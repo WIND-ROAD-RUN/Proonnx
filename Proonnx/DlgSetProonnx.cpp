@@ -1,10 +1,11 @@
 #include "DlgSetProonnx.h"
 
-#include"ConfigBeforeRuntimeLoader.h"
-#include"spdlog/spdlog.h"
-#include"LocalizationStringLoader-XML.h"
+#include"cfgr/cfgr_ConfigBeforeRuntimeLoader.h"
+#include"cfgl/cfgl_LocalizationStringLoader.h"
 
 #include<QDir>
+
+using namespace rw::cfgr;
 
 DlgSetProonnx::DlgSetProonnx(QWidget *parent)
 	: QDialog(parent)
@@ -33,17 +34,14 @@ void DlgSetProonnx::setWindowSize(int wide, int height)
 
 void DlgSetProonnx::ini_ui()
 {
-	ini_localizationStringLoaderUI();
+	ini_localizationStringUI();
 }
 
 void DlgSetProonnx::ini_configBeforeRuntimeLoader(const std::string& filePath)
 {
-	spdlog::info("Load config of before runtime in filePath:");
 	m_configBeforeRuntimeLoader = new ConfigBeforeRuntimeLoader();
-	spdlog::info(filePath);
 
 	auto loadResult = m_configBeforeRuntimeLoader->loadFile(filePath);
-	spdlog::info(loadResult);
 
 	ini_uiFromConfigBeforeRuntime();
 }
@@ -62,7 +60,7 @@ void DlgSetProonnx::ini_uiFromConfigBeforeRuntime()
 	}
 }
 
-void DlgSetProonnx::ini_localizationStringLoaderUI()
+void DlgSetProonnx::ini_localizationStringUI()
 {
 	m_locStrLoader = LocalizationStringLoaderXML::getInstance();
 	ConfigBeforeRuntimeLoader configLoader;
@@ -90,7 +88,6 @@ void DlgSetProonnx::ini_connect()
 
 void DlgSetProonnx::cBox_changeLanguage_index_change_on(int index)
 {
-	spdlog::info("change");
 	if (index == 0) {
 		m_locStrLoader->setLanguage("CHN");
 		auto loadStrDataResult = m_locStrLoader->loadData();
@@ -101,7 +98,7 @@ void DlgSetProonnx::cBox_changeLanguage_index_change_on(int index)
 		auto loadStrDataResult = m_locStrLoader->loadData();
 		m_configBeforeRuntimeLoader->storeLanguage("USA");
 	}
-	ini_localizationStringLoaderUI();
+	ini_localizationStringUI();
 }
 
 void DlgSetProonnx::pbtn_accept_clicked()

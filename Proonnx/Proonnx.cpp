@@ -8,35 +8,44 @@
 #include<QHBoxLayout>
 #include<QVBoxLayout>
 
-#include"mycamera.h"
-#include"MonitorCamera.h"
+#include"oulq/oulq_LabelCustom.h"
+//#include"LocalizationStringLoader-XML.h"
+#include"cfgl/cfgl_LocalizationStringLoader.h"
+#include"cfgr/cfgr_ConfigBeforeRuntimeLoader.h"
+#include"cfgr/cfgr_CatalogueInitializer.h"
 
+#include"MonitorCamera.h"
 #include"DlgAddProductConfig.h"
 #include"DlgChangeProductConfig.h"
 #include"DlgSetProonnx.h"
 #include"DlgSelectCameraIndex.h"
-#include"LocalizationStringLoader-XML.h"
-#include"ConfigBeforeRuntimeLoader.h"
-#include"ProductConfigLoader.h"
+#include"DlgSetCamera.h"
+#include"DlgForTest.h"
 #include"DlgSetIsCheckProduct.h"
+#include"DlgClearCount.h"
+#include"IndexButton.h"
+#include"ProductConfigLoader.h"
 #include"ConfigForImageSave.h"
 #include"DateTransform.h"
-#include"DlgClearCount.h"
 #include"LogRecorder.h"
-#include"DlgSetCamera.h"
+#include"ImageIdentify.h"
 
 static LogRecorder* LOGRECORDER = LogRecorder::getInstance();
 
 void Proonnx::ini_ui()
 {
+
+#ifdef NDEBUG_RW
 	this->setWindowFlags(Qt::FramelessWindowHint);
 	this->showFullScreen();
 
 	this->setWindowFlags(this->windowFlags() & ~Qt::WindowMinMaxButtonsHint);
+#endif // NDEBUG_RW
+
 
 	ini_configBeforeRuntimeLoader();
-    ini_localizationStringLoader();
-    ini_localizationStringLoaderUI();
+	ini_localizationStringLoader();
+	ini_localizationStringUI();
 	ini_gBox_monitoringDisplay();
 
 	ui->ledit_currentDate->setText(QDate::currentDate().toString("yyyy/MM/dd"));
@@ -50,10 +59,15 @@ void Proonnx::ini_ui()
 
 
 	//////////////////////
-	ui->pbt_modProductConfig->setVisible(false); 
-	ui->pbtn_clearCount->setVisible(false);
-	ui->pbt_addProductCongfig->setVisible(false);
-	ui->pbtn_selectProducrConfig->setVisible(false);
+#ifdef DEBUG_RW
+	ui->pbtn_testDlg->setVisible(true);
+	ui->pbtn_setProonnx->setVisible(true);
+#endif // DEBUG_RW
+
+#ifdef NDEBUG_RW
+	ui->pbtn_testDlg->setVisible(false);
+	ui->pbtn_setProonnx->setVisible(false);
+#endif // NDEBUG_RW
 
 }
 
@@ -76,16 +90,12 @@ void Proonnx::ini_localizationStringLoader()
 
 }
 
-void Proonnx::ini_localizationStringLoaderUI()
+void Proonnx::ini_localizationStringUI()
 {
-    ui->gBox_monitoringDisplay->setTitle(QString::fromStdString(m_locStrLoader->getString("1")));
-    ui->gBox_setPutton->setTitle(QString::fromStdString(m_locStrLoader->getString("2")));
-    ui->pbt_modProductConfig->setText(QString::fromStdString(m_locStrLoader->getString("3")));
-    ui->pbt_addProductCongfig->setText(QString::fromStdString(m_locStrLoader->getString("5")));
+	ui->gBox_monitoringDisplay->setTitle(QString::fromStdString(m_locStrLoader->getString("1")));
+	ui->gBox_setPutton->setTitle(QString::fromStdString(m_locStrLoader->getString("2")));
 	ui->pbtn_setProonnx->setText(QString::fromStdString(m_locStrLoader->getString("20")));
 	ui->gBox_currenctDate->setTitle(QString::fromStdString(m_locStrLoader->getString("19")));
-
-
 }
 
 void Proonnx::ini_configBeforeRuntimeLoader()
@@ -94,19 +104,18 @@ void Proonnx::ini_configBeforeRuntimeLoader()
 
 	m_configBeforeRuntimeLoader = new ConfigBeforeRuntimeLoader();
 
-	QString filePath = "/config/ConfigBeforeRuntimeLoader.xml";
-	auto  currentFilePath = QDir::currentPath();
-	filePath = currentFilePath + filePath;
+	auto configPath=rw::cfgr::CatalogueInitializer::findWorkPath("Config");
+	configPath=rw::cfgr::CatalogueInitializer::pathAppend(configPath,"ConfigBeforeRuntimeLoader.xml");
 
-	m_configBeforeRuntimeLoaderFilePath = filePath;
+	m_filePathConfigBeforeRuntimeLoader = QString::fromStdString(configPath);
 
-	LOGRECORDER->info("Loading config of runtime at:" + filePath.toStdString());
+	LOGRECORDER->info("Loading config of runtime at:" + configPath);
 
-	auto loadResult = m_configBeforeRuntimeLoader->loadFile(filePath.toStdString());
+	auto loadResult = m_configBeforeRuntimeLoader->loadFile(configPath);
 	if (!loadResult) {
 		LOGRECORDER->warn("Cannot find config file!");
-		LOGRECORDER->info("Create new config file at:" + filePath.toStdString());
-		m_configBeforeRuntimeLoader->setNewFile(filePath.toStdString());
+		LOGRECORDER->info("Create new config file at:" + configPath);
+		m_configBeforeRuntimeLoader->setNewFile(configPath);
 	}
 }
 
@@ -121,13 +130,13 @@ void Proonnx::ini_configBeforeRuntime()
 void Proonnx::ini_configForImageSave()
 {
 	LOGRECORDER->info("Create a new historical image folder and clean up old ones");
-	m_configForImageSave = ConfigForImageSave::getInstance();
-	m_configForImageSave->setToday(QString::fromStdString(DateTransFormUtilty::replaceSlashWithDash(ui->ledit_currentDate->text().toStdString())));
-	m_configForImageSave->setSaveDays(7);
-	auto currentPath = QDir::currentPath();
-	currentPath = currentPath + "/historyImages";
-	m_configForImageSave->setCurrentFilePath(currentPath);
-	m_configForImageSave->iniConfig();
+	m_configForImageSaveLoader = ConfigForImageSave::getInstance();
+	m_configForImageSaveLoader->setToday(QString::fromStdString(DateTransFormUtilty::replaceSlashWithDash(ui->ledit_currentDate->text().toStdString())));
+	m_configForImageSaveLoader->setSaveDays(7);
+	auto histoyImagesPath=rw::cfgr::CatalogueInitializer::findWorkPath("HistoryImage");
+
+	m_configForImageSaveLoader->setCurrentFilePath(QString::fromStdString(histoyImagesPath));
+	m_configForImageSaveLoader->iniConfig();//////////path中的'//
 }
 
 void Proonnx::ini_gBox_monitoringDisplay()
@@ -136,14 +145,14 @@ void Proonnx::ini_gBox_monitoringDisplay()
 
 	LOGRECORDER->info("Set the window layout to display the camera window as " + std::to_string(cameraCount));
 
-	m_disaplayCameraList = new QVector<ClickableLabel*>;
-	m_disaplayCheckInfoList = new QVector<QLabel*>;
-	m_disaplayProductNameList = new QVector<QLabel*>;
-	m_productCountList = new QVector<QLabel*>;
-	m_productPassCountList = new QVector<QLabel*>;
-	m_productOutCountList = new QVector<QLabel*>;
-	m_productCountList = new QVector<QLabel*>;
-	m_setIsCheckPbtnList = new QVector<IndexButton*>;
+	m_labelDisaplayCameraList = new QVector<LabelClickable*>;
+	m_labelDisaplayCheckInfoList = new QVector<QLabel*>;
+	m_labelDisaplayProductNameList = new QVector<QLabel*>;
+	m_labelProductCountList = new QVector<QLabel*>;
+	m_labelProductPassCountList = new QVector<QLabel*>;
+	m_labelProductOutCountList = new QVector<QLabel*>;
+	m_labelProductCountList = new QVector<QLabel*>;
+	m_pbtnSetIsCheckList = new QVector<IndexButton*>;
 	QGridLayout* gBox_monitoringDisplayLayout = new QGridLayout(this);
 
 	// Calculate the number of rows and columns to make them as close as possible
@@ -151,48 +160,49 @@ void Proonnx::ini_gBox_monitoringDisplay()
 	int cols = (cameraCount + rows - 1) / rows; // Round Up
 
 	for (int i = 0; i < cameraCount; i++) {
-		ClickableLabel* label = new ClickableLabel;
+		LabelClickable* label = new LabelClickable;
 		label->m_index = i;
 		QObject::connect(label, SIGNAL(clicked(int)), this, SLOT(clicked_label_clicked(int)));
 		label->setText(QString::fromStdString(m_locStrLoader->getString("26")) + QString::number(i + 1));
 		label->setAlignment(Qt::AlignCenter); // Center the label text
 		label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding); // Expand tags to fill the layout
 		label->setScaledContents(true); // Fill the image with labels
-		m_disaplayCameraList->append(label);
+		m_labelDisaplayCameraList->append(label);
+		m_labelDisaplayCameraListHasCamera.append(false);
 		int row = i / cols;
 		int col = i % cols;
 
 		QHBoxLayout* hBoxLayout1 = new QHBoxLayout(this);
 		QLabel* checkInfo = new QLabel();
 		checkInfo->setText("OK");
-		m_disaplayCheckInfoList->append(checkInfo);
+		m_labelDisaplayCheckInfoList->append(checkInfo);
 		hBoxLayout1->addWidget(checkInfo);
 
 		QLabel* ProductName = new QLabel();
-		m_disaplayProductNameList->append(ProductName);
+		m_labelDisaplayProductNameList->append(ProductName);
 		ProductName->setText(QString::fromStdString(m_locStrLoader->getString("7")));
 		hBoxLayout1->addWidget(ProductName);
 
 		QHBoxLayout* hBoxLayoutProductCheckInfo = new QHBoxLayout(this);
 		QLabel* productCount = new QLabel();
 		productCount->setText(QString::fromStdString(m_locStrLoader->getString("27")));
-		m_productCountList->append(productCount);
+		m_labelProductCountList->append(productCount);
 		hBoxLayoutProductCheckInfo->addWidget(productCount);
 
 		QLabel* productPassCount = new QLabel();
-		m_productPassCountList->append(productPassCount);
+		m_labelProductPassCountList->append(productPassCount);
 		productPassCount->setText(QString::fromStdString(m_locStrLoader->getString("28")));
 		hBoxLayoutProductCheckInfo->addWidget(productPassCount);
 
 		QLabel* productOutCount = new QLabel();
-		m_productOutCountList->append(productOutCount);
+		m_labelProductOutCountList->append(productOutCount);
 		productOutCount->setText(QString::fromStdString(m_locStrLoader->getString("29")));
 		hBoxLayoutProductCheckInfo->addWidget(productOutCount);
 
 		IndexButton* indexButton = new IndexButton();
 		indexButton->m_index = i;
 		indexButton->setText(QString::fromStdString(m_locStrLoader->getString("30")));
-		m_setIsCheckPbtnList->append(indexButton);
+		m_pbtnSetIsCheckList->append(indexButton);
 		hBoxLayoutProductCheckInfo->addWidget(indexButton);
 		QObject::connect(indexButton,SIGNAL(clickedWithIndex(int)),this,SLOT(pbt_setIsCheckProduct(int)));
 
@@ -209,24 +219,25 @@ void Proonnx::ini_gBox_monitoringDisplay()
 
 void Proonnx::ini_cameraList()
 {
-	m_cameraList = new QVector<ImageIdentify*>;
+	m_imageIdentifyList = new QVector<ImageIdentify*>;
 	auto devList = MonitorCameraUtility::checkAllConnectCamera();
 
-	for (int i = 0; i < m_disaplayCameraList->size(); i++) {
-		auto item = (*m_disaplayCameraList)[i];
+	for (int i = 0; i < m_labelDisaplayCameraList->size(); i++) {
+		auto item = (*m_labelDisaplayCameraList)[i];
 		if (i < devList.size()) {
 			LOGRECORDER->info("Camera: " + devList[i]);
 			auto imageIdentify = new ImageIdentify(item, devList[i]);
-			imageIdentify->setDisaplayCheckInfo((*m_disaplayCheckInfoList)[i]);
-			imageIdentify->m_labelForProductCount = (*m_productCountList)[i];
-			imageIdentify->m_labelForProductOutCount = (*m_productOutCountList)[i];
-			imageIdentify->m_labelForProductPassCount = (*m_productPassCountList)[i];
+			imageIdentify->setDisaplayCheckInfo((*m_labelDisaplayCheckInfoList)[i]);
+			imageIdentify->m_labelForProductCount = (*m_labelProductCountList)[i];
+			imageIdentify->m_labelForProductOutCount = (*m_labelProductOutCountList)[i];
+			imageIdentify->m_labelForProductPassCount = (*m_labelProductPassCountList)[i];
 			imageIdentify->m_labelForNg = ui->label_ng;
 			imageIdentify->setStandDate(ui->ledit_currentDate->text());
 			imageIdentify->IniOcr();
 			auto connectResult = imageIdentify->connectCamera();
 			if (connectResult) {
-				(*m_disaplayCameraList)[i]->m_enbaleClicked = true;
+				(*m_labelDisaplayCameraList)[i]->m_enbaleClicked = true;
+				m_labelDisaplayCameraListHasCamera[i] = true;
 				std::string cameraConfigFilePath;
 				auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(devList[i], cameraConfigFilePath);
 				if (readResult) {
@@ -239,20 +250,19 @@ void Proonnx::ini_cameraList()
 					newConfig.productName = "UNDEFINED" + (devList[i]);
 					newConfig.ExposureTime = 10000;
 					newConfig.gain = 1;
-					QString filePath = "/ProductConfig/";
-					auto  currentFilePath = QDir::currentPath();
-					filePath = currentFilePath + filePath + QString::fromStdString(newConfig.productName) + ".xml";
+					std::string path=rw::cfgr::CatalogueInitializer::findWorkPath("ProductConfig");
+					path = rw::cfgr::CatalogueInitializer::pathAppend(path, newConfig.productName+".xml");
 
-					LOGRECORDER->warn("Camera last run configuration not found, default configuration will be generated at:" + filePath.toStdString());
+					LOGRECORDER->warn("Camera last run configuration not found, default configuration will be generated at:" + path);
 
-					imageIdentify->m_productConfigFilePath = filePath.toStdString();
-					productConfigLoader.setNewFile(filePath.toStdString());
+					imageIdentify->m_productConfigFilePath = path;
+					productConfigLoader.setNewFile(path);
 					productConfigLoader.storeConfig(newConfig);
-					productConfigLoader.saveFile(filePath.toStdString());
-					m_configBeforeRuntimeLoader->storeCameraConfig(devList[i], filePath.toStdString());
-					m_configBeforeRuntimeLoader->saveFile(m_configBeforeRuntimeLoaderFilePath.toStdString());
+					productConfigLoader.saveFile(path);
+					m_configBeforeRuntimeLoader->storeCameraConfig(devList[i], path);
+					m_configBeforeRuntimeLoader->saveFile(m_filePathConfigBeforeRuntimeLoader.toStdString());
 				}
-				imageIdentify->m_labelForProductName = (*m_disaplayProductNameList)[i];
+				imageIdentify->m_labelForProductName = (*m_labelDisaplayProductNameList)[i];
 				imageIdentify->iniCamera();
 				imageIdentify->startMonitor();
 				imageIdentify->setSoftwareTriggeredAcquisition();
@@ -262,11 +272,11 @@ void Proonnx::ini_cameraList()
 			else {
 				LOGRECORDER->warn("Disconnected by ip : " + devList[i]);
 			}
-			m_cameraList->append(imageIdentify);
+			m_imageIdentifyList->append(imageIdentify);
 		}
 		else {
 			auto imageIdentify = new ImageIdentify(item, "disconnecd");
-			m_cameraList->append(imageIdentify);
+			m_imageIdentifyList->append(imageIdentify);
 
 
 			item->setText(QString::fromStdString(m_locStrLoader->getString("21")));
@@ -274,83 +284,70 @@ void Proonnx::ini_cameraList()
 			LOGRECORDER->warn("No connected cameras detected at the location" + std::to_string(i));
 
 		}
-
-
-	}
-
-	if (devList.size() == 0) {
-		ui->pbtn_clearCount->setEnabled(false);
-		ui->pbt_addProductCongfig->setEnabled(false);
-		ui->pbt_modProductConfig->setEnabled(false);
-		ui->pbt_setIsCheckProduct->setEnabled(false);
 	}
 }
 
 void Proonnx::ini_connect()
 {
-	QObject::connect(ui->pbt_addProductCongfig, SIGNAL(clicked()),
-        this, SLOT(pbt_addProductCongfig_clicked()));
-	QObject::connect(ui->pbt_modProductConfig, SIGNAL(clicked()),
-		this, SLOT(pbt_modProductConfig_clicked()));
 	QObject::connect(ui->pbtn_setProonnx, SIGNAL(clicked()),
 		this, SLOT(pbtn_setProonnx_clicked()));
 	QObject::connect(ui->pbt_setIsCheckProduct, SIGNAL(clicked()),
 		this, SLOT(pbt_setIsCheckProduct_clicked()));
-	QObject::connect(ui->pbtn_clearCount, SIGNAL(clicked()),
-		this, SLOT(pbtn_clearCount_clicked()));
 	QObject::connect(ui->pbtn_quit, SIGNAL(clicked()),
 		this, SLOT(pbtn_quit_clicked()));
+	QObject::connect(ui->pbtn_testDlg, SIGNAL(clicked()),
+		this, SLOT(pbtn_testDlg_clicked()));
 }
 
 void Proonnx::des_com()
 {
 	delete m_configBeforeRuntimeLoader;
-	for (auto& item : *m_disaplayCameraList) {
+	for (auto& item : *m_labelDisaplayCameraList) {
 		delete item;
 	}
-	delete m_disaplayCameraList;
+	delete m_labelDisaplayCameraList;
 
 
-	for (auto& item : *m_cameraList) {
+	for (auto& item : *m_imageIdentifyList) {
 		delete item;
 	}
-	delete m_cameraList;
+	delete m_imageIdentifyList;
 
-	for (auto& item : *m_disaplayCheckInfoList) {
+	for (auto& item : *m_labelDisaplayCheckInfoList) {
 		delete item;
 	}
-	delete m_disaplayCheckInfoList;
+	delete m_labelDisaplayCheckInfoList;
 
-	for (auto& item : *m_disaplayProductNameList) {
+	for (auto& item : *m_labelDisaplayProductNameList) {
 		delete item;
 	}
-	delete m_disaplayProductNameList;
+	delete m_labelDisaplayProductNameList;
 
-	for (auto& item : *m_productCountList) {
+	for (auto& item : *m_labelProductCountList) {
 		delete item;
 	}
-	delete m_productCountList;
+	delete m_labelProductCountList;
 
-	for (auto& item : *m_productPassCountList) {
+	for (auto& item : *m_labelProductPassCountList) {
 		delete item;
 	}
-	delete m_productPassCountList;
+	delete m_labelProductPassCountList;
 
-	for (auto& item : *m_productOutCountList) {
+	for (auto& item : *m_labelProductOutCountList) {
 		delete item;
 	}
-	delete m_productOutCountList;
-	delete m_configForImageSave;
+	delete m_labelProductOutCountList;
+	delete m_configForImageSaveLoader;
 
-	for (auto& item : *m_setIsCheckPbtnList) {
+	for (auto& item : *m_pbtnSetIsCheckList) {
 		delete item;
 	}
-	delete m_setIsCheckPbtnList;
+	delete m_pbtnSetIsCheckList;
 }
 
 void Proonnx::set_isCheckProduct(bool is)
 {
-	for (auto& item : *m_cameraList) {
+	for (auto& item : *m_imageIdentifyList) {
 		item->setIsCheckProduct(is);
 	}
 }
@@ -381,8 +378,11 @@ Proonnx::Proonnx(QWidget* parent)
 	LOGRECORDER->info("    Inilize     Complete            ");
 	LOGRECORDER->info("###############################");
 
-	//
+#ifdef NDEBUG_RW
 	pbt_setIsCheckProduct_clicked();
+#endif // NDEBUG_RW
+
+
 }
 
 Proonnx::~Proonnx()
@@ -393,7 +393,7 @@ Proonnx::~Proonnx()
 QVector<bool> Proonnx::get_isCheckProductList()
 {
 	QVector<bool> result;
-	for (const auto& item : *m_cameraList) {
+	for (const auto& item : *m_imageIdentifyList) {
 		result.append(item->getIsCheckProduct());
 	}
 	return result;
@@ -402,13 +402,13 @@ QVector<bool> Proonnx::get_isCheckProductList()
 void Proonnx::set_isCheckProductByList(const QVector<bool>& list)
 {
 	for (int i = 0; i < list.size(); ++i) {
-		(*m_cameraList)[i]->setIsCheckProduct(list[i]);
+		(*m_imageIdentifyList)[i]->setIsCheckProduct(list[i]);
 		if (list[i]) {
-			(*m_cameraList)[i]->setHardwareTriggeredAcquisition();
+			(*m_imageIdentifyList)[i]->setHardwareTriggeredAcquisition();
 			LOGRECORDER->info("Camera  start recognizing at" + std::to_string(i));
 		}
 		else {
-			(*m_cameraList)[i]->setSoftwareTriggeredAcquisition();
+			(*m_imageIdentifyList)[i]->setSoftwareTriggeredAcquisition();
 			LOGRECORDER->info("Camera  stops recognizing at" + std::to_string(i));
 		}
 	}
@@ -416,7 +416,7 @@ void Proonnx::set_isCheckProductByList(const QVector<bool>& list)
 
 void Proonnx::set_allDoNotCheck()
 {
-	for (auto& item : (*m_cameraList)) {
+	for (auto& item : (*m_imageIdentifyList)) {
 		item->setIsCheckProduct(false);
 	}
 }
@@ -431,25 +431,25 @@ void Proonnx::select_config(int index)
 		auto fileName = fileDlg.selectedFiles().first();
 		ProductConfigLoader loader;
 		auto productConfig = loader.loadProductConfig(fileName.toStdString());
-		(*m_cameraList)[index]->setExposureTime(productConfig.ExposureTime);
-		(*m_cameraList)[index]->setGain(productConfig.gain);
-		(*m_cameraList)[index]->setRotateCount(productConfig.rotateCount);
+		(*m_imageIdentifyList)[index]->setExposureTime(productConfig.ExposureTime);
+		(*m_imageIdentifyList)[index]->setGain(productConfig.gain);
+		(*m_imageIdentifyList)[index]->setRotateCount(productConfig.rotateCount);
 		auto recognizeRange = loader.loadRejectAttribute(fileName.toStdString());
-		(*m_cameraList)[index]->setRejectAttribute(recognizeRange);
+		(*m_imageIdentifyList)[index]->setRejectAttribute(recognizeRange);
 
 		RecognizeRange range;
 		range.leftLowerCorner = productConfig.leftLowerCorner;
 		range.lowerRightCorner = productConfig.lowerRightCorner;
 		range.topLeftCorner = productConfig.topLeftCorner;
 		range.upperRightCorner = productConfig.upperRightCorner;
-		(*m_cameraList)[index]->setRecognizeRange(range);
+		(*m_imageIdentifyList)[index]->setRecognizeRange(range);
 
 		
-		(*m_disaplayProductNameList)[index]->setText(QString::fromStdString(productConfig.productName));
+		(*m_labelDisaplayProductNameList)[index]->setText(QString::fromStdString(productConfig.productName));
 		
 		auto countConfig = loader.loadProductCountInfo(fileName.toStdString());
-		(*m_cameraList)[index]->setProductCount(countConfig.totalCount, countConfig.passCount, countConfig.outCount);
-		m_configBeforeRuntimeLoader->storeCameraConfig((*m_cameraList)[index]->m_Ip, fileName.toStdString());
+		(*m_imageIdentifyList)[index]->setProductCount(countConfig.totalCount, countConfig.passCount, countConfig.outCount);
+		m_configBeforeRuntimeLoader->storeCameraConfig((*m_imageIdentifyList)[index]->m_Ip, fileName.toStdString());
 	}
 }
 
@@ -460,110 +460,18 @@ void Proonnx::pbt_addProductCongfig(int index)
 	auto isCheckList = get_isCheckProductList();
 	set_isCheckProduct(false);
 	DlgAddProductConfig dlgAddProductConfig(this);
-	dlgAddProductConfig.setWindowSize(this->width() * 0.75, this->height() * 0.75);
+	dlgAddProductConfig.setWindowSize(this->width() , this->height() );
 
 	dlgAddProductConfig.setCameraIndex(index + 1);
-	dlgAddProductConfig.setCamera(m_cameraList->at(index));
+	dlgAddProductConfig.setCamera(m_imageIdentifyList->at(index));
 
-	dlgAddProductConfig.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
+	dlgAddProductConfig.setConfigBeforeRuntime(m_filePathConfigBeforeRuntimeLoader);
 
+	dlgAddProductConfig.setWindowModality(Qt::WindowModal);
 	auto dlgResult = dlgAddProductConfig.exec();
 	if (dlgResult == QDialog::Accepted) {
 		auto productName = dlgAddProductConfig.getProductName();
-		(*m_disaplayProductNameList)[index]->setText(productName);
-	}
-	set_isCheckProductByList(isCheckList);
-	LOGRECORDER->info("----------------------------------------------");
-}
-
-void Proonnx::pbt_modProductConfig_clicked()
-{
-	LOGRECORDER->info("----------------------------------------------");
-	LOGRECORDER->info("Opened the dialog box for modifying product configuration");
-
-	m_configBeforeRuntimeLoader->loadFile(m_configBeforeRuntimeLoaderFilePath.toStdString());
-	auto isCheckList = get_isCheckProductList();
-	set_isCheckProduct(false);
-	int cameraCount = m_cameraList->size();
-	if (cameraCount == 1) {
-		DlgChangeProductConfig dlg;
-		dlg.setWindowSize(this->width() * 0.75, this->height() * 0.75);
-		std::string path;
-		auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(m_cameraList->at(0)->m_Ip, path);
-		if (readResult) {
-			dlg.setFilePath(QString::fromStdString(path));
-			dlg.setCameraIndex(1);
-			dlg.setCamera(m_cameraList->at(0));
-			dlg.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
-			dlg.iniUI();
-			auto dlgResult = dlg.exec();
-			if (dlgResult == QDialog::Accepted) {
-				auto productName = dlg.getProductName();
-				(*m_disaplayProductNameList)[0]->setText(productName);
-			}
-		}
-		else {
-			LOGRECORDER->warn("No corresponding camera configuration detected, possibly due to data file corruption. Now jump to the configuration file selection window");
-			QFileDialog fileDlg(this, QString::fromStdString(m_locStrLoader->getString("22")), "", QString::fromStdString(m_locStrLoader->getString("23")));
-			if (fileDlg.exec() == QFileDialog::Accepted) {
-				auto filePath = fileDlg.selectedFiles().first();
-				dlg.setFilePath(filePath);
-				dlg.setCameraIndex(1);
-				dlg.setCamera(m_cameraList->at(0));
-				dlg.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
-				dlg.iniUI();
-				auto dlgResult = dlg.exec();
-				if (dlgResult == QDialog::Accepted) {
-					auto productName = dlg.getProductName();
-					(*m_disaplayProductNameList)[0]->setText(productName);
-				}
-			}
-		}
-	}
-	else {
-		LOGRECORDER->info("If the number of cameras is greater than 1, enter the selection dialog box");
-		DlgSelectCameraIndex dlgSelectCameraIndex(this, cameraCount);
-		dlgSelectCameraIndex.setWindowSize(this->width() * 0.75, this->height() * 0.75);
-		dlgSelectCameraIndex.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
-		auto selectCareraIndexResult = dlgSelectCameraIndex.exec();
-
-		if (selectCareraIndexResult == QDialog::Accepted) {
-			auto cameraIndex = dlgSelectCameraIndex.m_indexIndex;
-			LOGRECORDER->info("Selected camera at:" + std::to_string(cameraIndex));
-
-			DlgChangeProductConfig dlg;
-			dlg.setWindowSize(this->width() * 0.75, this->height() * 0.75);
-			std::string path;
-			auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(m_cameraList->at(cameraIndex - 1)->m_Ip, path);
-			if (readResult) {
-				dlg.setFilePath(QString::fromStdString(path));
-				dlg.setCameraIndex(cameraIndex);
-				dlg.setCamera(m_cameraList->at(cameraIndex - 1));
-				dlg.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
-				dlg.iniUI();
-				auto dlgResult = dlg.exec();
-				if (dlgResult == QDialog::Accepted) {
-					auto productName = dlg.getProductName();
-					(*m_disaplayProductNameList)[cameraIndex - 1]->setText(productName);
-				}
-			}
-			else {
-				QFileDialog fileDlg(this, QString::fromStdString(m_locStrLoader->getString("22")), "", QString::fromStdString(m_locStrLoader->getString("23")));
-				if (fileDlg.exec() == QFileDialog::Accepted) {
-					auto filePath = fileDlg.selectedFiles().first();
-					dlg.setFilePath(filePath);
-					dlg.setCameraIndex(cameraIndex);
-					dlg.setCamera(m_cameraList->at(cameraIndex - 1));
-					dlg.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
-					dlg.iniUI();
-					auto dlgResult = dlg.exec();
-					if (dlgResult == QDialog::Accepted) {
-						auto productName = dlg.getProductName();
-						(*m_disaplayProductNameList)[cameraIndex - 1]->setText(productName);
-					}
-				}
-			}
-		}
+		(*m_labelDisaplayProductNameList)[index]->setText(productName);
 	}
 	set_isCheckProductByList(isCheckList);
 	LOGRECORDER->info("----------------------------------------------");
@@ -576,19 +484,20 @@ void Proonnx::pbt_modProductConfig(int index)
 	auto isCheckList = get_isCheckProductList();
 	set_isCheckProduct(false);
 	DlgChangeProductConfig dlg;
-	dlg.setWindowSize(this->width() * 0.75, this->height() * 0.75);
+	dlg.setWindowSize(this->width(), this->height());
 	std::string path;
-	auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(m_cameraList->at(index)->m_Ip, path);
+	auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(m_imageIdentifyList->at(index)->m_Ip, path);
 	if (readResult) {
 		dlg.setFilePath(QString::fromStdString(path));
 		dlg.setCameraIndex(index + 1);
-		dlg.setCamera(m_cameraList->at(index));
-		dlg.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
+		dlg.setCamera(m_imageIdentifyList->at(index));
+		dlg.setConfigBeforeRuntime(m_filePathConfigBeforeRuntimeLoader);
 		dlg.iniUI();
+		dlg.setWindowModality(Qt::WindowModal);
 		auto dlgResult = dlg.exec();
 		if (dlgResult == QDialog::Accepted) {
 			auto productName = dlg.getProductName();
-			(*m_disaplayProductNameList)[index]->setText(productName);
+			(*m_labelDisaplayProductNameList)[index]->setText(productName);
 		}
 	}
 	else {
@@ -598,13 +507,13 @@ void Proonnx::pbt_modProductConfig(int index)
 			auto filePath = fileDlg.selectedFiles().first();
 			dlg.setFilePath(filePath);
 			dlg.setCameraIndex(index + 1);
-			dlg.setCamera(m_cameraList->at(index));
-			dlg.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
+			dlg.setCamera(m_imageIdentifyList->at(index));
+			dlg.setConfigBeforeRuntime(m_filePathConfigBeforeRuntimeLoader);
 			dlg.iniUI();
 			auto dlgResult = dlg.exec();
 			if (dlgResult == QDialog::Accepted) {
 				auto productName = dlg.getProductName();
-				(*m_disaplayProductNameList)[index]->setText(productName);
+				(*m_labelDisaplayProductNameList)[index]->setText(productName);
 			}
 		}
 	}
@@ -618,7 +527,7 @@ void Proonnx::pbtn_setProonnx_clicked()
 	LOGRECORDER->info("Open the settings window");
 	DlgSetProonnx dlg;
 	dlg.setWindowSize(this->width() * 0.75, this->height() * 0.75);
-	dlg.setFilePath(m_configBeforeRuntimeLoaderFilePath);
+	dlg.setFilePath(m_filePathConfigBeforeRuntimeLoader);
 	dlg.iniComponet();
     dlg.exec();
 	LOGRECORDER->info("----------------------------------------------");
@@ -633,12 +542,12 @@ void Proonnx::pbt_setIsCheckProduct_clicked()
 		m_isSingleCheckProduct = true;
 		setCheckProduct_clicked(true);
 		LOGRECORDER->info("Camera all begins to recognize ");
-		for (auto & item:*m_setIsCheckPbtnList) {
+		for (auto & item:*m_pbtnSetIsCheckList) {
 			item->setText(QString::fromStdString(m_locStrLoader->getString("31")));
 		}
 
-		for (int i = 0;i< m_cameraList->size();i++) {
-			(*m_disaplayCameraList)[i]->m_enbaleClicked = false;
+		for (int i = 0;i< m_imageIdentifyList->size();i++) {
+			(*m_labelDisaplayCameraList)[i]->m_enbaleClicked = false&& m_labelDisaplayCameraListHasCamera[i];
 		}
 
 	}
@@ -648,73 +557,30 @@ void Proonnx::pbt_setIsCheckProduct_clicked()
 		m_isSingleCheckProduct = false;
 		setCheckProduct_clicked(false);
 		LOGRECORDER->info("Camera  all stops recognizing ");
-		for (auto& item : *m_setIsCheckPbtnList) {
+		for (auto& item : *m_pbtnSetIsCheckList) {
 			item->setText(QString::fromStdString(m_locStrLoader->getString("30")));
 		}
-		for (int i = 0; i < m_cameraList->size(); i++) {
-			(*m_disaplayCameraList)[i]->m_enbaleClicked = true;
+		for (int i = 0; i < m_imageIdentifyList->size(); i++) {
+			(*m_labelDisaplayCameraList)[i]->m_enbaleClicked = true && m_labelDisaplayCameraListHasCamera[i];
 		}
 	}
-	/*if (m_cameraList->size() == 1) {
-		if (!m_isSingleCheckProduct) {
-			ui->pbt_setIsCheckProduct->setText(QString::fromStdString(m_locStrLoader->getString("31")));
-			set_isCheckProduct(true);
-			m_isSingleCheckProduct = true;
-			(*m_cameraList)[0]->setHardwareTriggeredAcquisition();
-			ui->pbt_addProductCongfig->setEnabled(false);
-			ui->pbt_modProductConfig->setEnabled(false);
-			LOGRECORDER->info("Camera begins to recognize at:0");
 
-		}
-		else {
-			ui->pbt_setIsCheckProduct->setText(QString::fromStdString(m_locStrLoader->getString("30")));
-			set_isCheckProduct(false);
-			m_isSingleCheckProduct = false;
-			(*m_cameraList)[0]->setSoftwareTriggeredAcquisition();
-			ui->pbt_addProductCongfig->setEnabled(true);
-			ui->pbt_modProductConfig->setEnabled(true);
-			LOGRECORDER->info("Camera  stops recognizing at:0");
-		}
-	}
-	else {
-		DlgSetIsCheckProduct dlg;
-		dlg.setWindowSize(this->width() * 0.75, this->height() * 0.75);
-		auto checkList = get_isCheckProductList();
-		set_allDoNotCheck();
-		dlg.iniGBox_cameraList(checkList);
-		auto dlgResult = dlg.exec();
-
-		if (dlgResult == QDialog::Accepted) {
-			auto currentCheckList = dlg.getCurrentIsCheckList();
-			set_isCheckProductByList(currentCheckList);
-			auto pbtnEnabel = checkCurrentIsAllFalse(currentCheckList);
-			ui->pbt_addProductCongfig->setEnabled(pbtnEnabel);
-			ui->pbt_modProductConfig->setEnabled(pbtnEnabel);
-
-		}
-		else {
-			auto nativeCheckList = dlg.getNativeIsCheckList();
-			set_isCheckProductByList(nativeCheckList);
-			auto pbtnEnabel = checkCurrentIsAllFalse(nativeCheckList);
-			ui->pbt_addProductCongfig->setEnabled(pbtnEnabel);
-			ui->pbt_modProductConfig->setEnabled(pbtnEnabel);
-		}
-	}*/
 	LOGRECORDER->info("----------------------------------------------");
 }
 
 void Proonnx::pbt_setIsCheckProduct(int index)
 {
-	auto camera = (*m_cameraList)[index];
+	auto camera = (*m_imageIdentifyList)[index];
 	if (!camera->getIsCheckProduct()) {
-		(*m_setIsCheckPbtnList)[index]->setText(QString::fromStdString(m_locStrLoader->getString("31")));
-		
+		(*m_pbtnSetIsCheckList)[index]->setText(QString::fromStdString(m_locStrLoader->getString("31")));
+		(*m_labelDisaplayCameraList)[index]->m_enbaleClicked = false && m_labelDisaplayCameraListHasCamera[index];
 		camera->setHardwareTriggeredAcquisition();
 		camera->setIsCheckProduct(true);
 	}
 	else {
-		(*m_setIsCheckPbtnList)[index]->setText(QString::fromStdString(m_locStrLoader->getString("30")));
+		(*m_pbtnSetIsCheckList)[index]->setText(QString::fromStdString(m_locStrLoader->getString("30")));
 		camera->setSoftwareTriggeredAcquisition();
+		(*m_labelDisaplayCameraList)[index]->m_enbaleClicked = true && m_labelDisaplayCameraListHasCamera[index];
 		camera->setIsCheckProduct(false);
 	}
 }
@@ -722,48 +588,23 @@ void Proonnx::pbt_setIsCheckProduct(int index)
 void Proonnx::setCheckProduct_clicked(bool check)
 {
 	if (check) {
-		for (auto& item : *m_cameraList) {
+		for (auto& item : *m_imageIdentifyList) {
 			set_isCheckProduct(check);
+
 			item->setHardwareTriggeredAcquisition();
+
+
 		}
 	}
 	else {
-		for (auto& item : *m_cameraList) {
+		for (auto& item : *m_imageIdentifyList) {
 			set_isCheckProduct(check);
+
 			item->setSoftwareTriggeredAcquisition();
+
 		}
 	}
 
-}
-
-void Proonnx::pbtn_clearCount_clicked()
-{
-	LOGRECORDER->info("----------------------------------------------");
-	auto isCheckList = get_isCheckProductList();
-	set_isCheckProduct(false);
-	int cameraCount = m_cameraList->size();
-	if (cameraCount == 1) {
-		(*m_cameraList)[0]->setProductCount(0, 0, 0);
-		LOGRECORDER->info("Zero product count at camera index :" + std::to_string(0));
-	}
-	else {
-		DlgClearCount dlg;
-		dlg.setWindowSize(this->width() * 0.75, this->height() * 0.75);
-		dlg.iniGBox_cameraList(m_cameraList->size());
-		auto dlgResult = dlg.exec();
-
-		if (dlgResult == QDialog::Accepted) {
-			auto isCheckList = dlg.getIsCheckList();
-			for (int i = 0; i < isCheckList.size(); i++) {
-				if (isCheckList[i]) {
-					(*m_cameraList)[i]->setProductCount(0, 0, 0);
-					LOGRECORDER->info("Zero product count at camera index :" + std::to_string(i));
-				}
-			}
-		}
-	}
-	set_isCheckProductByList(isCheckList);
-	LOGRECORDER->info("----------------------------------------------");
 }
 
 void Proonnx::pbtn_clearCount(int index)
@@ -771,7 +612,7 @@ void Proonnx::pbtn_clearCount(int index)
 	LOGRECORDER->info("----------------------------------------------");
 	auto isCheckList = get_isCheckProductList();
 	set_isCheckProduct(false);
-	(*m_cameraList)[index]->setProductCount(0, 0, 0);
+	(*m_imageIdentifyList)[index]->setProductCount(0, 0, 0);
 	LOGRECORDER->info("Zero product count at camera index :" + std::to_string(0));
 	set_isCheckProductByList(isCheckList);
 	LOGRECORDER->info("----------------------------------------------");
@@ -817,59 +658,13 @@ void Proonnx::clicked_label_clicked(int index)
 
 }
 
-void Proonnx::pbt_addProductCongfig_clicked()
+void Proonnx::pbtn_testDlg_clicked()
 {
-	LOGRECORDER->info("----------------------------------------------");
-	LOGRECORDER->info("Open the Add Product Configuration dialog box");
-	auto isCheckList = get_isCheckProductList();
-	set_isCheckProduct(false);
-	int cameraCount = m_cameraList->size();
-	if (cameraCount == 1) {
-		DlgAddProductConfig dlgAddProductConfig(this);
-		dlgAddProductConfig.setWindowSize(this->width() * 0.75, this->height() * 0.75);
-
-		dlgAddProductConfig.setCameraIndex(1);
-		dlgAddProductConfig.setCamera(m_cameraList->at(0));
-
-		dlgAddProductConfig.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
-
-		auto dlgResult = dlgAddProductConfig.exec();
-		if (dlgResult == QDialog::Accepted) {
-			auto productName = dlgAddProductConfig.getProductName();
-			(*m_disaplayProductNameList)[0]->setText(productName);
-		}
-	}
-	else {
-		LOGRECORDER->info("If the number of cameras is greater than 1, enter the selection dialog box");
-		DlgSelectCameraIndex dlgSelectCameraIndex(this, cameraCount);
-		dlgSelectCameraIndex.setWindowSize(this->width() * 0.75, this->height() * 0.75);
-		dlgSelectCameraIndex.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
-
-		auto selectCareraIndexResult = dlgSelectCameraIndex.exec();
-
-		if (selectCareraIndexResult == QDialog::Accepted) {
-			auto cameraIndex = dlgSelectCameraIndex.m_indexIndex;
-
-			LOGRECORDER->info("Selected camera at:" + std::to_string(cameraIndex));
-
-			DlgAddProductConfig dlgAddProductConfig(this);
-			dlgAddProductConfig.setWindowSize(this->width() * 0.75, this->height() * 0.75);
-
-			dlgAddProductConfig.setCameraIndex(cameraIndex);
-			dlgAddProductConfig.setCamera(m_cameraList->at(cameraIndex - 1));
-
-			dlgAddProductConfig.setConfigBeforeRuntime(m_configBeforeRuntimeLoaderFilePath);
-
-			auto dlgResult = dlgAddProductConfig.exec();
-			if (dlgResult == QDialog::Accepted) {
-				auto productName = dlgAddProductConfig.getProductName();
-				(*m_disaplayProductNameList)[cameraIndex - 1]->setText(productName);
-			}
-		}
-		set_isCheckProductByList(isCheckList);
-		LOGRECORDER->info("----------------------------------------------");
-	}
+	DlgForTest dlg;
+	dlg.setWindowModality(Qt::WindowModal);
+	dlg.exec();
 }
+
 
 
 

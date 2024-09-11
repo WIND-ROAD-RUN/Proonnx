@@ -3,6 +3,7 @@
 #include<QDir>
 #include<qDebug>
 #include<QDate>
+#include<filesystem>
 
 ConfigForImageSave* ConfigForImageSave::m_instance = nullptr;
 
@@ -17,7 +18,9 @@ void ConfigForImageSave::iniConfig()
             removeDirectory(saveDirectoryList[i]);
         }
     }
-    setCurrentFilePath(m_currentFilePath+'/'+m_today);
+    std::filesystem::path path(m_currentFilePath.toStdString());
+    path.append(m_today.toStdString());
+    setCurrentFilePath(QString::fromStdString(path.string()));
 }
 
 int ConfigForImageSave::countSubdirectories()

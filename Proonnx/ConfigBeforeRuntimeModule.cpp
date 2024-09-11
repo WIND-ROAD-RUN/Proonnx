@@ -19,7 +19,7 @@ void ConfigBeforeRuntimeModule::setNewFile(const std::string filePath)
     spdlog::info("Set new config of before runtime file in :"+ filePath+"result is :");
     auto configBeforeRuntimeModuleNode = m_doc->append_child("ConfigBeforeRuntimeModule");
     auto cameraCountNode = configBeforeRuntimeModuleNode.append_child("CameraCount");
-    cameraCountNode.text().set(1);
+    cameraCountNode.text().set(4);
     auto languageNode= configBeforeRuntimeModuleNode.append_child("Language");
     languageNode.text().set("CHN");
 

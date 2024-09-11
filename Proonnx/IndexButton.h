@@ -24,5 +24,5 @@ protected:
     }
 
 public:
-    int m_index; // 存储序号
+    int m_index{0}; // 存储序号
 };
