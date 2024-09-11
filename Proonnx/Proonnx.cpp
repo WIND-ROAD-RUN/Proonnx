@@ -12,6 +12,7 @@
 //#include"LocalizationStringLoader-XML.h"
 #include"cfgl/cfgl_LocalizationStringLoader.h"
 #include"cfgr/cfgr_ConfigBeforeRuntimeLoader.h"
+#include"cfgr/cfgr_CatalogueInitializer.h"
 
 #include"MonitorCamera.h"
 #include"DlgAddProductConfig.h"
@@ -103,19 +104,18 @@ void Proonnx::ini_configBeforeRuntimeLoader()
 
 	m_configBeforeRuntimeLoader = new ConfigBeforeRuntimeLoader();
 
-	QString filePath = "/config/ConfigBeforeRuntimeLoader.xml";
-	auto  currentFilePath = QDir::currentPath();
-	filePath = currentFilePath + filePath;
+	auto configPath=rw::cfgr::CatalogueInitializer::findWorkPath("Config");
+	configPath=rw::cfgr::CatalogueInitializer::pathAppend(configPath,"ConfigBeforeRuntimeLoader.xml");
 
-	m_filePathConfigBeforeRuntimeLoader = filePath;
+	m_filePathConfigBeforeRuntimeLoader = QString::fromStdString(configPath);
 
-	LOGRECORDER->info("Loading config of runtime at:" + filePath.toStdString());
+	LOGRECORDER->info("Loading config of runtime at:" + configPath);
 
-	auto loadResult = m_configBeforeRuntimeLoader->loadFile(filePath.toStdString());
+	auto loadResult = m_configBeforeRuntimeLoader->loadFile(configPath);
 	if (!loadResult) {
 		LOGRECORDER->warn("Cannot find config file!");
-		LOGRECORDER->info("Create new config file at:" + filePath.toStdString());
-		m_configBeforeRuntimeLoader->setNewFile(filePath.toStdString());
+		LOGRECORDER->info("Create new config file at:" + configPath);
+		m_configBeforeRuntimeLoader->setNewFile(configPath);
 	}
 }
 
@@ -133,10 +133,10 @@ void Proonnx::ini_configForImageSave()
 	m_configForImageSaveLoader = ConfigForImageSave::getInstance();
 	m_configForImageSaveLoader->setToday(QString::fromStdString(DateTransFormUtilty::replaceSlashWithDash(ui->ledit_currentDate->text().toStdString())));
 	m_configForImageSaveLoader->setSaveDays(7);
-	auto currentPath = QDir::currentPath();
-	currentPath = currentPath + "/historyImages";
-	m_configForImageSaveLoader->setCurrentFilePath(currentPath);
-	m_configForImageSaveLoader->iniConfig();
+	auto histoyImagesPath=rw::cfgr::CatalogueInitializer::findWorkPath("HistoryImage");
+
+	m_configForImageSaveLoader->setCurrentFilePath(QString::fromStdString(histoyImagesPath));
+	m_configForImageSaveLoader->iniConfig();//////////path中的'//
 }
 
 void Proonnx::ini_gBox_monitoringDisplay()
@@ -248,17 +248,16 @@ void Proonnx::ini_cameraList()
 					newConfig.productName = "UNDEFINED" + (devList[i]);
 					newConfig.ExposureTime = 10000;
 					newConfig.gain = 1;
-					QString filePath = "/ProductConfig/";
-					auto  currentFilePath = QDir::currentPath();
-					filePath = currentFilePath + filePath + QString::fromStdString(newConfig.productName) + ".xml";
+					std::string path=rw::cfgr::CatalogueInitializer::findWorkPath("ProductConfig");
+					path = rw::cfgr::CatalogueInitializer::pathAppend(path, newConfig.productName+".xml");
 
-					LOGRECORDER->warn("Camera last run configuration not found, default configuration will be generated at:" + filePath.toStdString());
+					LOGRECORDER->warn("Camera last run configuration not found, default configuration will be generated at:" + path);
 
-					imageIdentify->m_productConfigFilePath = filePath.toStdString();
-					productConfigLoader.setNewFile(filePath.toStdString());
+					imageIdentify->m_productConfigFilePath = path;
+					productConfigLoader.setNewFile(path);
 					productConfigLoader.storeConfig(newConfig);
-					productConfigLoader.saveFile(filePath.toStdString());
-					m_configBeforeRuntimeLoader->storeCameraConfig(devList[i], filePath.toStdString());
+					productConfigLoader.saveFile(path);
+					m_configBeforeRuntimeLoader->storeCameraConfig(devList[i], path);
 					m_configBeforeRuntimeLoader->saveFile(m_filePathConfigBeforeRuntimeLoader.toStdString());
 				}
 				imageIdentify->m_labelForProductName = (*m_labelDisaplayProductNameList)[i];
@@ -474,6 +473,7 @@ void Proonnx::pbt_addProductCongfig(int index)
 
 	dlgAddProductConfig.setConfigBeforeRuntime(m_filePathConfigBeforeRuntimeLoader);
 
+	dlgAddProductConfig.setWindowModality(Qt::WindowModal);
 	auto dlgResult = dlgAddProductConfig.exec();
 	if (dlgResult == QDialog::Accepted) {
 		auto productName = dlgAddProductConfig.getProductName();
@@ -499,6 +499,7 @@ void Proonnx::pbt_modProductConfig(int index)
 		dlg.setCamera(m_imageIdentifyList->at(index));
 		dlg.setConfigBeforeRuntime(m_filePathConfigBeforeRuntimeLoader);
 		dlg.iniUI();
+		dlg.setWindowModality(Qt::WindowModal);
 		auto dlgResult = dlg.exec();
 		if (dlgResult == QDialog::Accepted) {
 			auto productName = dlg.getProductName();
