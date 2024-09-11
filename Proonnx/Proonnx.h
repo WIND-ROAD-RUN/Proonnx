@@ -129,13 +129,13 @@ private:
 private slots:
 	void pbtn_setProonnx_clicked();
 
-	void pbt_setIsCheckProduct_clicked();
+	void pbt_startImageIdentify_clicked();
 
 	void pbtn_quit_clicked();
 
 	void pbtn_testDlg_clicked();
 
-	void clicked_label_clicked(int index);
+	void monitorImageDisplaylabel_clicked(int index);
 
-	void pbt_setIsCheckProduct(int index);
+	void pbt_setIsImageIdentify(int index);
 };

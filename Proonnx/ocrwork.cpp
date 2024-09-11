@@ -74,22 +74,9 @@ void ocrwork::initial()
 
 void ocrwork::testOcr(cv::Mat srcMat, std::vector<OCRResult>& ocrResult)
 {
-   
-
-
     int size = ocrApi->Predict((char*)srcMat.data, srcMat.cols, srcMat.rows, srcMat.channels(), srcMat.step);
 
 
     ocrApi->GetOCRResult(size, ocrResult);
-
-
-  
-
-
-
-    
-
-    
-
 
 }

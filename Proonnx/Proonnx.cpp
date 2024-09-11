@@ -124,7 +124,7 @@ void Proonnx::ini_configBeforeRuntime()
 	LOGRECORDER->info("Initialize camera...................");
 	ini_cameraList();
 
-	ui->pbt_setIsCheckProduct->setText(QString::fromStdString(m_locStrLoader->getString("30")));
+	ui->pbt_startImageIdentify->setText(QString::fromStdString(m_locStrLoader->getString("30")));
 }
 
 void Proonnx::ini_configForImageSave()
@@ -162,7 +162,7 @@ void Proonnx::ini_gBox_monitoringDisplay()
 	for (int i = 0; i < cameraCount; i++) {
 		LabelClickable* label = new LabelClickable;
 		label->m_index = i;
-		QObject::connect(label, SIGNAL(clicked(int)), this, SLOT(clicked_label_clicked(int)));
+		QObject::connect(label, SIGNAL(clicked(int)), this, SLOT(monitorImageDisplaylabel_clicked(int)));
 		label->setText(QString::fromStdString(m_locStrLoader->getString("26")) + QString::number(i + 1));
 		label->setAlignment(Qt::AlignCenter); // Center the label text
 		label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding); // Expand tags to fill the layout
@@ -204,7 +204,7 @@ void Proonnx::ini_gBox_monitoringDisplay()
 		indexButton->setText(QString::fromStdString(m_locStrLoader->getString("30")));
 		m_pbtnSetIsCheckList->append(indexButton);
 		hBoxLayoutProductCheckInfo->addWidget(indexButton);
-		QObject::connect(indexButton,SIGNAL(clickedWithIndex(int)),this,SLOT(pbt_setIsCheckProduct(int)));
+		QObject::connect(indexButton,SIGNAL(clickedWithIndex(int)),this,SLOT(pbt_setIsImageIdentify(int)));
 
 		QVBoxLayout* vBoxLayout = new QVBoxLayout(this);
 		vBoxLayout->addLayout(hBoxLayout1);
@@ -291,8 +291,8 @@ void Proonnx::ini_connect()
 {
 	QObject::connect(ui->pbtn_setProonnx, SIGNAL(clicked()),
 		this, SLOT(pbtn_setProonnx_clicked()));
-	QObject::connect(ui->pbt_setIsCheckProduct, SIGNAL(clicked()),
-		this, SLOT(pbt_setIsCheckProduct_clicked()));
+	QObject::connect(ui->pbt_startImageIdentify, SIGNAL(clicked()),
+		this, SLOT(pbt_startImageIdentify_clicked()));
 	QObject::connect(ui->pbtn_quit, SIGNAL(clicked()),
 		this, SLOT(pbtn_quit_clicked()));
 	QObject::connect(ui->pbtn_testDlg, SIGNAL(clicked()),
@@ -379,7 +379,7 @@ Proonnx::Proonnx(QWidget* parent)
 	LOGRECORDER->info("###############################");
 
 #ifdef NDEBUG_RW
-	pbt_setIsCheckProduct_clicked();
+	pbt_startImageIdentify_clicked();
 #endif // NDEBUG_RW
 
 
@@ -533,11 +533,11 @@ void Proonnx::pbtn_setProonnx_clicked()
 	LOGRECORDER->info("----------------------------------------------");
 }
 
-void Proonnx::pbt_setIsCheckProduct_clicked()
+void Proonnx::pbt_startImageIdentify_clicked()
 {
 	LOGRECORDER->info("----------------------------------------------");
 	if (!m_isSingleCheckProduct) {
-		ui->pbt_setIsCheckProduct->setText(QString::fromStdString(m_locStrLoader->getString("31")));
+		ui->pbt_startImageIdentify->setText(QString::fromStdString(m_locStrLoader->getString("31")));
 		set_isCheckProduct(true);
 		m_isSingleCheckProduct = true;
 		setCheckProduct_clicked(true);
@@ -552,7 +552,7 @@ void Proonnx::pbt_setIsCheckProduct_clicked()
 
 	}
 	else {
-		ui->pbt_setIsCheckProduct->setText(QString::fromStdString(m_locStrLoader->getString("30")));
+		ui->pbt_startImageIdentify->setText(QString::fromStdString(m_locStrLoader->getString("30")));
 		set_isCheckProduct(false);
 		m_isSingleCheckProduct = false;
 		setCheckProduct_clicked(false);
@@ -568,7 +568,7 @@ void Proonnx::pbt_setIsCheckProduct_clicked()
 	LOGRECORDER->info("----------------------------------------------");
 }
 
-void Proonnx::pbt_setIsCheckProduct(int index)
+void Proonnx::pbt_setIsImageIdentify(int index)
 {
 	auto camera = (*m_imageIdentifyList)[index];
 	if (!camera->getIsCheckProduct()) {
@@ -630,7 +630,7 @@ void Proonnx::pbtn_quit_clicked()
 	LOGRECORDER->info("----------------------------------------------");
 }
 
-void Proonnx::clicked_label_clicked(int index)
+void Proonnx::monitorImageDisplaylabel_clicked(int index)
 {
 	DlgSetCamera setCameraDkg;
 	auto selectResult = setCameraDkg.exec();
