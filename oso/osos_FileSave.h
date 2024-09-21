@@ -5,6 +5,8 @@
 
 #include<filesystem>
 #include<memory>
+#include<string>
+#include<cassert>
 
 namespace pugi {
     class xml_node;
@@ -24,15 +26,9 @@ namespace rw {
         private:
             std::shared_ptr<FileSave_Strategy> m_strategy;
 
-            void initializeStrategy() {
-                switch (strategyType) {
-                case FileSaveStrategyType::XML:
-                    m_strategy = std::make_unique<FileSave_XML>();
-                    break;
-                default:
-                    throw std::invalid_argument("Unsupported strategy type");
-                }
-            }
+            std::string m_extensionName;
+
+            inline void initializeStrategy();
 
         public:
             FileSave() {
@@ -84,10 +80,24 @@ namespace rw {
         };
 
         template<FileSaveStrategyType strategyType>
+        inline void FileSave<strategyType>::initializeStrategy()
+        {
+            switch (strategyType) {
+            case FileSaveStrategyType::XML:
+                m_strategy = std::make_unique<FileSave_XML>();
+                m_extensionName = ".xml";
+                break;
+            default:
+                throw std::invalid_argument("Unsupported strategy type");
+            }
+        }
+
+        template<FileSaveStrategyType strategyType>
         inline void  
             FileSave<strategyType>::save
             (const std::filesystem::path& fileName, std::shared_ptr<ObjectStoreAssembly> assembly)
         {
+            assert(fileName.extension() == m_extensionName);
             m_strategy->save(fileName, assembly);
         }
 
@@ -95,6 +105,7 @@ namespace rw {
         inline std::shared_ptr<ObjectStoreAssembly> 
             FileSave<strategyType>::load(const std::filesystem::path& fileName)
         {
+            assert(fileName.extension() == m_extensionName);
             return m_strategy->load(fileName);
         }
     }
