@@ -246,6 +246,11 @@
     <ClCompile Include="cfgr_ConfigBeforeRuntimeModule.cpp" />
     <ClCompile Include="cfgr_RuntimeConfig.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\oso\oso.vcxproj">
+      <Project>{62b73969-8f48-4782-b551-082cf6f279c0}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
