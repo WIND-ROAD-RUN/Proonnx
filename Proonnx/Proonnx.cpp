@@ -13,6 +13,7 @@
 #include"cfgl/cfgl_LocalizationStringLoader.h"
 #include"cfgr/cfgr_ConfigBeforeRuntimeLoader.h"
 #include"cfgr/cfgr_CatalogueInitializer.h"
+#include"cfgr/cfgr_RuntimeConfigLoader.h"
 
 #include"MonitorCamera.h"
 #include"DlgAddProductConfig.h"
@@ -123,8 +124,16 @@ void Proonnx::ini_configBeforeRuntimeLoader()
     auto runtimePath = rw::cfgr::CatalogueInitializer::findWorkPath("Config");
     runtimePath = rw::cfgr::CatalogueInitializer::pathAppend(runtimePath, "runtimeCfg.xml");
 
-	//m_filePathConfigBeforeRuntimeLoader = QString::fromStdString(configPath);
+    m_filePathRuntimeCfg = runtimePath;
 
+	bool loaderResult{false};
+    auto runtimeLoader = RuntimeConfigLoader::load(runtimePath,loaderResult);
+	if (!loaderResult) {
+		RutimeConfig config;
+        config.cameraCount = 4;
+        config.language = "CHN";
+        RuntimeConfigLoader::save(runtimePath, config);
+	}
 
 }
 

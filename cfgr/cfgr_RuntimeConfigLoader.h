@@ -10,7 +10,7 @@ namespace rw {
     namespace cfgr {
         class RuntimeConfigLoader {
         public:
-            static RutimeConfig load(const std::filesystem::path & filePath);
+            static RutimeConfig load(const std::filesystem::path & filePath, bool & isLoad);
             static void save(const std::filesystem::path& filePath, const RutimeConfig& config);
         };
     

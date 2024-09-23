@@ -5,6 +5,7 @@
 
 #include<QVector>
 #include<QLabel>
+#include<fileSystem>
 
 namespace cv {
 	class Mat;
@@ -67,6 +68,8 @@ public:
 
 private:
 	QString m_filePathConfigBeforeRuntimeLoader{};
+
+    std::filesystem::path m_filePathRuntimeCfg{};
 
 private:
 	void ini_ui();
