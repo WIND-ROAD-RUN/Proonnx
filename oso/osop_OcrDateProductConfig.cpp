@@ -299,7 +299,7 @@ namespace rw
                     auto nItem = ObjectStoreCoreToItem(item);
                     if (nItem->getName() == "productName")
                     {
-                        ocrDataProductConfig.productName = nItem->getValueFromString();
+                        ocrDataProductConfig.productName = nItem->getValueAsString();
                     }
                     else {
                         static_assert(true, "Unknown item type");
