@@ -239,12 +239,14 @@
     <ClInclude Include="cfgr_ConfigBeforeRuntimeLoader.h" />
     <ClInclude Include="cfgr_ConfigBeforeRuntimeModule.h" />
     <ClInclude Include="cfgr_RuntimeConfig.h" />
+    <ClInclude Include="cfgr_RuntimeConfigLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cfgr_CatalogueInitializer.cpp" />
     <ClCompile Include="cfgr_ConfigBeforeRuntimeLoader.cpp" />
     <ClCompile Include="cfgr_ConfigBeforeRuntimeModule.cpp" />
     <ClCompile Include="cfgr_RuntimeConfig.cpp" />
+    <ClCompile Include="cfgr_RuntimeConfigLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\oso\oso.vcxproj">

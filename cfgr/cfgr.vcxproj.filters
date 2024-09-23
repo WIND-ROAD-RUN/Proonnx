@@ -27,6 +27,9 @@
     <ClInclude Include="cfgr_RuntimeConfig.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="cfgr_RuntimeConfigLoader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cfgr_ConfigBeforeRuntimeLoader.cpp">
@@ -39,6 +42,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="cfgr_RuntimeConfig.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="cfgr_RuntimeConfigLoader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

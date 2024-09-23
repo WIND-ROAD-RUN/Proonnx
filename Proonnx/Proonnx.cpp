@@ -103,8 +103,7 @@ void Proonnx::ini_configBeforeRuntimeLoader()
 {
 	m_configBeforeRuntimeLoader = new ConfigBeforeRuntimeLoader();
 
-	m_configBeforeRuntimeLoader = new ConfigBeforeRuntimeLoader();
-
+	///---------------
 	auto configPath=rw::cfgr::CatalogueInitializer::findWorkPath("Config");
 	configPath=rw::cfgr::CatalogueInitializer::pathAppend(configPath,"ConfigBeforeRuntimeLoader.xml");
 
@@ -118,6 +117,15 @@ void Proonnx::ini_configBeforeRuntimeLoader()
 		LOGRECORDER->info("Create new config file at:" + configPath);
 		m_configBeforeRuntimeLoader->setNewFile(configPath);
 	}
+
+    //----------------
+
+    auto runtimePath = rw::cfgr::CatalogueInitializer::findWorkPath("Config");
+    runtimePath = rw::cfgr::CatalogueInitializer::pathAppend(runtimePath, "runtimeCfg.xml");
+
+	//m_filePathConfigBeforeRuntimeLoader = QString::fromStdString(configPath);
+
+
 }
 
 void Proonnx::ini_configBeforeRuntime()

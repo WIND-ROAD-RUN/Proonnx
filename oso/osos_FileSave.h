@@ -41,7 +41,8 @@ namespace rw {
             inline void save(const std::filesystem::path& fileName, std::shared_ptr<ObjectStoreAssembly> assembly);
 
             inline std::shared_ptr<ObjectStoreAssembly> load(const std::filesystem::path& fileName);
-                
+
+            inline std::shared_ptr<ObjectStoreAssembly> load(const std::filesystem::path& fileName,bool loadResult);
         };
 
 
