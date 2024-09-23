@@ -23,7 +23,7 @@ int main()
     FileSave fileSave;
     fileSave.save(R"(C:\Users\34615\Desktop\test\Config\config.xml)",rw::oso::makeObjectStoreAssemblySharedPtr(assembly));
 
-    auto a=fileSave.load(R"(C:\Users\34615\Desktop\test\Config\config.xml)");
+    auto a=fileSave.load(R"(C:\Users\34615\Desktop\test\Config\confi.xml)");
     a->print(std::cout);
 
     

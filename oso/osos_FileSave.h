@@ -42,7 +42,7 @@ namespace rw {
 
             inline std::shared_ptr<ObjectStoreAssembly> load(const std::filesystem::path& fileName);
 
-            inline std::shared_ptr<ObjectStoreAssembly> load(const std::filesystem::path& fileName,bool loadResult);
+            inline std::shared_ptr<ObjectStoreAssembly> load(const std::filesystem::path& fileName,bool & loadResult);
         };
 
 
@@ -104,10 +104,35 @@ namespace rw {
 
         template<FileSaveStrategyType strategyType>
         inline std::shared_ptr<ObjectStoreAssembly> 
-            FileSave<strategyType>::load(const std::filesystem::path& fileName)
+            FileSave<strategyType>::load
+            (const std::filesystem::path& fileName)
         {
             assert(fileName.extension() == m_extensionName);
-            return m_strategy->load(fileName);
+            try {
+                auto result = m_strategy->load(fileName);
+                return result;
+            }
+            catch (const std::exception& ex) {
+                return nullptr;
+            }
+        }
+
+        template<FileSaveStrategyType strategyType>
+        inline std::shared_ptr<ObjectStoreAssembly> 
+            FileSave<strategyType>::load
+            (const std::filesystem::path& fileName, bool & loadResult)
+        {
+            assert(fileName.extension() == m_extensionName);
+            try {
+                auto result = m_strategy->load(fileName);
+                loadResult = true;
+                return result;
+            }
+            catch(const std::exception& ex){
+                loadResult = false;
+                return nullptr;
+            }
+            
         }
     }
 }
