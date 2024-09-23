@@ -6,6 +6,7 @@
 #include<QVector>
 #include<QLabel>
 #include<fileSystem>
+#include<memory>
 
 namespace cv {
 	class Mat;
@@ -24,8 +25,8 @@ namespace rw {
 	}
 	namespace cfgr {
 		class ConfigBeforeRuntimeLoader;
+        struct RutimeConfig;
 	}
-
 }
 class IndexButton;
 
@@ -37,9 +38,33 @@ using namespace rw::oulq;
 using namespace rw::cfgl;
 using namespace rw::cfgr;
 
-class Proonnx : public QMainWindow
+class Proonnx_runtimeInfo {
+public:
+	std::shared_ptr<RutimeConfig> m_runtimeConfigPtr{ nullptr };
+
+public:
+    std::string m_runtimeConfigPath{};
+
+public:
+    void ini();
+
+public:
+    void create_directory(const std::string& rootPath);	
+
+	void read_runtimeConfig();
+
+public:
+	void save();
+
+};
+
+class Proonnx 
+	: public QMainWindow
 {
 	Q_OBJECT
+private:
+    Proonnx_runtimeInfo m_runtimeInfo;
+	
 private:
 	LocalizationStringLoaderXML* m_locStrLoader{ nullptr };
 
@@ -72,6 +97,8 @@ private:
     std::filesystem::path m_filePathRuntimeCfg{};
 
 private:
+    void ini_readConfig();
+
 	void ini_ui();
 
 	void ini_localizationStringLoader();

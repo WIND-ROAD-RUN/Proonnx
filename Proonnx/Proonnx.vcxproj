@@ -224,6 +224,7 @@
     <ClInclude Include="LogRecorder.h" />
     <ClInclude Include="LogModule.h" />
     <ClInclude Include="LogSystemUtilty.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="RollingAverage.h" />
     <QtMoc Include="DlgChangeProductConfig.h" />
     <QtMoc Include="mycamera.h" />

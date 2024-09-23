@@ -8,32 +8,13 @@
 #include<QHBoxLayout>
 #include<QVBoxLayout>
 
-#include"oulq/oulq_LabelCustom.h"
-//#include"LocalizationStringLoader-XML.h"
-#include"cfgl/cfgl_LocalizationStringLoader.h"
-#include"cfgr/cfgr_ConfigBeforeRuntimeLoader.h"
-#include"cfgr/cfgr_CatalogueInitializer.h"
-#include"cfgr/cfgr_RuntimeConfigLoader.h"
+#include"pch.h"
 
-#include"MonitorCamera.h"
-#include"DlgAddProductConfig.h"
-#include"DlgChangeProductConfig.h"
-#include"DlgSetProonnx.h"
-#include"DlgSelectCameraIndex.h"
-#include"DlgSetCamera.h"
-#include"DlgForTest.h"
-#include"DlgSetIsCheckProduct.h"
-#include"DlgClearCount.h"
-#include"IndexButton.h"
-#include"ProductConfigLoader.h"
-#include"ConfigForImageSave.h"
-#include"DateTransform.h"
-#include"LogRecorder.h"
-#include"ImageIdentify.h"
-#include"DlgSelectProductConfig.h"
-#include"DlgManageProductConfig.h"
 
-static LogRecorder* LOGRECORDER = LogRecorder::getInstance();
+void Proonnx::ini_readConfig()
+{
+    m_runtimeInfo.ini();
+}
 
 void Proonnx::ini_ui()
 {
@@ -46,9 +27,11 @@ void Proonnx::ini_ui()
 #endif // NDEBUG_RW
 
 
-	ini_configBeforeRuntimeLoader();
+	//ini_configBeforeRuntimeLoader();
+
 	ini_localizationStringLoader();
 	ini_localizationStringUI();
+
 	ini_gBox_monitoringDisplay();
 
 	ui->ledit_currentDate->setText(QDate::currentDate().toString("yyyy/MM/dd"));
@@ -56,9 +39,9 @@ void Proonnx::ini_ui()
 	font.setPointSize(20);
 	ui->ledit_currentDate->setFont(font);
 	ui->ledit_currentDate->setEnabled(false);
-
+	
 	ini_configForImageSave();
-	ini_configBeforeRuntime();
+	ini_cameraList();
 
 
 	//////////////////////
@@ -72,6 +55,15 @@ void Proonnx::ini_ui()
 	ui->pbtn_setProonnx->setVisible(false);
 #endif // NDEBUG_RW
 
+
+//#ifdef NDEBUG_RW
+//	pbt_startImageIdentify_clicked();
+//#endif // NDEBUG_RW
+//
+//#ifdef DEBUG_RW
+//	(*m_labelDisaplayCameraList)[0]->m_enbaleClicked = true;
+//#endif // DEBUG_RW
+
 }
 
 void Proonnx::ini_localizationStringLoader()
@@ -82,15 +74,9 @@ void Proonnx::ini_localizationStringLoader()
 	auto  currentFilePath = QDir::currentPath();
 	filePath = currentFilePath + filePath;
 	m_locStrLoader->setFilePath(filePath.toStdString());
-	m_locStrLoader->setLanguage(m_configBeforeRuntimeLoader->readLanguage());
-
-	LOGRECORDER->info("Loading localization string config file at" + filePath.toStdString() + " with language :" + m_configBeforeRuntimeLoader->readLanguage());
+	m_locStrLoader->setLanguage(m_runtimeInfo.m_runtimeConfigPtr->language);
 
 	auto loadStrDataResult = m_locStrLoader->loadData();
-	if (!loadStrDataResult) {
-		LOGRECORDER->error("Cannot find localization string config file!");
-	}
-
 }
 
 void Proonnx::ini_localizationStringUI()
@@ -119,36 +105,17 @@ void Proonnx::ini_configBeforeRuntimeLoader()
 		LOGRECORDER->info("Create new config file at:" + configPath);
 		m_configBeforeRuntimeLoader->setNewFile(configPath);
 	}
-
-    //----------------
-
-    auto runtimePath = rw::cfgr::CatalogueInitializer::findWorkPath("Config");
-    runtimePath = rw::cfgr::CatalogueInitializer::pathAppend(runtimePath, "runtimeCfg.xml");
-
-    m_filePathRuntimeCfg = runtimePath;
-
-	bool loaderResult{false};
-    auto runtimeLoader = RuntimeConfigLoader::load(runtimePath,loaderResult);
-	if (!loaderResult) {
-		RutimeConfig config;
-        config.cameraCount = 4;
-        config.language = "CHN";
-        RuntimeConfigLoader::save(runtimePath, config);
-	}
-
 }
 
 void Proonnx::ini_configBeforeRuntime()
 {
 	LOGRECORDER->info("Initialize camera...................");
-	ini_cameraList();
 
 	ui->pbt_startImageIdentify->setText(QString::fromStdString(m_locStrLoader->getString("30")));
 }
 
 void Proonnx::ini_configForImageSave()
 {
-	LOGRECORDER->info("Create a new historical image folder and clean up old ones");
 	m_configForImageSaveLoader = ConfigForImageSave::getInstance();
 	m_configForImageSaveLoader->setToday(QString::fromStdString(DateTransFormUtilty::replaceSlashWithDash(ui->ledit_currentDate->text().toStdString())));
 	m_configForImageSaveLoader->setSaveDays(7);
@@ -159,10 +126,8 @@ void Proonnx::ini_configForImageSave()
 }
 
 void Proonnx::ini_gBox_monitoringDisplay()
-{
-	auto cameraCount = m_configBeforeRuntimeLoader->readCameraCount();
-
-	LOGRECORDER->info("Set the window layout to display the camera window as " + std::to_string(cameraCount));
+{	
+   auto cameraCount = m_runtimeInfo.m_runtimeConfigPtr->cameraCount;
 
 	m_labelDisaplayCameraList = new QVector<LabelClickable*>;
 	m_labelDisaplayCheckInfoList = new QVector<QLabel*>;
@@ -244,7 +209,6 @@ void Proonnx::ini_cameraList()
 	for (int i = 0; i < m_labelDisaplayCameraList->size(); i++) {
 		auto item = (*m_labelDisaplayCameraList)[i];
 		if (i < devList.size()) {
-			LOGRECORDER->info("Camera: " + devList[i]);
 			auto imageIdentify = new ImageIdentify(item, devList[i]);
 			imageIdentify->setDisaplayCheckInfo((*m_labelDisaplayCheckInfoList)[i]);
 			imageIdentify->m_labelForProductCount = (*m_labelProductCountList)[i];
@@ -258,28 +222,27 @@ void Proonnx::ini_cameraList()
 				(*m_labelDisaplayCameraList)[i]->m_enbaleClicked = true;
 				m_labelDisaplayCameraListHasCamera[i] = true;
 				std::string cameraConfigFilePath;
-				auto readResult = m_configBeforeRuntimeLoader->readCameraConfig(devList[i], cameraConfigFilePath);
+                auto readResult = m_runtimeInfo.m_runtimeConfigPtr->readCameraLastRunTimeConfig(devList[i], cameraConfigFilePath);
 				if (readResult) {
 					imageIdentify->m_productConfigFilePath = cameraConfigFilePath;
-					LOGRECORDER->info("Read camera prodcut file path as: " + cameraConfigFilePath);
 				}
 				else {
 					ProductConfigLoader productConfigLoader;
-					ProductConfig newConfig;
-					newConfig.productName = "UNDEFINED" + (devList[i]);
-					newConfig.ExposureTime = 10000;
-					newConfig.gain = 1;
 					std::string path=rw::cfgr::CatalogueInitializer::findWorkPath("ProductConfig");
-					path = rw::cfgr::CatalogueInitializer::pathAppend(path, newConfig.productName+".xml");
 
-					LOGRECORDER->warn("Camera last run configuration not found, default configuration will be generated at:" + path);
+					rw::oso::OcrDataProductConfig newCameraCfg;
+					newCameraCfg.productName = "UNDEFINED" + (devList[i]);
+
+					path = rw::cfgr::CatalogueInitializer::pathAppend(path, newCameraCfg.productName+".xml");
 
 					imageIdentify->m_productConfigFilePath = path;
-					productConfigLoader.setNewFile(path);
-					productConfigLoader.storeConfig(newConfig);
-					productConfigLoader.saveFile(path);
-					m_configBeforeRuntimeLoader->storeCameraConfig(devList[i], path);
-					m_configBeforeRuntimeLoader->saveFile(m_filePathConfigBeforeRuntimeLoader.toStdString());
+					//
+                    rw::oso::FileSave fileSave;
+					fileSave.save(path, rw::oso::OcrDataProductConfig::toObjectStoreAssembly(newCameraCfg));
+                    m_runtimeInfo.m_runtimeConfigPtr->addCameraLastRunTimeConfig(devList[i], path);
+					m_runtimeInfo.save();
+					/*m_configBeforeRuntimeLoader->storeCameraConfig(devList[i], path);
+					m_configBeforeRuntimeLoader->saveFile(m_filePathConfigBeforeRuntimeLoader.toStdString());*/
 				}
 				imageIdentify->m_labelForProductName = (*m_labelDisaplayProductNameList)[i];
 				imageIdentify->iniCamera();
@@ -389,24 +352,10 @@ Proonnx::Proonnx(QWidget* parent)
 	, ui(new Ui::ProonnxClass())
 {
 	ui->setupUi(this);
-	LOGRECORDER->info("###############################");
-	LOGRECORDER->info("           Inilize             ");
-	LOGRECORDER->info("###############################");
+
+	ini_readConfig();
 	ini_ui();
 	ini_connect();
-
-	LOGRECORDER->info("###############################");
-	LOGRECORDER->info("    Inilize     Complete            ");
-	LOGRECORDER->info("###############################");
-
-#ifdef NDEBUG_RW
-	pbt_startImageIdentify_clicked();
-#endif // NDEBUG_RW
-
-#ifdef DEBUG_RW
-	(*m_labelDisaplayCameraList)[0]->m_enbaleClicked = true;
-#endif // DEBUG_RW
-
 
 }
 
@@ -698,7 +647,44 @@ void Proonnx::pbtn_testDlg_clicked()
 	dlg.exec();
 }
 
+void Proonnx_runtimeInfo::ini()
+{
+    create_directory(R"(C:\Users\WINDROAD\Desktop\test)");
+    read_runtimeConfig();
+}
 
+void Proonnx_runtimeInfo::create_directory(const std::string& rootPath)
+{
+	rw::cfgr::CatalogueInitializer catalogueIni;
+	catalogueIni.setRootPath(rootPath);
+	catalogueIni.createDirectory("Config");
+	catalogueIni.createDirectory("ProductConfig");
+	catalogueIni.createDirectory("HistoryImage");
+}
 
+void Proonnx_runtimeInfo::read_runtimeConfig()
+{
+	auto runtimePath = rw::cfgr::CatalogueInitializer::findWorkPath("Config");
+	runtimePath = rw::cfgr::CatalogueInitializer::pathAppend(runtimePath, "runtimeCfg.xml");
 
+    m_runtimeConfigPath = runtimePath;
 
+	bool loaderResult{ false };
+	auto runtimeConfig = RuntimeConfigLoader::load(runtimePath, loaderResult);
+	if (!loaderResult) {
+		RutimeConfig config;
+		config.cameraCount = 4;
+		config.language = "CHN";
+		RuntimeConfigLoader::save(runtimePath, config);
+		m_runtimeConfigPtr = std::make_shared<RutimeConfig>(config);
+	}
+	else {
+		m_runtimeConfigPtr = std::make_shared<RutimeConfig>(runtimeConfig);
+	}
+}
+
+void Proonnx_runtimeInfo::save()
+{
+    rw::oso::FileSave fileSave;
+    fileSave.save(m_runtimeConfigPath, RutimeConfig::toObjectStoreAssembly(*m_runtimeConfigPtr));
+}

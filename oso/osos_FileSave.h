@@ -40,6 +40,8 @@ namespace rw {
         public:
             inline void save(const std::filesystem::path& fileName, std::shared_ptr<ObjectStoreAssembly> assembly);
 
+            inline void save(const std::filesystem::path& fileName, const ObjectStoreAssembly & assembly);
+
             inline std::shared_ptr<ObjectStoreAssembly> load(const std::filesystem::path& fileName);
 
             inline std::shared_ptr<ObjectStoreAssembly> load(const std::filesystem::path& fileName,bool & loadResult);
@@ -80,6 +82,19 @@ namespace rw {
 
         };
 
+        class FileSave_Json
+            :public FileSave_Strategy {
+        public:
+
+
+        public:
+            // Í¨¹ý FileSave_Strategy ¼Ì³Ð
+            void save(const std::filesystem::path& fileName, std::shared_ptr<ObjectStoreAssembly> assembly) override;
+
+            std::shared_ptr<ObjectStoreAssembly> load(const std::filesystem::path& fileName) override;
+
+        };
+
         template<FileSaveStrategyType strategyType>
         inline void FileSave<strategyType>::initializeStrategy()
         {
@@ -100,6 +115,15 @@ namespace rw {
         {
             assert(fileName.extension() == m_extensionName);
             m_strategy->save(fileName, assembly);
+        }
+
+        template<FileSaveStrategyType strategyType>
+        inline void
+            FileSave<strategyType>::save
+            (const std::filesystem::path& fileName, const ObjectStoreAssembly& assembly)
+        {
+            assert(fileName.extension() == m_extensionName);
+            m_strategy->save(fileName, makeObjectStoreAssemblySharedPtr(assembly));
         }
 
         template<FileSaveStrategyType strategyType>

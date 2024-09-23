@@ -1,9 +1,31 @@
 #include "cfgr_RuntimeConfig.h"
 
 #include"oso/oso_core.h"
+#include<algorithm>
 
 namespace rw {
     namespace cfgr {
+
+        bool 
+            RutimeConfig::readCameraLastRunTimeConfig
+            (const std::string& ip, std::string& configPath)
+        {
+            
+            for (const auto& item :cameraConfigs) {
+                if (item.first == ip) {
+                    configPath = item.second;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        void RutimeConfig::addCameraLastRunTimeConfig(const std::string& ip, const std::string& configPath)
+        {
+            cameraConfigs.push_back({ip,configPath});
+        }
+
         oso::ObjectStoreAssembly RutimeConfig::toObjectStoreAssembly(const RutimeConfig& runtimeConfig)
         {
             oso::ObjectStoreAssembly assembly;

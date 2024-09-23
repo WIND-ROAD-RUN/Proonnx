@@ -6,7 +6,8 @@
 #include<cassert>
 
 ///	Third party library
-#include<pugixml.hpp>
+#include"pugixml.hpp"
+#include"json/json.h"
 
 namespace rw {
 	namespace oso
@@ -176,6 +177,15 @@ namespace rw {
             return assembly;
         }
 
-	}
+        void FileSave_Json::save(const std::filesystem::path& fileName, std::shared_ptr<ObjectStoreAssembly> assembly)
+        {
+        }
+
+        std::shared_ptr<ObjectStoreAssembly> FileSave_Json::load(const std::filesystem::path& fileName)
+        {
+            return std::shared_ptr<ObjectStoreAssembly>();
+        }
+
+}
 
 }

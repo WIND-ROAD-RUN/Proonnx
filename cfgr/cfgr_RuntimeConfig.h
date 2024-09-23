@@ -23,6 +23,11 @@ namespace rw {
             std::vector<cameraConfig> cameraConfigs;
 
         public:
+            bool readCameraLastRunTimeConfig(const std::string& ip, std::string& configPath);
+
+            void addCameraLastRunTimeConfig(const std::string& ip, const std::string& configPath);
+
+        public:
             static oso::ObjectStoreAssembly toObjectStoreAssembly(const RutimeConfig& runtimeConfig);
             static RutimeConfig toRuntimeConfig(const oso::ObjectStoreAssembly& assembly);
             
