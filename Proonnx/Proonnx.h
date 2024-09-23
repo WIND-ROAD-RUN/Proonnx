@@ -142,4 +142,6 @@ private slots:
 	void monitorImageDisplaylabel_clicked(int index);
 
 	void pbt_setIsImageIdentify(int index);
+
+    void act_manageProductConfig_triggered();
 };

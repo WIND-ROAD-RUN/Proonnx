@@ -31,6 +31,7 @@
 #include"LogRecorder.h"
 #include"ImageIdentify.h"
 #include"DlgSelectProductConfig.h"
+#include"DlgManageProductConfig.h"
 
 static LogRecorder* LOGRECORDER = LogRecorder::getInstance();
 
@@ -315,6 +316,8 @@ void Proonnx::ini_connect()
 		this, SLOT(pbtn_quit_clicked()));
 	QObject::connect(ui->pbtn_testDlg, SIGNAL(clicked()),
 		this, SLOT(pbtn_testDlg_clicked()));
+	QObject::connect(ui->act_manageProductConfig,&QAction::triggered,
+		this,&Proonnx::act_manageProductConfig_triggered);
 }
 
 void Proonnx::des_com()
@@ -607,6 +610,12 @@ void Proonnx::pbt_setIsImageIdentify(int index)
 		(*m_labelDisaplayCameraList)[index]->m_enbaleClicked = true && m_labelDisaplayCameraListHasCamera[index];
 		camera->setIsCheckProduct(false);
 	}
+}
+
+void Proonnx::act_manageProductConfig_triggered()
+{
+    DlgManageProductConfig dlg;
+    dlg.exec();
 }
 
 void Proonnx::setCheckProduct_clicked(bool check)
