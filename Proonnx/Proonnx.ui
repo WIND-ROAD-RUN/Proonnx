@@ -122,6 +122,34 @@
     </item>
    </layout>
   </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1254</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>配置</string>
+    </property>
+    <addaction name="act_manageProductConfig"/>
+   </widget>
+   <addaction name="menu"/>
+  </widget>
+  <action name="act_manageProductConfig">
+   <property name="text">
+    <string>管理产品</string>
+   </property>
+   <property name="toolTip">
+    <string>管理产品配置</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

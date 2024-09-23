@@ -13,6 +13,7 @@
 #include"cfgl/cfgl_LocalizationStringLoader.h"
 #include"cfgr/cfgr_ConfigBeforeRuntimeLoader.h"
 #include"cfgr/cfgr_CatalogueInitializer.h"
+#include"cfgr/cfgr_RuntimeConfigLoader.h"
 
 #include"MonitorCamera.h"
 #include"DlgAddProductConfig.h"
@@ -30,6 +31,7 @@
 #include"LogRecorder.h"
 #include"ImageIdentify.h"
 #include"DlgSelectProductConfig.h"
+#include"DlgManageProductConfig.h"
 
 static LogRecorder* LOGRECORDER = LogRecorder::getInstance();
 
@@ -103,8 +105,7 @@ void Proonnx::ini_configBeforeRuntimeLoader()
 {
 	m_configBeforeRuntimeLoader = new ConfigBeforeRuntimeLoader();
 
-	m_configBeforeRuntimeLoader = new ConfigBeforeRuntimeLoader();
-
+	///---------------
 	auto configPath=rw::cfgr::CatalogueInitializer::findWorkPath("Config");
 	configPath=rw::cfgr::CatalogueInitializer::pathAppend(configPath,"ConfigBeforeRuntimeLoader.xml");
 
@@ -118,6 +119,23 @@ void Proonnx::ini_configBeforeRuntimeLoader()
 		LOGRECORDER->info("Create new config file at:" + configPath);
 		m_configBeforeRuntimeLoader->setNewFile(configPath);
 	}
+
+    //----------------
+
+    auto runtimePath = rw::cfgr::CatalogueInitializer::findWorkPath("Config");
+    runtimePath = rw::cfgr::CatalogueInitializer::pathAppend(runtimePath, "runtimeCfg.xml");
+
+    m_filePathRuntimeCfg = runtimePath;
+
+	bool loaderResult{false};
+    auto runtimeLoader = RuntimeConfigLoader::load(runtimePath,loaderResult);
+	if (!loaderResult) {
+		RutimeConfig config;
+        config.cameraCount = 4;
+        config.language = "CHN";
+        RuntimeConfigLoader::save(runtimePath, config);
+	}
+
 }
 
 void Proonnx::ini_configBeforeRuntime()
@@ -298,6 +316,8 @@ void Proonnx::ini_connect()
 		this, SLOT(pbtn_quit_clicked()));
 	QObject::connect(ui->pbtn_testDlg, SIGNAL(clicked()),
 		this, SLOT(pbtn_testDlg_clicked()));
+	QObject::connect(ui->act_manageProductConfig,&QAction::triggered,
+		this,&Proonnx::act_manageProductConfig_triggered);
 }
 
 void Proonnx::des_com()
@@ -590,6 +610,12 @@ void Proonnx::pbt_setIsImageIdentify(int index)
 		(*m_labelDisaplayCameraList)[index]->m_enbaleClicked = true && m_labelDisaplayCameraListHasCamera[index];
 		camera->setIsCheckProduct(false);
 	}
+}
+
+void Proonnx::act_manageProductConfig_triggered()
+{
+    DlgManageProductConfig dlg;
+    dlg.exec();
 }
 
 void Proonnx::setCheckProduct_clicked(bool check)

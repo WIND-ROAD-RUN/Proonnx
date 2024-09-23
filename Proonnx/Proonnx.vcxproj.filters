@@ -209,6 +209,9 @@
     <ClCompile Include="DlgSelectProductConfig.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DlgManageProductConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Proonnx.ui">
@@ -239,6 +242,9 @@
       <Filter>Form Files\ui</Filter>
     </QtUic>
     <QtUic Include="DlgSelectProductConfig.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="DlgManageProductConfig.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -301,6 +307,9 @@
     </QtMoc>
     <QtMoc Include="DlgSelectProductConfig.h">
       <Filter>Header Files\ProonnxUI</Filter>
+    </QtMoc>
+    <QtMoc Include="DlgManageProductConfig.h">
+      <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

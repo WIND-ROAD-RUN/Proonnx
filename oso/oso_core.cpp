@@ -61,7 +61,7 @@ namespace rw {
         }
 
         std::string 
-            ObjectStoreItem::getValueFromString
+            ObjectStoreItem::getValueAsString
             () const
         {
             assert(m_type == ObjectDataItemStoreType::item_string);
@@ -229,6 +229,18 @@ namespace rw {
             () const
         {
             return m_items;
+        }
+
+        const std::shared_ptr<ObjectStoreCore> 
+            ObjectStoreAssembly::getItem
+            (const std::string& name) const
+        {
+            for (auto& item : m_items) {
+                if (item->getName() == name) {
+                    return item;
+                }
+            }
+            return nullptr;
         }
 
         void 
