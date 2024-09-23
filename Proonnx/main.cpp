@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 
     rw::cfgr::CatalogueInitializer catalogueIni;
     auto  currentFilePath = QDir::currentPath();
-    catalogueIni.setRootPath(R"(C:\Users\34615\Desktop\test)");
+    catalogueIni.setRootPath(R"(C:\Users\14328\Desktop\test)");
     catalogueIni.createDirectory("Config");
     catalogueIni.createDirectory("ProductConfig");
     catalogueIni.createDirectory("HistoryImage");
