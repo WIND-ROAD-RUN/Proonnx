@@ -20,6 +20,9 @@
 /ohlc/bin
 /ohlc/build
 
+/oso/bin
+/oso/build
+
 /Extra/bin
 /Extra/build
 /ExtraQ/bin
