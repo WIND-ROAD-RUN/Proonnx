@@ -4,6 +4,12 @@
 
 #include"ProductConfigLoader.h"
 
+#include "oso/osop_OcrDateProductConfig.h"
+
+#include "oso/osos_FileSave.h"
+
+#include "oso/oso_core.h"
+
 #include <QDir>
 #include <QFileInfoList>
 #include <QString>
@@ -12,6 +18,8 @@
 
 
 using namespace rw::cfgr;
+using namespace rw::oso;
+using namespace pugi;
 
 DlgSelectProductConfig::DlgSelectProductConfig(QWidget* parent)
     : QDialog(parent)
@@ -94,54 +102,66 @@ void DlgSelectProductConfig::treeView_Clicked(const QModelIndex& index)
         ui->label_filePath->setText(filePath);
         //将确认按钮设为可选
         ui->pbtn_ok->setEnabled(true);
-        ProductConfigLoader loader;
-        //加载产品配置
-        auto config = loader.loadProductConfig(filePath.toStdString());
-        QString productName =  QString::fromStdString(config.productName) ;
-
-        auto countinfo = loader.loadProductCountInfo(filePath.toStdString());
-        QString totalNum =  QString::fromStdString(std::to_string(countinfo.totalCount));
-        QString passNum = QString::fromStdString(std::to_string(countinfo.passCount));
-        QString outNum = QString::fromStdString(std::to_string(countinfo.outCount));
-
-        auto attribute = loader.loadRejectAttribute(filePath.toStdString());
-        QString  productDelay =  QString::fromStdString(std::to_string(attribute.RejectDelay)) ;
-        QString productOffset =  QString::fromStdString(std::to_string(attribute.OffsetsNumber));
-        QString disposalTime=  QString::fromStdString(std::to_string(attribute.DisposalTime));
-
-
-        QStandardItemModel* m_model = new QStandardItemModel(7,2);
-        //std::unique_ptr<QStandardItemModel> m_model(new QStandardItemModel(4,2));
-        QStringList headerHorizontal;
-        headerHorizontal << "属性" << "值";
-        QStringList headerVertical = { "名称" ,"延迟" , "偏移量" , "处理时间(ms)","产品总数","产品合格数","产品不合格数"};
-        for (int i = 0; i < headerVertical.size(); ++i)
+        
+        FileSave_XML filesaver;
+        try 
         {
-            m_model->setItem(i, 0, new QStandardItem(headerVertical[i]));
-            m_model->item(i, 0)->setTextAlignment(Qt::AlignCenter);
+            std::shared_ptr<ObjectStoreAssembly> assembly = filesaver.load(filePath.toStdString());
+
+            OcrDataProductConfig productConfig = OcrDataProductConfig::toOcrDataProductConfig(*assembly);
+
+            QString productName =QString::fromStdString(productConfig.productName);
+
+            auto countinfo = productConfig.productCheckCount;
+            QString totalNum = QString::fromStdString(std::to_string(countinfo.totalCount));
+            QString passNum = QString::fromStdString(std::to_string(countinfo.passCount));
+            QString outNum = QString::fromStdString(std::to_string(countinfo.outCount));
+
+            auto attribute = productConfig.rejectAttribute;
+            QString  productDelay =  QString::fromStdString(std::to_string(attribute.RejectDelay)) ;
+            QString productOffset =  QString::fromStdString(std::to_string(attribute.OffsetsNumber));
+            QString disposalTime=  QString::fromStdString(std::to_string(attribute.DisposalTime));
+
+            QStandardItemModel* m_model = new QStandardItemModel(7, 2);
+            QStringList headerHorizontal;
+            headerHorizontal << "属性" << "值";
+            QStringList headerVertical = { "名称" ,"延迟" , "偏移量" , "处理时间(ms)","产品总数","产品合格数","产品不合格数" };
+            for (int i = 0; i < headerVertical.size(); ++i)
+            {
+                m_model->setItem(i, 0, new QStandardItem(headerVertical[i]));
+                m_model->item(i, 0)->setTextAlignment(Qt::AlignCenter);
+            }
+
+            QStringList text;
+            text << productName << productDelay << productOffset << disposalTime << totalNum << passNum << outNum;
+
+            for (int i = 0; i < headerVertical.size(); ++i)
+            {
+                m_model->setItem(i, 1, new QStandardItem(text[i]));
+                m_model->item(i, 1)->setTextAlignment(Qt::AlignCenter);
+            }
+
+            m_model->setHorizontalHeaderLabels(headerHorizontal);
+            ui->tableView->verticalHeader()->setDefaultAlignment(Qt::AlignCenter);
+            ui->tableView->horizontalHeader()->setStyleSheet("QHeaderView::section{background-color :#DCDCDC;}");
+            ui->tableView->verticalHeader()->setStyleSheet("QHeaderView::section{background-color :#DCDCDC;}");
+            ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+            ui->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+            QFont font;
+            font.setPointSize(12);
+            ui->tableView->setFont(font);
+
+            ui->tableView->setSelectionMode(QAbstractItemView::NoSelection);
+
+            ui->tableView->setModel(m_model);
+            ui->tableView->show();
+        }
+        catch (const std::runtime_error& e)
+        {
+            throw std::runtime_error("Unknown type which is the superclass of objectStoreCore");
         }
 
-        QStringList text;
-        text << productName << productDelay << productOffset << disposalTime << totalNum << passNum << outNum;
-
-        for (int i = 0; i < headerVertical.size(); ++i)
-        {
-            m_model->setItem(i, 1, new QStandardItem(text[i]));
-            m_model->item(i, 1)->setTextAlignment(Qt::AlignCenter);
-        }
-
-        m_model->setHorizontalHeaderLabels(headerHorizontal);
-        ui->tableView->verticalHeader()->setDefaultAlignment(Qt::AlignCenter);
-        ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-        ui->tableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-
-        QFont font;
-        font.setPointSize(12);
-        ui->tableView->setFont(font);
-
-        ui->tableView->setModel(m_model);
-        ui->tableView->show();
-        //delete m_model;
     }
     else {
         ui->pbtn_ok->setEnabled(false);

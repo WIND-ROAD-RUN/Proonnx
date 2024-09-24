@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DlgSelectProductConfigClass</class>
- <widget class="QDialog" name="DlgSelectProductConfigClass">
+ <class>DlgManageProductConfigClass</class>
+ <widget class="QDialog" name="DlgManageProductConfigClass">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,15 +11,15 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>选择产品配置</string>
+   <string>管理产品配置</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" rowstretch="0,0" columnstretch="5,1">
+  <layout class="QGridLayout" name="gridLayout" columnstretch="5,1">
    <item row="0" column="0">
     <widget class="QGroupBox" name="gBox_dataDisplay">
      <property name="title">
       <string/>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,5">
+     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,5">
       <item>
        <widget class="QTreeView" name="treeView"/>
       </item>
@@ -34,7 +34,7 @@
      <property name="title">
       <string/>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
@@ -51,7 +51,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pbtn_cancel">
+         <widget class="QPushButton" name="pbtn_cancle">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -73,11 +73,11 @@
      <property name="title">
       <string/>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,1">
+     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1">
       <item>
        <widget class="QLabel" name="label_TextCurrentPath">
         <property name="text">
-         <string>当前路径：</string>
+         <string>当前文件路径：</string>
         </property>
        </widget>
       </item>
