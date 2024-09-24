@@ -5,6 +5,7 @@
 
 #include<QVector>
 #include<QLabel>
+#include<fileSystem>
 
 namespace cv {
 	class Mat;
@@ -67,6 +68,8 @@ public:
 
 private:
 	QString m_filePathConfigBeforeRuntimeLoader{};
+
+    std::filesystem::path m_filePathRuntimeCfg{};
 
 private:
 	void ini_ui();
@@ -139,4 +142,6 @@ private slots:
 	void monitorImageDisplaylabel_clicked(int index);
 
 	void pbt_setIsImageIdentify(int index);
+
+    void act_manageProductConfig_triggered();
 };

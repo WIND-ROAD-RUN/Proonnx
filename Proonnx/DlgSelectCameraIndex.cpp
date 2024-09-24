@@ -15,6 +15,7 @@ DlgSelectCameraIndex::DlgSelectCameraIndex(QWidget *parent, int cameraCount)
 	ui->setupUi(this);
 	ini_ui();
 	ini_connect();
+	this->setWindowModality(Qt::WindowModal);
 }
 
 DlgSelectCameraIndex::~DlgSelectCameraIndex()

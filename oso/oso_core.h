@@ -84,7 +84,7 @@ namespace rw {
             void setValueFromBool(bool value);
 
         public:
-            std::string getValueFromString() const;
+            std::string getValueAsString() const;
 
             int getValueAsInt() const;
 
@@ -138,6 +138,8 @@ namespace rw {
 
         public:
             std::vector<std::shared_ptr<ObjectStoreCore>> getItems() const;
+
+            const std::shared_ptr<ObjectStoreCore> getItem(const std::string& name) const;
 
         public:
             // 通过 ObjectStoreCore 继承

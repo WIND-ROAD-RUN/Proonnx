@@ -84,11 +84,11 @@ namespace rw {
                 auto nItem = ObjectStoreCoreToItem(item);
                 if (nItem->getName() == "CameraTriggerMode")
                 {
-                    if (nItem->getValueFromString() == "Software")
+                    if (nItem->getValueAsString() == "Software")
                     {
                         cameraAttributesAdvanced.mode = CameraTriggerMode::Software;
                     }
-                    else if (nItem->getValueFromString() == "Hardware")
+                    else if (nItem->getValueAsString() == "Hardware")
                     {
                         cameraAttributesAdvanced.mode = CameraTriggerMode::Hardware;
                     }

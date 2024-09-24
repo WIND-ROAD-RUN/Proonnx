@@ -190,8 +190,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\oso\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\ohlc\bin\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ohlc.lib;oso.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\cfgr\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\oso\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\ohlc\bin\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cfgr.lib;ohlc.lib;oso.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -214,8 +214,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\oso\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\ohlc\bin\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ohlc.lib;oso.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\cfgr\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\oso\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\ohlc\bin\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cfgr.lib;ohlc.lib;oso.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -238,8 +238,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\oso\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\ohlc\bin\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ohlc.lib;oso.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\cfgr\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\oso\bin\$(Platform)\$(Configuration)\;$(SolutionDir)\ohlc\bin\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cfgr.lib;ohlc.lib;oso.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>

@@ -116,17 +116,17 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)\build\$(Platform)\$(Configuration)\</IntDir>
-    <TargetName>cfgr</TargetName>
+    <TargetName>cfgr_mid</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)\build\$(Platform)\$(Configuration)\</IntDir>
-    <TargetName>cfgr</TargetName>
+    <TargetName>cfgr_mid</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugForProonnx|x64'">
     <OutDir>$(ProjectDir)\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)\build\$(Platform)\$(Configuration)\</IntDir>
-    <TargetName>cfgr</TargetName>
+    <TargetName>cfgr_mid</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -182,11 +182,15 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>lib /out:$(ProjectDir)/bin/$(Platform)/$(Configuration)/cfgr.lib $(ProjectDir)/bin/$(Platform)/$(Configuration)/cfgr_mid.lib  $(SolutionDir)/oso/bin/$(Platform)/$(Configuration)/oso.lib</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -197,6 +201,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -204,6 +209,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>lib /out:$(ProjectDir)/bin/$(Platform)/$(Configuration)/cfgr.lib $(ProjectDir)/bin/$(Platform)/$(Configuration)/cfgr_mid.lib  $(SolutionDir)/oso/bin/$(Platform)/$(Configuration)/oso.lib</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugForProonnx|x64'">
     <ClCompile>
@@ -214,6 +222,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -221,16 +230,28 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>lib /out:$(ProjectDir)/bin/$(Platform)/$(Configuration)/cfgr.lib $(ProjectDir)/bin/$(Platform)/$(Configuration)/cfgr_mid.lib  $(SolutionDir)/oso/bin/$(Platform)/$(Configuration)/oso.lib</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="cfgr_CatalogueInitializer.h" />
     <ClInclude Include="cfgr_ConfigBeforeRuntimeLoader.h" />
     <ClInclude Include="cfgr_ConfigBeforeRuntimeModule.h" />
+    <ClInclude Include="cfgr_RuntimeConfig.h" />
+    <ClInclude Include="cfgr_RuntimeConfigLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cfgr_CatalogueInitializer.cpp" />
     <ClCompile Include="cfgr_ConfigBeforeRuntimeLoader.cpp" />
     <ClCompile Include="cfgr_ConfigBeforeRuntimeModule.cpp" />
+    <ClCompile Include="cfgr_RuntimeConfig.cpp" />
+    <ClCompile Include="cfgr_RuntimeConfigLoader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\oso\oso.vcxproj">
+      <Project>{62b73969-8f48-4782-b551-082cf6f279c0}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

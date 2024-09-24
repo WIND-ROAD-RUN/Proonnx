@@ -63,7 +63,7 @@ namespace rw {
             else if (item->getType() == ObjectDataItemStoreType::item_string) {
                 child.append_attribute("type").set_value("string") ;
                 child.append_attribute("nodeType").set_value("item") ;
-                child.append_child("value").text() = item->getValueFromString().c_str();
+                child.append_child("value").text() = item->getValueAsString().c_str();
             }
             else {
                 throw std::runtime_error("Unknown value type");
