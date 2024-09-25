@@ -177,6 +177,82 @@ namespace rw {
             return assembly;
         }
 
+        void FileSave_XML::saveNodeWithAssembly_theNodeNameCannotBeginWithNumber(pugi::xml_node& node, const std::shared_ptr<ObjectStoreAssembly>& assembly)
+        {
+            auto child = node.append_child("assembly");
+            auto assemblyNameNode = child.append_child("name");
+            assemblyNameNode.text().set(assembly->getName().c_str());
+            for (const auto& item : assembly->getItems()) {
+                if (auto objectAssembly = ObjectStoreCoreToAssembly(item)) {
+                    saveNodeWithAssembly_theNodeNameCannotBeginWithNumber(child, objectAssembly);
+                }
+                else if (auto objectItem = ObjectStoreCoreToItem(item)) {
+                    saveNodeWithItem_theNodeNameCannotBeginWithNumber(child, objectItem);
+                }
+                else {
+                    throw std::runtime_error("Unknown type which is the superclass of objectStoreCore");
+                }
+            }
+        }
+
+        void FileSave_XML::saveNodeWithItem_theNodeNameCannotBeginWithNumber(pugi::xml_node& node, const std::shared_ptr<ObjectStoreItem>& item)
+        {
+            auto child = node.append_child("item");
+            auto itemNameNode = child.append_child("name");
+            itemNameNode.text().set(item->getName().c_str());
+
+            if (item->getType() == ObjectDataItemStoreType::item_bool) {
+                child.append_attribute("type").set_value("bool");
+                child.append_child("value").text() = item->getValueAsBool() ? "true" : "false";
+            }
+            else if (item->getType() == ObjectDataItemStoreType::item_double) {
+                child.append_attribute("type").set_value("double");
+                child.append_child("value").text() = std::to_string(item->getValueAsDouble()).c_str();
+            }
+            else if (item->getType() == ObjectDataItemStoreType::item_int) {
+                child.append_attribute("type").set_value("int");
+                child.append_child("value").text() = std::to_string(item->getValueAsInt()).c_str();
+            }
+            else if (item->getType() == ObjectDataItemStoreType::item_float) {
+                child.append_attribute("type").set_value("float");
+                child.append_child("value").text() = std::to_string(item->getValueAsFloat()).c_str();
+            }
+            else if (item->getType() == ObjectDataItemStoreType::item_long) {
+                child.append_attribute("type").set_value("long");
+                child.append_child("value").text() = std::to_string(item->getValueAsLong()).c_str();
+            }
+            else if (item->getType() == ObjectDataItemStoreType::item_string) {
+                child.append_attribute("type").set_value("string");
+                child.append_child("value").text() = item->getValueAsString().c_str();
+            }
+            else {
+                throw std::runtime_error("Unknown value type");
+            }
+        }
+
+        void FileSave_XML::save_theNodeNameCannotBeginWithNumber(const std::filesystem::path& fileName, std::shared_ptr<ObjectStoreAssembly> assembly)
+        {
+            assert(fileName.extension() == std::string(".xml"));
+            pugi::xml_document doc;
+            auto rootNode = doc.append_child("assembly");
+            auto assemblyNameNode = rootNode.append_child("name");
+            assemblyNameNode.text().set(assembly->getName().c_str());
+
+            for (const auto& item : assembly->getItems()) {
+                if (auto objectAssembly = ObjectStoreCoreToAssembly(item)) {
+                    saveNodeWithAssembly_theNodeNameCannotBeginWithNumber(rootNode, objectAssembly);
+                }
+                else if (auto objectItem = ObjectStoreCoreToItem(item)) {
+                    saveNodeWithItem_theNodeNameCannotBeginWithNumber(rootNode, objectItem);
+                }
+                else {
+                    throw std::runtime_error("Unknown node type which is instance of the superclass of objectStoreCore");
+                }
+            }
+
+            doc.save_file(fileName.c_str());
+        }
+
         void FileSave_Json::save(const std::filesystem::path& fileName, std::shared_ptr<ObjectStoreAssembly> assembly)
         {
         }

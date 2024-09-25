@@ -42,6 +42,8 @@ namespace rw {
 
             inline void save(const std::filesystem::path& fileName, const ObjectStoreAssembly & assembly);
 
+            inline void save(const std::filesystem::path & fileName,ObjectStoreAssembly && assembly);
+
             inline std::shared_ptr<ObjectStoreAssembly> load(const std::filesystem::path& fileName);
 
             inline std::shared_ptr<ObjectStoreAssembly> load(const std::filesystem::path& fileName,bool & loadResult);
@@ -79,6 +81,13 @@ namespace rw {
             void save(const std::filesystem::path& fileName, std::shared_ptr<ObjectStoreAssembly> assembly) override;
 
             std::shared_ptr<ObjectStoreAssembly> load(const std::filesystem::path& fileName) override;
+
+        public:
+            void saveNodeWithAssembly_theNodeNameCannotBeginWithNumber(pugi::xml_node& node, const std::shared_ptr<ObjectStoreAssembly>& assembly);
+
+            void saveNodeWithItem_theNodeNameCannotBeginWithNumber(pugi::xml_node& node, const std::shared_ptr<ObjectStoreItem>& item);
+
+            void save_theNodeNameCannotBeginWithNumber(const std::filesystem::path& fileName, std::shared_ptr<ObjectStoreAssembly> assembly);
 
         };
 
@@ -121,6 +130,13 @@ namespace rw {
         inline void
             FileSave<strategyType>::save
             (const std::filesystem::path& fileName, const ObjectStoreAssembly& assembly)
+        {
+            assert(fileName.extension() == m_extensionName);
+            m_strategy->save(fileName, makeObjectStoreAssemblySharedPtr(assembly));
+        }
+
+        template<FileSaveStrategyType strategyType>
+        inline void FileSave<strategyType>::save(const std::filesystem::path& fileName, ObjectStoreAssembly&& assembly)
         {
             assert(fileName.extension() == m_extensionName);
             m_strategy->save(fileName, makeObjectStoreAssemblySharedPtr(assembly));

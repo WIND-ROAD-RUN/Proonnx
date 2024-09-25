@@ -11,20 +11,41 @@ using namespace rw::cfgr;
 
 int main()
 {
-    RutimeConfig runtimeConfig;
-    runtimeConfig.cameraCount = 4;
-    runtimeConfig.language = "CHN";
-    runtimeConfig.cameraConfigs.push_back(std::make_pair("camera1", "config1"));
-    runtimeConfig.cameraConfigs.push_back(std::make_pair("camera2", "config2"));
-    runtimeConfig.cameraConfigs.push_back(std::make_pair("camera3", "config3"));
-    runtimeConfig.cameraConfigs.push_back(std::make_pair("camera4", "config4"));
+    ObjectStoreAssembly assembly;
+    assembly.setName("root");
+    
+    ObjectStoreItem item;
+    item.setName("item1");
+    item.setValueFromInt(12);
 
-    ObjectStoreAssembly assembly = RutimeConfig::toObjectStoreAssembly(runtimeConfig);
-    FileSave fileSave;
-    fileSave.save(R"(C:\Users\34615\Desktop\test\Config\config.xml)",rw::oso::makeObjectStoreAssemblySharedPtr(assembly));
+    ObjectStoreItem item2;
+    item2.setName("item2");
+    item2.setValueFromInt(13);
 
-    auto a=fileSave.load(R"(C:\Users\34615\Desktop\test\Config\confi.xml)");
-    a->print(std::cout);
+    assembly.addItem(std::move(item));
+    assembly.addItem(std::move(item2));
+
+    ObjectStoreAssembly assembly2;
+    assembly2.setName("root2");
+
+    ObjectStoreItem item3;
+    item3.setName("item3");
+    item3.setValueFromInt(14);
+
+    ObjectStoreItem item4;
+    item4.setName("item4");
+    item4.setValueFromInt(15);
+
+    assembly2.addItem(std::move(item3));
+    assembly2.addItem(std::move(item4));
+
+    assembly.addItem(std::move(assembly2));
+
+    assembly.print(std::cout);
+
+    FileSave_XML fileSave;
+    fileSave.save_theNodeNameCannotBeginWithNumber(R"(C:\Users\34615\Desktop\test\test.xml)", makeObjectStoreAssemblySharedPtr(assembly));
+
 
     
 	return 0;
