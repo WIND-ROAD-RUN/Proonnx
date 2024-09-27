@@ -3,6 +3,7 @@
 #include"oso/osop_OcrDateProductConfig.h"
 #include"cfgr/cfgr_RuntimeConfig.h"
 #include"oso/osos_FileSave.h"
+#include"oso/osop_OcrDateProductConfig.h"
 
 #include<iostream>
 
@@ -42,11 +43,14 @@ int main()
     assembly.addItem(std::move(assembly2));
 
     assembly.print(std::cout);
+    OcrDataProductConfig config;
+    config.productName = "12313123";
+    
 
     FileSave_XML fileSave;
-    fileSave.save_theNodeNameCannotBeginWithNumber(R"(C:\Users\34615\Desktop\test\test.xml)", makeObjectStoreAssemblySharedPtr(assembly));
+    fileSave.save(R"(C:\Users\WINDROAD\Desktop\test\test.xml)", makeObjectStoreAssemblySharedPtr(OcrDataProductConfig::toObjectStoreAssembly(OcrDataProductConfig(config))));
 
-
-    
+    auto loadResult = fileSave.load(R"(C:\Users\WINDROAD\Desktop\test\test.xml)");
+    loadResult->print(std::cout);
 	return 0;
 }

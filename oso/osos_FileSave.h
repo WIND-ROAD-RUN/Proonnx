@@ -67,6 +67,7 @@ namespace rw {
             FileSave_XML() = default;
 
             virtual ~FileSave_XML() = default;
+
         private:
             void saveNodeWithAssembly(pugi::xml_node& node, const std::shared_ptr<ObjectStoreAssembly>& assembly);
 
@@ -76,18 +77,25 @@ namespace rw {
             void loadNodeWithAssembly(const pugi::xml_node& node, std::shared_ptr<ObjectStoreAssembly>& assembly);
 
             void loadNodeWithItem(const pugi::xml_node& node, std::shared_ptr<ObjectStoreItem>& item);
-
         public:
-            void save(const std::filesystem::path& fileName, std::shared_ptr<ObjectStoreAssembly> assembly) override;
+            void save(const std::filesystem::path& fileName, std::shared_ptr<ObjectStoreAssembly> assembly)override;
 
             std::shared_ptr<ObjectStoreAssembly> load(const std::filesystem::path& fileName) override;
+            //TODO：自定义类型到std::shared_ptr<ObjectStoreAssembly>的转换
+        private:
+            void saveNodeWithAssembly_isDeprecated(pugi::xml_node& node, const std::shared_ptr<ObjectStoreAssembly>& assembly);
+
+            void saveNodeWithItem_Deprecated(pugi::xml_node& node, const std::shared_ptr<ObjectStoreItem>& item);
+
+        private:
+            void loadNodeWithAssembly_Deprecated(const pugi::xml_node& node, std::shared_ptr<ObjectStoreAssembly>& assembly);
+
+            void loadNodeWithItem_Deprecated(const pugi::xml_node& node, std::shared_ptr<ObjectStoreItem>& item);
 
         public:
-            void saveNodeWithAssembly_theNodeNameCannotBeginWithNumber(pugi::xml_node& node, const std::shared_ptr<ObjectStoreAssembly>& assembly);
+            void save_Deprecated(const std::filesystem::path& fileName, std::shared_ptr<ObjectStoreAssembly> assembly);
 
-            void saveNodeWithItem_theNodeNameCannotBeginWithNumber(pugi::xml_node& node, const std::shared_ptr<ObjectStoreItem>& item);
-
-            void save_theNodeNameCannotBeginWithNumber(const std::filesystem::path& fileName, std::shared_ptr<ObjectStoreAssembly> assembly);
+            std::shared_ptr<ObjectStoreAssembly> load_Deprecated(const std::filesystem::path& fileName);
 
         };
 
