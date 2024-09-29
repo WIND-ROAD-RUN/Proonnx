@@ -12,6 +12,8 @@
 #include"cfgl/cfgl_LocalizationStringLoader.h"
 #include"cfgr/cfgr_ConfigBeforeRuntimeLoader.h"
 #include"LogRecorder.h"
+#include"oso/osos_FileSave.h"
+#include"oso/osop_OcrDateProductConfig.h"
 
 using namespace rw::cfgl;
 using namespace rw::cfgr;
@@ -117,6 +119,19 @@ void DlgChangeProductConfig::ini_configLoader()
 	ui->sBox_disposalTime->setValue(RejectAttributeCongif.DisposalTime);
 	ui->sBox_numberOffsets->setValue(RejectAttributeCongif.OffsetsNumber);
 	m_rotateCount = productConfig.rotateCount;
+
+	rw::oso::FileSave fileSave;
+	rw::oso::OcrDataProductConfig productCfg = fileSave.load(m_filePath.toStdString());
+	ui->lEdit_productName->setText(QString::fromStdString(productCfg.productName));
+    ui->sBox_exposureTime->setValue(productCfg.cameraAttributesBasic.exposureTime);
+	ui->sBox_gain->setValue(productCfg.cameraAttributesBasic.gain);
+	ui->sBox_delayInRejection->setValue(productCfg.rejectAttribute.RejectDelay);
+	ui->sBox_disposalTime->setValue(productCfg.rejectAttribute.DisposalTime);
+	ui->sBox_numberOffsets->setValue(productCfg.rejectAttribute.OffsetsNumber);
+	m_rotateCount = productConfig.rotateCount;
+
+
+
 }
 
 void DlgChangeProductConfig::iniUI()

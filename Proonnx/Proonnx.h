@@ -27,6 +27,9 @@ namespace rw {
 		class ConfigBeforeRuntimeLoader;
         struct RutimeConfig;
 	}
+	namespace oso {
+		class OcrDataProductConfig;
+	}
 }
 class IndexButton;
 
@@ -42,6 +45,10 @@ class Proonnx_runtimeInfo {
 public:
 	std::shared_ptr<RutimeConfig> m_runtimeConfigPtr{ nullptr };
 
+    std::map<std::string,std::shared_ptr<rw::oso::OcrDataProductConfig> > m_ocrConfigs;
+
+    std::vector<std::string> m_cameraIpList;
+
 public:
     std::string m_runtimeConfigPath{};
 
@@ -54,8 +61,38 @@ public:
 	void read_runtimeConfig();
 
 public:
-	void save();
+	void saveRuntimeConfigFile();
 
+};
+
+struct Proonnx_displayCameraGroupBoxItem {
+public:
+    LabelClickable* m_labelDisplayCamera{ nullptr };
+
+    QLabel* m_labelProductName{ nullptr };
+
+    QLabel* m_labelCheckInfo{ nullptr };
+
+    QLabel* m_labelProductCount{ nullptr };
+
+    QLabel* m_labelProductPassCount{ nullptr };
+
+    QLabel* m_labelProductOutCount{ nullptr };
+
+    IndexButton* m_pbtnSetIsCheck{ nullptr };
+public:
+	Proonnx_displayCameraGroupBoxItem();
+	~Proonnx_displayCameraGroupBoxItem();
+};
+
+class Proonnx_disblayCameraGroupBox {
+public:
+    QVector<QSharedPointer<Proonnx_displayCameraGroupBoxItem> > m_displayCameraGroupBoxItemList;
+public:
+    Proonnx_disblayCameraGroupBox() = default;
+	~Proonnx_disblayCameraGroupBox() {}
+public:
+    void ini(int itemSize);
 };
 
 class Proonnx 
@@ -64,6 +101,8 @@ class Proonnx
 	Q_OBJECT
 private:
     Proonnx_runtimeInfo m_runtimeInfo;
+
+	Proonnx_disblayCameraGroupBox m_displayCameraGroupBox;
 	
 private:
 	LocalizationStringLoaderXML* m_locStrLoader{ nullptr };
@@ -86,7 +125,8 @@ private:
 
 	QVector<QLabel*>* m_labelProductOutCountList{ nullptr };
 
-	QVector<ImageIdentify*> * m_imageIdentifyList{nullptr};
+	QVector<ImageIdentify*> *m_imageIdentifyList{nullptr};
+	QVector<std::shared_ptr<ImageIdentify>> m_imageIdentifies;
 
 public:
 	QVector<IndexButton*>* m_pbtnSetIsCheckList{ nullptr };
@@ -114,7 +154,11 @@ private:
 private:
 	void ini_gBox_monitoringDisplay();
 
+    void ini_gBox_monitoringDisplay_refactor();
+
 	void ini_cameraList();
+
+    void ini_cameraList_refactor();
 
 private:
 	void ini_connect();

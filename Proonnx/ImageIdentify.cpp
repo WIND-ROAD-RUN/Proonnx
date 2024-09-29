@@ -424,8 +424,8 @@ void ImageIdentify::set_recognizeRange()
 
 void ImageIdentify::DisplayImage(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInfo)
 {
-	QtConcurrent::run([=]() {
-	save_caputure_time();
+
+	//save_caputure_time();
 	cv::Mat nativeMat;
 	nativeMat = ImageIdentifyUtilty::ConvertMat(pFrameInfo, pData);
 
@@ -467,7 +467,7 @@ void ImageIdentify::DisplayImage(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFr
 					display_image(matToRecognize,m_labelForNg);
 				}
 
-				QMetaObject::invokeMethod(qApp, [this, matToRecognize, nativeMat]
+				/*QMetaObject::invokeMethod(qApp, [this, matToRecognize, nativeMat]
 					{
 
 						render_image(matToRecognize, nativeMat);
@@ -476,12 +476,12 @@ void ImageIdentify::DisplayImage(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFr
 
 
 
-					});
+					});*/
 		
 	}
 	else {
 		is_saveCaputureTime = false;
-		QMetaObject::invokeMethod(qApp, [this, matToRecognize, nativeMat]
+		/*QMetaObject::invokeMethod(qApp, [this, matToRecognize, nativeMat]
 			{
 
 				render_image(matToRecognize, nativeMat);
@@ -490,10 +490,12 @@ void ImageIdentify::DisplayImage(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFr
 
 
 
-			});
+			});*/
 
 
 	}
+
+	render_image(matToRecognize, nativeMat);
 
 
 	//debug
@@ -503,7 +505,6 @@ void ImageIdentify::DisplayImage(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFr
 		exposureTime = 50000;
 	}
 	m_monitorCamera->setExposureTime(exposureTime);*/
-		});
 
 	////////////////
 
