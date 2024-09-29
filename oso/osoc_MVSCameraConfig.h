@@ -12,7 +12,6 @@ namespace rw {
 namespace rw {
     namespace oso
     {
-        //1. CameraAttributesBasic
         struct CameraAttributesBasic
         {
         public:
