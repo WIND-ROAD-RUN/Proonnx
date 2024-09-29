@@ -12,45 +12,30 @@ using namespace rw::cfgr;
 
 int main()
 {
-    ObjectStoreAssembly assembly;
-    assembly.setName("root");
-    
-    ObjectStoreItem item;
-    item.setName("item1");
-    item.setValueFromInt(12);
+    OcrDataProductConfig ocrDataProductConfig;
+    ocrDataProductConfig.cameraAttributesBasic.exposureTime = 10000;
+    ocrDataProductConfig.cameraAttributesBasic.gain = 1;
+    ocrDataProductConfig.productName = "test";
+    ocrDataProductConfig.productCheckCount.outCount = 1;
+    ocrDataProductConfig.productCheckCount.passCount = 1;
+    ocrDataProductConfig.productCheckCount.totalCount = 1;
+    ocrDataProductConfig.recognizeRange.leftLowerCorner.first = 1;
+    ocrDataProductConfig.recognizeRange.leftLowerCorner.second = 1;
 
-    ObjectStoreItem item2;
-    item2.setName("item2");
-    item2.setValueFromInt(13);
+    ocrDataProductConfig.rejectAttribute.DisposalTime = 1000;
+    ocrDataProductConfig.rejectAttribute.OffsetsNumber = 1;
+    ocrDataProductConfig.rejectAttribute.RejectDelay = 1;
 
-    assembly.addItem(std::move(item));
-    assembly.addItem(std::move(item2));
 
-    ObjectStoreAssembly assembly2;
-    assembly2.setName("root2");
 
-    ObjectStoreItem item3;
-    item3.setName("item3");
-    item3.setValueFromInt(14);
 
-    ObjectStoreItem item4;
-    item4.setName("item4");
-    item4.setValueFromInt(15);
 
-    assembly2.addItem(std::move(item3));
-    assembly2.addItem(std::move(item4));
+    FileSave<FileSaveStrategyType::XML> fileSave;
+    fileSave.save(R"(C:\Users\WINDROAD\Desktop\test\test.xml)", ocrDataProductConfig);
 
-    assembly.addItem(std::move(assembly2));
+    OcrDataProductConfig assembly = fileSave.load(R"(C:\Users\WINDROAD\Desktop\test\test.xml)");
 
-    assembly.print(std::cout);
-    OcrDataProductConfig config;
-    config.productName = "12313123";
-    
 
-    FileSave_XML fileSave;
-    fileSave.save(R"(C:\Users\WINDROAD\Desktop\test\test.xml)", makeObjectStoreAssemblySharedPtr(OcrDataProductConfig::toObjectStoreAssembly(OcrDataProductConfig(config))));
 
-    auto loadResult = fileSave.load(R"(C:\Users\WINDROAD\Desktop\test\test.xml)");
-    loadResult->print(std::cout);
-	return 0;
+    return 0;
 }

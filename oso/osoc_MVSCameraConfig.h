@@ -2,6 +2,7 @@
 #define OSO_CAMERACONFIG_H_
 
 #include<string>
+#include<memory>
 
 namespace rw {
     namespace oso {
@@ -20,6 +21,14 @@ namespace rw {
         public:
             static ObjectStoreAssembly toObjectStoreAssembly(const CameraAttributesBasic& cameraAttributesBasic);
             static CameraAttributesBasic toCameraAttributesBasic(const ObjectStoreAssembly& assembly);
+        public:
+            CameraAttributesBasic() = default;
+
+            CameraAttributesBasic(const ObjectStoreAssembly& assembly);
+
+            CameraAttributesBasic(std::shared_ptr<ObjectStoreAssembly> assembly);
+
+            operator ObjectStoreAssembly()const;
         };
 
         enum class CameraTriggerMode
@@ -36,6 +45,14 @@ namespace rw {
         public:
             static ObjectStoreAssembly toObjectStoreAssembly(const CameraAttributesAdvanced& cameraAttributesBasic);
             static CameraAttributesAdvanced toCameraAttributesAdvanced(const ObjectStoreAssembly& assembly);
+        public:
+            CameraAttributesAdvanced() = default;
+
+            CameraAttributesAdvanced(const ObjectStoreAssembly& assembly);
+
+            CameraAttributesAdvanced(std::shared_ptr<ObjectStoreAssembly> assembly);
+
+            operator ObjectStoreAssembly()const;
         };
 
     }

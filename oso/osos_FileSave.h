@@ -21,7 +21,7 @@ namespace rw {
         class FileSave_XML;
         class FileSave_Strategy;
 
-        template<FileSaveStrategyType strategyType= FileSaveStrategyType::XML>
+        template<FileSaveStrategyType strategyType = FileSaveStrategyType::XML>
         class FileSave {
         private:
             std::shared_ptr<FileSave_Strategy> m_strategy;
@@ -40,13 +40,13 @@ namespace rw {
         public:
             inline void save(const std::filesystem::path& fileName, std::shared_ptr<ObjectStoreAssembly> assembly);
 
-            inline void save(const std::filesystem::path& fileName, const ObjectStoreAssembly & assembly);
+            inline void save(const std::filesystem::path& fileName, const ObjectStoreAssembly& assembly);
 
-            inline void save(const std::filesystem::path & fileName,ObjectStoreAssembly && assembly);
+            inline void save(const std::filesystem::path& fileName, ObjectStoreAssembly&& assembly);
 
             inline std::shared_ptr<ObjectStoreAssembly> load(const std::filesystem::path& fileName);
 
-            inline std::shared_ptr<ObjectStoreAssembly> load(const std::filesystem::path& fileName,bool & loadResult);
+            inline std::shared_ptr<ObjectStoreAssembly> load(const std::filesystem::path& fileName, bool& loadResult);
         };
 
 
@@ -81,7 +81,7 @@ namespace rw {
             void save(const std::filesystem::path& fileName, std::shared_ptr<ObjectStoreAssembly> assembly)override;
 
             std::shared_ptr<ObjectStoreAssembly> load(const std::filesystem::path& fileName) override;
-            //TODO£º×Ô¶¨ÒåÀàĞÍµ½std::shared_ptr<ObjectStoreAssembly>µÄ×ª»»
+            //TODOï¼šè‡ªå®šä¹‰ç±»å‹åˆ°std::shared_ptr<ObjectStoreAssembly>çš„è½¬æ¢
         private:
             void saveNodeWithAssembly_isDeprecated(pugi::xml_node& node, const std::shared_ptr<ObjectStoreAssembly>& assembly);
 
@@ -105,7 +105,7 @@ namespace rw {
 
 
         public:
-            // Í¨¹ı FileSave_Strategy ¼Ì³Ğ
+            // é€šè¿‡ FileSave_Strategy ç»§æ‰¿
             void save(const std::filesystem::path& fileName, std::shared_ptr<ObjectStoreAssembly> assembly) override;
 
             std::shared_ptr<ObjectStoreAssembly> load(const std::filesystem::path& fileName) override;
@@ -126,7 +126,7 @@ namespace rw {
         }
 
         template<FileSaveStrategyType strategyType>
-        inline void  
+        inline void
             FileSave<strategyType>::save
             (const std::filesystem::path& fileName, std::shared_ptr<ObjectStoreAssembly> assembly)
         {
@@ -151,7 +151,7 @@ namespace rw {
         }
 
         template<FileSaveStrategyType strategyType>
-        inline std::shared_ptr<ObjectStoreAssembly> 
+        inline std::shared_ptr<ObjectStoreAssembly>
             FileSave<strategyType>::load
             (const std::filesystem::path& fileName)
         {
@@ -166,9 +166,9 @@ namespace rw {
         }
 
         template<FileSaveStrategyType strategyType>
-        inline std::shared_ptr<ObjectStoreAssembly> 
+        inline std::shared_ptr<ObjectStoreAssembly>
             FileSave<strategyType>::load
-            (const std::filesystem::path& fileName, bool & loadResult)
+            (const std::filesystem::path& fileName, bool& loadResult)
         {
             assert(fileName.extension() == m_extensionName);
             try {
@@ -176,12 +176,13 @@ namespace rw {
                 loadResult = true;
                 return result;
             }
-            catch(const std::exception& ex){
+            catch (const std::exception& ex) {
                 loadResult = false;
                 return nullptr;
             }
-            
+
         }
+
     }
 }
 

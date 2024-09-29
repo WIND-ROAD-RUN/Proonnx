@@ -6,7 +6,7 @@
 
 namespace rw {
     namespace oso {
-        ObjectStoreAssembly 
+        ObjectStoreAssembly
             CameraAttributesBasic::toObjectStoreAssembly
             (const CameraAttributesBasic& cameraAttributesBasic)
         {
@@ -14,19 +14,19 @@ namespace rw {
             assembly.setName("CameraAttributesBasic");
 
             ObjectStoreItem exposureTime;
-            exposureTime.setName("exposureTime");
+            exposureTime.setName("ExposureTime");
             exposureTime.setValueFromLong(cameraAttributesBasic.exposureTime);
             assembly.addItem(makeObjectStoreItemSharedPtr(exposureTime));
 
             ObjectStoreItem gain;
-            gain.setName("gain");
+            gain.setName("Gain");
             gain.setValueFromInt(cameraAttributesBasic.gain);
             assembly.addItem(makeObjectStoreItemSharedPtr(gain));
 
             return assembly;
         }
 
-        CameraAttributesBasic 
+        CameraAttributesBasic
             CameraAttributesBasic::toCameraAttributesBasic
             (const ObjectStoreAssembly& assembly)
         {
@@ -35,11 +35,11 @@ namespace rw {
             for (const auto& item : assembly.getItems())
             {
                 std::shared_ptr<ObjectStoreItem> nItem = std::dynamic_pointer_cast<ObjectStoreItem>(item);
-                if (nItem->getName() == "exposureTime")
+                if (nItem->getName() == "ExposureTime")
                 {
                     cameraAttributesBasic.exposureTime = nItem->getValueAsLong();
                 }
-                else if (nItem->getName() == "gain")
+                else if (nItem->getName() == "Gain")
                 {
                     cameraAttributesBasic.gain = nItem->getValueAsInt();
                 }
@@ -48,11 +48,26 @@ namespace rw {
             return cameraAttributesBasic;
         }
 
-        ObjectStoreAssembly 
+        CameraAttributesBasic::operator ObjectStoreAssembly() const
+        {
+            return toObjectStoreAssembly(*this);
+        }
+
+        CameraAttributesBasic::CameraAttributesBasic(const ObjectStoreAssembly& assembly)
+        {
+            *this = toCameraAttributesBasic(assembly);
+        }
+
+        CameraAttributesBasic::CameraAttributesBasic(std::shared_ptr<ObjectStoreAssembly> assembly)
+        {
+            *this = toCameraAttributesBasic(*assembly);
+        }
+
+        ObjectStoreAssembly
             CameraAttributesAdvanced::toObjectStoreAssembly
             (const CameraAttributesAdvanced& cameraAttributesBasic)
         {
-            assert(cameraAttributesBasic.mode!= CameraTriggerMode::Undefined);
+            assert(cameraAttributesBasic.mode != CameraTriggerMode::Undefined);
 
             ObjectStoreItem mode;
             mode.setName("CameraTriggerMode");
@@ -73,7 +88,7 @@ namespace rw {
             return assembly;
         }
 
-        CameraAttributesAdvanced 
+        CameraAttributesAdvanced
             CameraAttributesAdvanced::toCameraAttributesAdvanced
             (const ObjectStoreAssembly& assembly)
         {
@@ -98,6 +113,38 @@ namespace rw {
 
             return cameraAttributesAdvanced;
 
+        }
+
+        CameraAttributesAdvanced::CameraAttributesAdvanced(const ObjectStoreAssembly& assembly)
+        {
+            *this = toCameraAttributesAdvanced(assembly);
+        }
+
+        CameraAttributesAdvanced::CameraAttributesAdvanced(std::shared_ptr<ObjectStoreAssembly> assembly)
+        {
+            *this = toCameraAttributesAdvanced(*assembly);
+        }
+
+        CameraAttributesAdvanced::operator ObjectStoreAssembly() const
+        {
+            ObjectStoreAssembly assembly;
+            assembly.setName("CameraAttributesAdvanced");
+
+            ObjectStoreItem triggerMode;
+            triggerMode.setName("CameraTriggerMode");
+            switch (mode)
+            {
+            case CameraTriggerMode::Software:
+                triggerMode.setValueFromString("Software");
+                break;
+            case CameraTriggerMode::Hardware:
+                triggerMode.setValueFromString("Hardware");
+                break;
+            }
+
+            assembly.addItem(makeObjectStoreItemSharedPtr(triggerMode));
+
+            return assembly;
         }
     }
 

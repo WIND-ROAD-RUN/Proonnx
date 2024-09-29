@@ -24,6 +24,12 @@ namespace rw {
         public:
             static ObjectStoreAssembly toObjectStoreAssembly(const RecognizeRange& recognizeRange);
             static RecognizeRange toRecognizeRange(const ObjectStoreAssembly& assembly);
+
+        public:
+            RecognizeRange() = default;
+            RecognizeRange(const ObjectStoreAssembly& assembly);
+            RecognizeRange(std::shared_ptr<ObjectStoreAssembly> assembly);
+            operator ObjectStoreAssembly()const;
         };
 
         struct ProductCheckCount {
@@ -34,6 +40,12 @@ namespace rw {
         public:
             static ObjectStoreAssembly toObjectStoreAssembly(const ProductCheckCount& productCheckCount);
             static ProductCheckCount toProductCheckCount(const ObjectStoreAssembly& assembly);
+
+        public:
+            ProductCheckCount() = default;
+            ProductCheckCount(const ObjectStoreAssembly& assembly);
+            ProductCheckCount(std::shared_ptr<ObjectStoreAssembly> assembly);
+            operator ObjectStoreAssembly()const;
         };
 
         struct RejectAttribute {
@@ -44,6 +56,11 @@ namespace rw {
         public:
             static ObjectStoreAssembly toObjectStoreAssembly(const RejectAttribute& rejectAttribute);
             static RejectAttribute toRejectAttribute(const ObjectStoreAssembly& assembly);
+        public:
+            RejectAttribute() = default;
+            RejectAttribute(const ObjectStoreAssembly& assembly);
+            RejectAttribute(std::shared_ptr<ObjectStoreAssembly> assembly);
+            operator ObjectStoreAssembly()const;
         };
 
         struct OcrDataProductConfig {
@@ -57,6 +74,11 @@ namespace rw {
         public:
             static ObjectStoreAssembly toObjectStoreAssembly(const OcrDataProductConfig& ocrDataProductConfig);
             static OcrDataProductConfig toOcrDataProductConfig(const ObjectStoreAssembly& assembly);
+        public:
+            OcrDataProductConfig() = default;
+            OcrDataProductConfig(const ObjectStoreAssembly& assembly);
+            OcrDataProductConfig(std::shared_ptr<ObjectStoreAssembly> assembly);
+            operator ObjectStoreAssembly()const;
 
         };
     }
