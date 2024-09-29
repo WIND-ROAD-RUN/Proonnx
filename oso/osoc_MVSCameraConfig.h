@@ -12,13 +12,14 @@ namespace rw {
 namespace rw {
     namespace oso
     {
+        //1. CameraAttributesBasic
         struct CameraAttributesBasic
         {
         public:
             long exposureTime{ 10000 };
             int gain{ 1 };
         public:
-            static ObjectStoreAssembly toObjectStoreAssembly(const CameraAttributesBasic & cameraAttributesBasic);
+            static ObjectStoreAssembly toObjectStoreAssembly(const CameraAttributesBasic& cameraAttributesBasic);
             static CameraAttributesBasic toCameraAttributesBasic(const ObjectStoreAssembly& assembly);
         };
 
@@ -40,7 +41,7 @@ namespace rw {
 
     }
 
-    
+
 }
 
 
