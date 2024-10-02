@@ -5,6 +5,9 @@
     <QtTouchProperty>
     </QtTouchProperty>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug_withoutCamera|x64'" Label="QtSettings">
+    <QtTouchProperty />
+  </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <QtTouchProperty>
     </QtTouchProperty>
