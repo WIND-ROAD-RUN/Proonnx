@@ -340,6 +340,7 @@ void Proonnx::ini_cameraList_refactor()
 	for (int i = 0;i< devList.size();i++) {
 
         auto label = m_displayCameraGroupBox.m_displayCameraGroupBoxItemList[i]->m_labelDisplayCamera;
+        label->_ip = devList[i];
         auto imageIdentify = 
 			std::make_shared<ImageIdentify>(label, devList[i]);
         m_imageIdentifies.append(imageIdentify);
@@ -577,18 +578,24 @@ void Proonnx::pbt_modProductConfig(int index)
 	DlgChangeProductConfig dlg;
 	dlg.setWindowSize(this->width(), this->height());
 	std::string path;
-    auto readResult = m_runtimeInfo.m_runtimeConfigPtr->readCameraLastRunTimeConfig(m_imageIdentifies.at(index)->m_Ip, path);
+
+	auto & ip = m_imageIdentifies.at(index)->m_Ip;
+    auto readResult = m_runtimeInfo.m_runtimeConfigPtr->readCameraLastRunTimeConfig(ip, path);
 	if (readResult) {
+		///// refactor
+        dlg.setRuntimeInfo(&m_runtimeInfo);
+        dlg._ip = ip;
+		////
 		dlg.setFilePath(QString::fromStdString(path));
 		dlg.setCameraIndex(index + 1);
 		dlg.setCamera(m_imageIdentifies[index].get());
 		dlg.setConfigBeforeRuntime(m_filePathConfigBeforeRuntimeLoader);
-		dlg.iniUI();
+		dlg.readRuntimeInfo();
 		dlg.setWindowModality(Qt::WindowModal);
 		auto dlgResult = dlg.exec();
 		if (dlgResult == QDialog::Accepted) {
 			auto productName = dlg.getProductName();
-			(*m_labelDisaplayProductNameList)[index]->setText(productName);
+            m_displayCameraGroupBox.m_displayCameraGroupBoxItemList[index]->m_labelProductName->setText(productName);
 		}
 	}
 	else {
@@ -747,73 +754,13 @@ void Proonnx::pbtn_testDlg_clicked()
 	dlg.exec();
 }
 
-void Proonnx_runtimeInfo::ini()
-{
-
-    create_directory(R"(C:\Users\WINDROAD\Desktop\test)");
-    read_runtimeConfig();
 
 
-    //检索所有连接的相机并读取上次运行的配置文件若没有那么创建一个新的配置文件
-    m_cameraIpList = MonitorCameraUtility::checkAllConnectCamera();
-	
-    FileSave fileLoader;
-	for (const auto & item:m_cameraIpList) {
-        std::string cameraConfigFilePath;
-        auto hasConfig=m_runtimeConfigPtr->readCameraLastRunTimeConfig(item, cameraConfigFilePath);
-        
-		if (hasConfig) {
-			OcrDataProductConfig cameraCfg = fileLoader.load(cameraConfigFilePath);
-            m_ocrConfigs.emplace(item, std::make_shared<OcrDataProductConfig>(cameraCfg));
-		}
-        else {
-            OcrDataProductConfig newCameraCfg;
-            newCameraCfg.productName = "UNDEFINED" + item;
-            std::string path = rw::cfgr::CatalogueInitializer::findWorkPath("ProductConfig");
-            path = rw::cfgr::CatalogueInitializer::pathAppend(path, newCameraCfg.productName + ".xml");
-            fileLoader.save(path, newCameraCfg);
-            m_runtimeConfigPtr->addCameraLastRunTimeConfig(item, path);
-            m_ocrConfigs.emplace(path, std::make_shared<OcrDataProductConfig>(newCameraCfg));
-        }
-	}
-	this->saveRuntimeConfigFile();
-}
 
-void Proonnx_runtimeInfo::create_directory(const std::string& rootPath)
-{
-	rw::cfgr::CatalogueInitializer catalogueIni;
-	catalogueIni.setRootPath(rootPath);
-	catalogueIni.createDirectory("Config");
-	catalogueIni.createDirectory("ProductConfig");
-	catalogueIni.createDirectory("HistoryImage");
-}
 
-void Proonnx_runtimeInfo::read_runtimeConfig()
-{
-	auto runtimePath = rw::cfgr::CatalogueInitializer::findWorkPath("Config");
-	runtimePath = rw::cfgr::CatalogueInitializer::pathAppend(runtimePath, "runtimeCfg.xml");
 
-    m_runtimeConfigPath = runtimePath;
 
-	bool loaderResult{ false };
-	auto runtimeConfig = RuntimeConfigLoader::load(runtimePath, loaderResult);
-	if (!loaderResult) {
-		RutimeConfig config;
-		config.cameraCount = 4;
-		config.language = "CHN";
-		RuntimeConfigLoader::save(runtimePath, config);
-		m_runtimeConfigPtr = std::make_shared<RutimeConfig>(config);
-	}
-	else {
-		m_runtimeConfigPtr = std::make_shared<RutimeConfig>(runtimeConfig);
-	}
-}
 
-void Proonnx_runtimeInfo::saveRuntimeConfigFile()
-{
-    rw::oso::FileSave fileSave;
-    fileSave.save(m_runtimeConfigPath, RutimeConfig::toObjectStoreAssembly(*m_runtimeConfigPtr));
-}
 
 Proonnx_displayCameraGroupBoxItem::Proonnx_displayCameraGroupBoxItem()
 {

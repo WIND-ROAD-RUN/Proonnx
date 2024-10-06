@@ -23,10 +23,15 @@ namespace rw {
         signals:
             void clicked(int index);
 
+            void cliked(std::string ip);
+
         public:
             int m_index{ 0 };
 
             bool m_enbaleClicked{ false };
+        public:
+            //之后重构为属性模块
+            std::string _ip;
 
         protected:
             void mousePressEvent(QMouseEvent* event) override;

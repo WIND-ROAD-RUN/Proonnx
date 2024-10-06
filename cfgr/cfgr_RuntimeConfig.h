@@ -27,6 +27,8 @@ namespace rw {
 
             void addCameraLastRunTimeConfig(const std::string& ip, const std::string& configPath);
 
+            void changeCameraLastRunTimeConfig(const std::string& ip, const std::string& configPath);
+
         public:
             static oso::ObjectStoreAssembly toObjectStoreAssembly(const RutimeConfig& runtimeConfig);
             static RutimeConfig toRuntimeConfig(const oso::ObjectStoreAssembly& assembly);

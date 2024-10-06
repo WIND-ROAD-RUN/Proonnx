@@ -281,6 +281,13 @@ namespace rw
             }
 
             {
+                ObjectStoreItem rotateCount;
+                rotateCount.setName("RotateCount");
+                rotateCount.setValueFromInt(ocrDataProductConfig.rotateCount);
+                assembly.addItem(makeObjectStoreItemSharedPtr(rotateCount));
+            }
+
+            {
                 ObjectStoreAssembly cameraAttributesBasic = CameraAttributesBasic::toObjectStoreAssembly(ocrDataProductConfig.cameraAttributesBasic);
                 cameraAttributesBasic.setName("CameraAttributesBasic");
                 assembly.addItem(makeObjectStoreAssemblySharedPtr(cameraAttributesBasic));
@@ -345,6 +352,10 @@ namespace rw
                     if (nItem->getName() == "ProductName")
                     {
                         ocrDataProductConfig.productName = nItem->getValueAsString();
+                    }
+                    else if (nItem->getName() == "RotateCount")
+                    {
+                        ocrDataProductConfig.rotateCount = nItem->getValueAsInt();
                     }
                     else {
                         static_assert(true, "Unknown item type");

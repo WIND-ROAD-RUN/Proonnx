@@ -14,6 +14,10 @@
 #include"LogRecorder.h"
 #include"oso/osos_FileSave.h"
 #include"oso/osop_OcrDateProductConfig.h"
+#include"RuntimeInfo.h"
+#include"cfgr/cfgr_RuntimeConfig.h"
+#include"cfgr/cfgr_CatalogueInitializer.h"
+#include"oso/osos_FileSave.h"
 
 using namespace rw::cfgl;
 using namespace rw::cfgr;
@@ -45,10 +49,6 @@ DlgChangeProductConfig::~DlgChangeProductConfig()
 	if (m_camera) {
 		m_camera->deleteDlgLabelForImage();
 	}
-	delete ui;
-	delete m_loader;
-	delete m_recognizeRange;
-	delete m_frameSelectLabel;
 }
 
 void DlgChangeProductConfig::ini_ui()
@@ -89,7 +89,7 @@ void DlgChangeProductConfig::ini_localizationStringUI()
 void DlgChangeProductConfig::ini_connect()
 {
 	QObject::connect(ui->pbt_saveProductConfig, SIGNAL(clicked()),
-		this, SLOT(pbt_saveProductConfig_clicked()));
+		this, SLOT(pbtn_saveProductConfig_clicked_refactor()));
 	QObject::connect(ui->pbtn_spinImage, SIGNAL(clicked()),
 		this, SLOT(pbtn_spinImage_clicked()));
 	QObject::connect(ui->pbtn_drawRecognitionRange, SIGNAL(clicked()),
@@ -106,51 +106,20 @@ void DlgChangeProductConfig::ini_connect()
 	
 }
 
-void DlgChangeProductConfig::ini_configLoader()
+
+void DlgChangeProductConfig::readRuntimeInfo()
 {
-	m_loader = new ProductConfigLoader();
-	m_recognizeRange = new RecognizeRange();
-	auto productConfig = m_loader->loadProductConfig(m_filePath.toStdString());
-	auto RejectAttributeCongif = m_loader->loadRejectAttribute(m_filePath.toStdString());
-	ui->lEdit_productName->setText(QString::fromStdString(productConfig.productName));
-	ui->sBox_exposureTime->setValue(productConfig.ExposureTime);
-	ui->sBox_gain->setValue(productConfig.gain);
-	ui->sBox_delayInRejection->setValue(RejectAttributeCongif.RejectDelay);
-	ui->sBox_disposalTime->setValue(RejectAttributeCongif.DisposalTime);
-	ui->sBox_numberOffsets->setValue(RejectAttributeCongif.OffsetsNumber);
-	m_rotateCount = productConfig.rotateCount;
+	auto& productCfg = m_runtimeInfo->m_ocrConfigs.find(m_camera->m_Ip)->second;
+    _ocrDataProductCfg = *productCfg;
+	ui->lEdit_productName->setText(QString::fromStdString(productCfg->productName));
+	ui->sBox_exposureTime->setValue(productCfg->cameraAttributesBasic.exposureTime);
+	ui->sBox_gain->setValue(productCfg->cameraAttributesBasic.gain);
+	ui->sBox_delayInRejection->setValue(productCfg->rejectAttribute.RejectDelay);
+	ui->sBox_disposalTime->setValue(productCfg->rejectAttribute.DisposalTime);
+	ui->sBox_numberOffsets->setValue(productCfg->rejectAttribute.OffsetsNumber);
+	m_rotateCount = productCfg->rotateCount;
 
-	rw::oso::FileSave fileSave;
-	rw::oso::OcrDataProductConfig productCfg = fileSave.load(m_filePath.toStdString());
-	ui->lEdit_productName->setText(QString::fromStdString(productCfg.productName));
-    ui->sBox_exposureTime->setValue(productCfg.cameraAttributesBasic.exposureTime);
-	ui->sBox_gain->setValue(productCfg.cameraAttributesBasic.gain);
-	ui->sBox_delayInRejection->setValue(productCfg.rejectAttribute.RejectDelay);
-	ui->sBox_disposalTime->setValue(productCfg.rejectAttribute.DisposalTime);
-	ui->sBox_numberOffsets->setValue(productCfg.rejectAttribute.OffsetsNumber);
-	m_rotateCount = productConfig.rotateCount;
-
-
-
-}
-
-void DlgChangeProductConfig::iniUI()
-{
-	ini_configLoader();
-	ConfigBeforeRuntimeLoader loader;
-	loader.loadFile(m_configBeforeRuntime.toStdString());
-	/*std::string s;
-	loader.readCameraConfig(m_camera->m_Ip, s);
-	m_filePath = QString::fromStdString(s);*/
 	ui->lEdit_filePath->setText(m_filePath);
-	qDebug() << "read product config" << m_filePath;
-	auto productConfig = m_loader->loadProductConfig(m_filePath.toStdString());
-	m_recognizeRange->leftLowerCorner = productConfig.leftLowerCorner;
-	m_recognizeRange->lowerRightCorner = productConfig.lowerRightCorner;
-	m_recognizeRange->topLeftCorner = productConfig.topLeftCorner;
-	m_recognizeRange->upperRightCorner = productConfig.upperRightCorner;
-	ui->lEdit_productName->setText(QString::fromStdString(productConfig.productName));
-
 }
 
 void DlgChangeProductConfig::setWindowSize(int wide, int height)
@@ -194,12 +163,14 @@ void DlgChangeProductConfig::pbt_saveProductConfig_clicked()
 	configLoader.setNewFile(m_filePath.toStdString());
 
 	ProductConfig config;
-	RecognizeRange recognizeRange;
+	
 	config.gain = ui->sBox_gain->value();
 	config.productName = ui->lEdit_productName->text().toStdString();
 	config.rotateCount = m_rotateCount;
 	config.ExposureTime = ui->sBox_exposureTime->value();
 	config.topLeftCorner = m_recognizeRange->topLeftCorner;
+
+	RecognizeRange recognizeRange;
 	recognizeRange.topLeftCorner= m_recognizeRange->topLeftCorner;
 	config.leftLowerCorner = m_recognizeRange->leftLowerCorner;
 	recognizeRange.leftLowerCorner = m_recognizeRange->leftLowerCorner;
@@ -209,7 +180,6 @@ void DlgChangeProductConfig::pbt_saveProductConfig_clicked()
 	recognizeRange.lowerRightCorner = m_recognizeRange->lowerRightCorner;
 
 	LOGRECORDER->info(config);
-	LOGRECORDER->info(recognizeRange);
 
 	m_camera->setRecognizeRange(recognizeRange);
 
@@ -250,6 +220,36 @@ void DlgChangeProductConfig::pbt_saveProductConfig_clicked()
 	}
 
 	this->accept();
+}
+
+void DlgChangeProductConfig::pbtn_saveProductConfig_clicked_refactor()
+{
+	if (ui->lEdit_productName->text().size() == 0) {
+		QMessageBox::warning(this,"错误", "产品名不能为空");
+		return;
+	}
+
+    _ocrDataProductCfg.productName = ui->lEdit_productName->text().toStdString();
+    _ocrDataProductCfg.cameraAttributesBasic.gain = ui->sBox_gain->value();
+    _ocrDataProductCfg.cameraAttributesBasic.exposureTime = ui->sBox_exposureTime->value();
+    _ocrDataProductCfg.rejectAttribute.DisposalTime = ui->sBox_disposalTime->value();
+    _ocrDataProductCfg.rejectAttribute.OffsetsNumber = ui->sBox_numberOffsets->value();
+    _ocrDataProductCfg.rejectAttribute.RejectDelay = ui->sBox_delayInRejection->value();
+    _ocrDataProductCfg.rotateCount = m_rotateCount;
+
+    m_runtimeInfo->m_ocrConfigs[m_camera->m_Ip] = std::make_shared<rw::oso::OcrDataProductConfig>(_ocrDataProductCfg);
+
+	auto workPath = CatalogueInitializer::findWorkPath("ProductConfig");
+	auto filePath = CatalogueInitializer::pathAppend(workPath,ui->lEdit_productName->text().toStdString()+".xml");
+    m_runtimeInfo->m_runtimeConfigPtr->changeCameraLastRunTimeConfig(m_camera->m_Ip, filePath);
+	m_runtimeInfo->saveRuntimeConfigFile();
+
+    rw::oso::FileSave fileSave;
+    fileSave.save(filePath, _ocrDataProductCfg);
+
+
+
+    this->accept();
 }
 
 void DlgChangeProductConfig::pbtn_spinImage_clicked()
@@ -294,13 +294,11 @@ void DlgChangeProductConfig::pbtn_drawRecognitionRange_clicked()
 
 void DlgChangeProductConfig::sBox_exposureTime_value_change(int)
 {
-
 	LOGRECORDER->info("Set exposire time is:" + std::to_string(ui->sBox_exposureTime->value()));
 }
 
 void DlgChangeProductConfig::sBox_gain_value_change(int)
 {
-
 	LOGRECORDER->info("Set gain is:" + std::to_string(ui->sBox_gain->value()));
 }
 

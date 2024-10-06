@@ -66,6 +66,7 @@ namespace rw {
         struct OcrDataProductConfig {
         public:
             std::string productName{ "XXXX" };
+            int rotateCount{ 0 };
 
             CameraAttributesBasic cameraAttributesBasic;
             RecognizeRange recognizeRange;
