@@ -3,6 +3,8 @@
 #include <QDialog>
 #include "ui_DlgChangeProductConfig.h"
 
+#include"oso/osop_OcrDateProductConfig.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class DlgChangeProductConfigClass; };
 QT_END_NAMESPACE
@@ -18,9 +20,19 @@ namespace rw {
 
 using namespace rw::oulq;
 
+class RuntimeInfo;
 class DlgChangeProductConfig : public QDialog
 {
 	Q_OBJECT
+private:
+    RuntimeInfo* m_runtimeInfo{ nullptr };
+
+	rw::oso::OcrDataProductConfig _ocrDataProductCfg;
+public:
+	//记得移除
+    std::string _ip{};
+public:
+    void setRuntimeInfo(RuntimeInfo* runtimeInfo) { m_runtimeInfo = runtimeInfo; }
 private:
 	QString m_filePath{};
 
@@ -59,12 +71,10 @@ private:
 	void ini_localizationStringUI();
 	void ini_connect();
 
-	void ini_configLoader();
-
 public:
 	void setFilePath(const QString& filePath) { m_filePath = filePath; }
 
-	void iniUI();
+	void readRuntimeInfo();
 
 public:
 	void setWindowSize(int wide, int height);
@@ -79,6 +89,8 @@ private slots:
 	void selectionMade_complete(const QRect& rect);
 
 	void pbt_saveProductConfig_clicked();
+
+	void pbtn_saveProductConfig_clicked_refactor();
 
 	void pbtn_spinImage_clicked();
 

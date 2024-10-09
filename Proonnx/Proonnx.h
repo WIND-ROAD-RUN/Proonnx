@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_Proonnx.h"
+#include"RuntimeInfo.h"
 
 #include<QVector>
 #include<QLabel>
@@ -41,29 +42,6 @@ using namespace rw::oulq;
 using namespace rw::cfgl;
 using namespace rw::cfgr;
 
-class Proonnx_runtimeInfo {
-public:
-	std::shared_ptr<RutimeConfig> m_runtimeConfigPtr{ nullptr };
-
-    std::map<std::string,std::shared_ptr<rw::oso::OcrDataProductConfig> > m_ocrConfigs;
-
-    std::vector<std::string> m_cameraIpList;
-
-public:
-    std::string m_runtimeConfigPath{};
-
-public:
-    void ini();
-
-public:
-    void create_directory(const std::string& rootPath);	
-
-	void read_runtimeConfig();
-
-public:
-	void saveRuntimeConfigFile();
-
-};
 
 struct Proonnx_displayCameraGroupBoxItem {
 public:
@@ -100,7 +78,7 @@ class Proonnx
 {
 	Q_OBJECT
 private:
-    Proonnx_runtimeInfo m_runtimeInfo;
+    RuntimeInfo m_runtimeInfo;
 
 	Proonnx_disblayCameraGroupBox m_displayCameraGroupBox;
 	

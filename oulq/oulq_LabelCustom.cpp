@@ -13,6 +13,7 @@ namespace rw {
             if (event->button() == Qt::LeftButton) {
                 if (m_enbaleClicked) {
                     emit clicked(m_index);
+                    emit cliked(_ip);
                 }
 
             }

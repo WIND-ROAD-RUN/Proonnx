@@ -31,9 +31,10 @@ int main()
 
 
     FileSave<FileSaveStrategyType::XML> fileSave;
-    fileSave.save(R"(C:\Users\WINDROAD\Desktop\test\test.xml)", ocrDataProductConfig);
+    auto a = OcrDataProductConfig::toObjectStoreAssembly(ocrDataProductConfig);
+    fileSave.save(R"(C:\Users\34615\Desktop\test\test.xml)", a);
 
-    auto assembly = fileSave.load(R"(C:\Users\WINDROAD\Desktop\test\test.xml)");
+    auto assembly = fileSave.load(R"(C:\Users\34615\Desktop\test\test.xml)");
     assembly->print(std::cout);
 
 

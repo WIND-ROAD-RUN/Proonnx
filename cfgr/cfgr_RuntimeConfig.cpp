@@ -26,6 +26,16 @@ namespace rw {
             cameraConfigs.push_back({ip,configPath});
         }
 
+        void RutimeConfig::changeCameraLastRunTimeConfig(const std::string& ip, const std::string& configPath)
+        {
+            for (auto& item : cameraConfigs) {
+                if (item.first == ip) {
+                    item.second = configPath;
+                    return;
+                }
+            }
+        }
+
         oso::ObjectStoreAssembly RutimeConfig::toObjectStoreAssembly(const RutimeConfig& runtimeConfig)
         {
             oso::ObjectStoreAssembly assembly;
